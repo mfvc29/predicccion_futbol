@@ -169,11 +169,24 @@ if equipo_local != equipo_visitante:
     st.markdown("---")
     st.markdown('<div class="section-title">⚖️ Comparativa de Plantillas</div>', unsafe_allow_html=True)
 
-    mcol1, mcol2, mcol3, mcol4 = st.columns(4)
-    mcol1.metric("💪 Fuerza Histórica", f"{int(stats_local['Fuerza_Score'])}", f"{int(stats_local['Fuerza_Score'] - stats_visit['Fuerza_Score'])} vs visitante")
-    mcol2.metric("🎂 Edad Promedio", f"{stats_local['Avg_Age']:.1f} años", f"{stats_local['Avg_Age'] - stats_visit['Avg_Age']:.1f} vs visitante", delta_color="inverse")
-    mcol3.metric("🌍 Partidos Int. Plantilla", f"{int(stats_local['Total_Caps'])}", f"{int(stats_local['Total_Caps'] - stats_visit['Total_Caps'])} vs visitante")
-    mcol4.metric("🤝 Asistencias Plantilla", f"{int(stats_local['Total_Assists'])}", f"{int(stats_local['Total_Assists'] - stats_visit['Total_Assists'])} vs visitante")
+    # Cabecera con nombre de equipos
+    mc_header_l, mc_header_r = st.columns(2)
+    mc_header_l.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#00d4ff;margin-bottom:10px'>🏠 {equipo_local}</div>", unsafe_allow_html=True)
+    mc_header_r.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#ff6b6b;margin-bottom:10px'>✈️ {equipo_visitante}</div>", unsafe_allow_html=True)
+
+    # Fila 1: Fuerza y Edad
+    m1a, m1b, m1c, m1d = st.columns(4)
+    m1a.metric("💪 Fuerza Histórica", f"{int(stats_local['Fuerza_Score'])}")
+    m1b.metric("🎂 Edad Promedio", f"{stats_local['Avg_Age']:.1f} años")
+    m1c.metric("💪 Fuerza Histórica", f"{int(stats_visit['Fuerza_Score'])}")
+    m1d.metric("🎂 Edad Promedio", f"{stats_visit['Avg_Age']:.1f} años")
+
+    # Fila 2: Caps y Asistencias
+    m2a, m2b, m2c, m2d = st.columns(4)
+    m2a.metric("🌍 Partidos Int. Plantilla", f"{int(stats_local['Total_Caps'])}")
+    m2b.metric("🤝 Asistencias Plantilla", f"{int(stats_local['Total_Assists'])}")
+    m2c.metric("🌍 Partidos Int. Plantilla", f"{int(stats_visit['Total_Caps'])}")
+    m2d.metric("🤝 Asistencias Plantilla", f"{int(stats_visit['Total_Assists'])}")
 
     # ─── RADAR CHART ────────────────────────────────────────────────────────────
     st.markdown("---")
