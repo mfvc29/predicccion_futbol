@@ -13,10 +13,14 @@ st.write("Predice el resultado basándote en la **experiencia real de los jugado
 def load_model_and_data():
     model = joblib.load('modelo_futbol.pkl')
     scores_df = pd.read_csv('equipos_scores.csv')
-    return model, scores_df
+    try:
+        top_players_df = pd.read_csv('top_players.csv')
+    except:
+        top_players_df = pd.DataFrame()
+    return model, scores_df, top_players_df
 
 try:
-    model, scores_df = load_model_and_data()
+    model, scores_df, top_players_df = load_model_and_data()
 except Exception as e:
     st.error(f"Error al cargar el modelo o los datos: {e}")
     st.stop()
@@ -48,6 +52,24 @@ if equipo_local != equipo_visitante:
     c1.metric("Edad Promedio", f"{stats_local['Avg_Age']:.1f} años", f"{stats_local['Avg_Age'] - stats_visit['Avg_Age']:.1f} vs Visita", delta_color="inverse")
     c2.metric("Experiencia (Partidos Int.)", f"{int(stats_local['Total_Caps'])}", f"{int(stats_local['Total_Caps'] - stats_visit['Total_Caps'])} vs Visita")
     c3.metric("Goles Totales de Plantilla", f"{int(stats_local['Total_Goals_Scored'])}", f"{int(stats_local['Total_Goals_Scored'] - stats_visit['Total_Goals_Scored'])} vs Visita")
+    
+    if not top_players_df.empty:
+        st.write("### 👟 Máximos Goleadores (Jugadores Peligro)")
+        cp1, cp2 = st.columns(2)
+        with cp1:
+            local_players = top_players_df[top_players_df['Equipo'] == equipo_local]
+            if not local_players.empty:
+                for _, p in local_players.iterrows():
+                    st.markdown(f"- **{p['Nombre']}** ({p['Pos.']}): {p['Goles paraGoles']} goles")
+            else:
+                st.write("Sin datos")
+        with cp2:
+            visit_players = top_players_df[top_players_df['Equipo'] == equipo_visitante]
+            if not visit_players.empty:
+                for _, p in visit_players.iterrows():
+                    st.markdown(f"- **{p['Nombre']}** ({p['Pos.']}): {p['Goles paraGoles']} goles")
+            else:
+                st.write("Sin datos")
     
 if st.button("🔮 Predecir Resultado", use_container_width=True):
     if equipo_local == equipo_visitante:
