@@ -456,24 +456,32 @@ if predict_clicked:
         model_f1  = metricas.get('f1_score_weighted', 0)
         cv_mean   = metricas.get('cv_accuracy_mean', 0)
 
-        # El nivel de confianza lo determina el Accuracy del modelo,
-        # no las probabilidades del partido. Un Accuracy alto significa
-        # que cuando el modelo predice un ganador, acierta más seguido.
-        if model_acc >= 0.60:
-            conf_label = "✅ Modelo confiable — resultado casi seguro"
-            conf_desc  = f"El modelo acierta el {model_acc*100:.1f}% de los partidos históricos. Las probabilidades que muestra son estadísticamente sólidas y el resultado predicho es bastante confiable."
+        # El nivel de confianza combina dos señales:
+        # 1) Accuracy global del modelo (qué tan bueno es en general)
+        # 2) Probabilidad máxima de ESTE partido (qué tan diferenciado está el resultado)
+        # Un partido muy desigual (Alemania vs San Marino) da max_prob ~85%,
+        # lo que indica alta certeza aunque el modelo tenga solo 53% global.
+        if max_prob >= 0.60 and model_acc >= 0.60:
+            conf_label = "✅ Alta confianza — resultado casi seguro"
+            conf_desc  = f"El modelo asigna {max_prob*100:.1f}% al favorito y en general acierta el {model_acc*100:.1f}% de partidos históricos. Ambas señales apuntan a un resultado bastante definido."
             conf_color = "#00c48c"
             conf_bg    = "rgba(0, 196, 140, 0.08)"
             conf_border= "#00c48c44"
-        elif model_acc >= 0.50:
-            conf_label = "⚠️ Modelo con precisión limitada — tomar con precaución"
-            conf_desc  = f"El modelo acierta el {model_acc*100:.1f}% de los partidos históricos. Eso significa que ese {max_prob*100:.1f}% que asigna al favorito es orientativo, pero no garantizado. El resultado real puede diferir."
+        elif max_prob >= 0.60 and model_acc < 0.60:
+            conf_label = "🟡 Partido muy desigual — pero modelo con precisión limitada"
+            conf_desc  = f"Este partido específico tiene un favorito muy claro ({max_prob*100:.1f}%). Sin embargo, el modelo acierta globalmente solo el {model_acc*100:.1f}%, así que toma la predicción como orientativa."
+            conf_color = "#ffd700"
+            conf_bg    = "rgba(255, 215, 0, 0.08)"
+            conf_border= "#ffd70044"
+        elif max_prob >= 0.45:
+            conf_label = "⚠️ Incertidumbre moderada — tomar con precaución"
+            conf_desc  = f"El favorito tiene {max_prob*100:.1f}% de probabilidad pero los equipos están relativamente parejos. El modelo acerta el {model_acc*100:.1f}% en general — hay margen de sorpresa."
             conf_color = "#ffd700"
             conf_bg    = "rgba(255, 215, 0, 0.08)"
             conf_border= "#ffd70044"
         else:
-            conf_label = "❌ Modelo poco confiable — resultado muy incierto"
-            conf_desc  = f"El modelo acierta solo el {model_acc*100:.1f}% de los partidos. Las probabilidades mostradas tienen poco poder predictivo real y deben interpretarse con mucha cautela."
+            conf_label = "❌ Partido muy abierto — resultado impredecible"
+            conf_desc  = f"Ningún resultado supera el {max_prob*100:.1f}% de probabilidad. El modelo acerta solo el {model_acc*100:.1f}% en general. Este partido es una moneda al aire."
             conf_color = "#ff6b6b"
             conf_bg    = "rgba(255, 107, 107, 0.08)"
             conf_border= "#ff6b6b44"
