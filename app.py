@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 
 # ─── PAGE CONFIG ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Mundial 2026 – Predictor IA",
+    page_title="Predictor ML Mundial",
     page_icon="⚽",
     layout="wide"
 )
@@ -148,7 +148,7 @@ except Exception as e:
 equipos = sorted(scores_df['Equipo'].dropna().unique().tolist())
 
 # ─── HERO HEADER ───────────────────────────────────────────────────────────────
-st.markdown('<div class="hero-title">⚽ Predictor IA · Mundial 2026</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-title">⚽ Predictor ML Mundial</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">Machine Learning entrenado con 25,000+ partidos históricos y estadísticas reales de 1,247 jugadores</div>', unsafe_allow_html=True)
 
 # ─── MODEL METRICS EXPANDER ────────────────────────────────────────────────────
