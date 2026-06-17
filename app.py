@@ -451,27 +451,29 @@ if predict_clicked:
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown('<div class="section-title">🔬 Confiabilidad del Modelo</div>', unsafe_allow_html=True)
 
-        max_prob = max(prob_home, prob_draw, prob_away) / 100  # volver a 0-1
+        max_prob = max(prob_home, prob_draw, prob_away) / 100
         model_acc = metricas.get('accuracy', 0)
         model_f1  = metricas.get('f1_score_weighted', 0)
         cv_mean   = metricas.get('cv_accuracy_mean', 0)
 
-        # Nivel de confianza de esta predicción específica
-        if max_prob >= 0.6:
-            conf_label = "✅ Predicción bastante segura"
-            conf_desc  = "El modelo asigna una probabilidad alta y diferenciada a un resultado. El favorito está bien definido."
+        # El nivel de confianza lo determina el Accuracy del modelo,
+        # no las probabilidades del partido. Un Accuracy alto significa
+        # que cuando el modelo predice un ganador, acierta más seguido.
+        if model_acc >= 0.60:
+            conf_label = "✅ Modelo confiable — resultado casi seguro"
+            conf_desc  = f"El modelo acierta el {model_acc*100:.1f}% de los partidos históricos. Las probabilidades que muestra son estadísticamente sólidas y el resultado predicho es bastante confiable."
             conf_color = "#00c48c"
             conf_bg    = "rgba(0, 196, 140, 0.08)"
             conf_border= "#00c48c44"
-        elif max_prob >= 0.45:
-            conf_label = "⚠️ Predicción con incertidumbre moderada"
-            conf_desc  = "Los porcentajes están relativamente cerca. El resultado es probable, pero existe margen de sorpresa."
+        elif model_acc >= 0.50:
+            conf_label = "⚠️ Modelo con precisión limitada — tomar con precaución"
+            conf_desc  = f"El modelo acierta el {model_acc*100:.1f}% de los partidos históricos. Eso significa que ese {max_prob*100:.1f}% que asigna al favorito es orientativo, pero no garantizado. El resultado real puede diferir."
             conf_color = "#ffd700"
             conf_bg    = "rgba(255, 215, 0, 0.08)"
             conf_border= "#ffd70044"
         else:
-            conf_label = "❓ Probabilidad muy incierta"
-            conf_desc  = "Los tres resultados tienen probabilidades similares. Este partido está muy abierto y cualquier resultado es posible."
+            conf_label = "❌ Modelo poco confiable — resultado muy incierto"
+            conf_desc  = f"El modelo acierta solo el {model_acc*100:.1f}% de los partidos. Las probabilidades mostradas tienen poco poder predictivo real y deben interpretarse con mucha cautela."
             conf_color = "#ff6b6b"
             conf_bg    = "rgba(255, 107, 107, 0.08)"
             conf_border= "#ff6b6b44"
@@ -482,29 +484,27 @@ if predict_clicked:
             <div style='color:rgba(255,255,255,0.55);font-size:0.85rem;line-height:1.6'>{conf_desc}</div>
             <div style='margin-top:14px;display:flex;gap:24px;flex-wrap:wrap'>
                 <div>
-                    <div style='font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px'>Prob. máxima (este partido)</div>
-                    <div style='font-size:1.4rem;font-weight:800;color:{conf_color}'>{max_prob*100:.1f}%</div>
-                </div>
-                <div>
                     <div style='font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px'>Accuracy del modelo</div>
-                    <div style='font-size:1.4rem;font-weight:800;color:rgba(255,255,255,0.7)'>{model_acc*100:.1f}%</div>
+                    <div style='font-size:1.6rem;font-weight:800;color:{conf_color}'>{model_acc*100:.1f}%</div>
                 </div>
                 <div>
                     <div style='font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px'>F1-Score ponderado</div>
-                    <div style='font-size:1.4rem;font-weight:800;color:rgba(255,255,255,0.7)'>{model_f1*100:.1f}%</div>
+                    <div style='font-size:1.6rem;font-weight:800;color:rgba(255,255,255,0.7)'>{model_f1*100:.1f}%</div>
                 </div>
                 <div>
                     <div style='font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px'>CV Accuracy (5-fold)</div>
-                    <div style='font-size:1.4rem;font-weight:800;color:rgba(255,255,255,0.7)'>{cv_mean*100:.1f}%</div>
+                    <div style='font-size:1.6rem;font-weight:800;color:rgba(255,255,255,0.7)'>{cv_mean*100:.1f}%</div>
                 </div>
             </div>
         </div>
         <div style='background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;color:rgba(255,255,255,0.35);font-size:0.76rem;line-height:1.7'>
-        📋 <b style='color:rgba(255,255,255,0.5)'>¿Qué significan estas métricas?</b><br>
-        • <b style='color:rgba(255,255,255,0.5)'>Accuracy</b>: % de partidos históricos que el modelo predijo correctamente.<br>
-        • <b style='color:rgba(255,255,255,0.5)'>F1-Score</b>: equilibrio entre precisión y sensibilidad (especialmente útil cuando los empates son más raros que las victorias).<br>
-        • <b style='color:rgba(255,255,255,0.5)'>CV Accuracy</b>: precisión verificada en 5 subconjuntos distintos del dataset para confirmar que el modelo no está sobreajustado.<br>
-        • El fútbol tiene una componente de azar muy alta — ningún modelo puede superar ~60-65% de accuracy en predicción de resultados.
+        📋 <b style='color:rgba(255,255,255,0.5)'>¿Cómo leer esto?</b><br>
+        El <b style='color:rgba(255,255,255,0.5)'>Accuracy</b> indica con qué frecuencia el modelo acertó el resultado en partidos históricos reales.<br>
+        Si el modelo tiene un Accuracy de <b style='color:rgba(255,255,255,0.5)'>{model_acc*100:.1f}%</b>, significa que de cada 100 partidos del pasado,
+        acertó el resultado en aproximadamente {int(model_acc*100)}. Eso determina cuánto puedes confiar en ese
+        <b style='color:rgba(255,255,255,0.5)'>{max_prob*100:.1f}%</b> que asigna al favorito.<br>
+        Nota: El fútbol tiene alta aleatoriedad — ningún modelo supera ~60-65% de accuracy de forma consistente.
         </div>
         """, unsafe_allow_html=True)
+
 
