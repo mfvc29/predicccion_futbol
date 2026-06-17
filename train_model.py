@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
+import json
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, classification_report
 import joblib
 
 # 1. Cargar Datos
@@ -41,7 +42,45 @@ model.fit(X_train, y_train)
 
 preds = model.predict(X_test)
 acc = accuracy_score(y_test, preds)
-print(f"Precisión del modelo en prueba (Accuracy): {acc:.2f}")
+f1 = f1_score(y_test, preds, average='weighted')
+precision = precision_score(y_test, preds, average='weighted', zero_division=0)
+recall = recall_score(y_test, preds, average='weighted', zero_division=0)
+
+# Cross-validation accuracy (más robusta)
+cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+cv_mean = cv_scores.mean()
+cv_std = cv_scores.std()
+
+print(f"Accuracy en test:       {acc:.4f}")
+print(f"F1-Score (weighted):    {f1:.4f}")
+print(f"Precision (weighted):   {precision:.4f}")
+print(f"Recall (weighted):      {recall:.4f}")
+print(f"CV Accuracy (5-fold):   {cv_mean:.4f} ± {cv_std:.4f}")
+print()
+print(classification_report(y_test, preds, target_names=['Gana Visitante', 'Empate', 'Gana Local']))
+
+# Importancia de features
+feat_importance = dict(zip(features, model.feature_importances_.round(4).tolist()))
+feat_sorted = dict(sorted(feat_importance.items(), key=lambda x: x[1], reverse=True))
+
+# Guardar métricas en JSON
+metricas = {
+    'modelo': 'Random Forest Classifier',
+    'n_estimators': 100,
+    'max_depth': 7,
+    'partidos_entrenamiento': len(X_train),
+    'partidos_evaluacion': len(X_test),
+    'accuracy': round(acc, 4),
+    'f1_score_weighted': round(f1, 4),
+    'precision_weighted': round(precision, 4),
+    'recall_weighted': round(recall, 4),
+    'cv_accuracy_mean': round(cv_mean, 4),
+    'cv_accuracy_std': round(cv_std, 4),
+    'feature_importance': feat_sorted
+}
+with open('modelo_metricas.json', 'w') as f:
+    json.dump(metricas, f, indent=2)
+print("Métricas guardadas en 'modelo_metricas.json'.")
 
 # Guardar Modelo
 joblib.dump(model, 'modelo_futbol.pkl')

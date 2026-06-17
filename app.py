@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import json
 import plotly.graph_objects as go
 
 # ─── PAGE CONFIG ───────────────────────────────────────────────────────────────
@@ -131,10 +132,15 @@ def load_all():
         top_players_df = pd.read_csv('top_players.csv')
     except:
         top_players_df = pd.DataFrame()
-    return model, scores_df, top_players_df
+    try:
+        with open('modelo_metricas.json', 'r') as f:
+            metricas = json.load(f)
+    except:
+        metricas = {}
+    return model, scores_df, top_players_df, metricas
 
 try:
-    model, scores_df, top_players_df = load_all()
+    model, scores_df, top_players_df, metricas = load_all()
 except Exception as e:
     st.error(f"❌ Error cargando el modelo: {e}")
     st.stop()
@@ -144,6 +150,60 @@ equipos = sorted(scores_df['Equipo'].dropna().unique().tolist())
 # ─── HERO HEADER ───────────────────────────────────────────────────────────────
 st.markdown('<div class="hero-title">⚽ Predictor IA · Mundial 2026</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">Machine Learning entrenado con 25,000+ partidos históricos y estadísticas reales de 1,247 jugadores</div>', unsafe_allow_html=True)
+
+# ─── MODEL METRICS EXPANDER ────────────────────────────────────────────────────
+if metricas:
+    with st.expander("🤖 Ver métricas del modelo de Machine Learning", expanded=False):
+        st.markdown('<div class="section-title">Información del Modelo</div>', unsafe_allow_html=True)
+
+        em1, em2, em3, em4, em5 = st.columns(5)
+        em1.metric("Algoritmo", metricas.get('modelo', 'RF').replace('Random Forest Classifier', 'Random Forest'))
+        em2.metric("✅ Accuracy", f"{metricas.get('accuracy', 0)*100:.1f}%")
+        em3.metric("📐 F1-Score", f"{metricas.get('f1_score_weighted', 0)*100:.1f}%")
+        em4.metric("🎯 Precision", f"{metricas.get('precision_weighted', 0)*100:.1f}%")
+        em5.metric("🔁 CV Accuracy", f"{metricas.get('cv_accuracy_mean', 0)*100:.1f}% ± {metricas.get('cv_accuracy_std', 0)*100:.1f}%")
+
+        st.markdown(f"""
+        <div style='background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:16px;margin-top:8px;color:rgba(255,255,255,0.55);font-size:0.82rem;line-height:1.7'>
+        📦 <b style='color:white'>Configuración:</b> {metricas.get('n_estimators',100)} árboles · profundidad máxima {metricas.get('max_depth',7)}<br>
+        📊 <b style='color:white'>Datos:</b> {metricas.get('partidos_entrenamiento',0):,} partidos entrenamiento · {metricas.get('partidos_evaluacion',0):,} evaluación<br>
+        📋 <b style='color:white'>Nota:</b> Para clasificación de victorias/empates/derrotas no se usa R², sino <b>Accuracy</b> (% de partidos correctamente predichos)
+        y <b>F1-Score ponderado</b> (equilibrio entre precisión y sensibilidad por clase).
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Feature importance chart
+        if 'feature_importance' in metricas:
+            feat_imp = metricas['feature_importance']
+            labels = list(feat_imp.keys())
+            values = list(feat_imp.values())
+
+            # Limpiar nombres
+            label_map = {
+                'home_Fuerza_Score': 'Fuerza Local', 'away_Fuerza_Score': 'Fuerza Visitante',
+                'score_diff': 'Diferencia Fuerza', 'home_Total_Caps': 'Partidos Int. Local',
+                'away_Total_Caps': 'Partidos Int. Visita', 'home_Avg_Age': 'Edad Local',
+                'away_Avg_Age': 'Edad Visita', 'home_Total_Assists': 'Asist. Local',
+                'away_Total_Assists': 'Asist. Visita', 'home_Total_Goals_Scored': 'Goles Local',
+                'away_Total_Goals_Scored': 'Goles Visita', 'neutral': 'Sede Neutral'
+            }
+            labels_clean = [label_map.get(l, l) for l in labels]
+
+            colors = [f'rgba(123, 47, 247, {0.4 + 0.6 * (v / max(values))})' for v in values]
+            fig_imp = go.Figure(go.Bar(
+                x=values, y=labels_clean, orientation='h',
+                marker=dict(color=colors),
+                text=[f"{v*100:.1f}%" for v in values],
+                textposition='outside', textfont=dict(color='white', size=11)
+            ))
+            fig_imp.update_layout(
+                title=dict(text='Importancia de Variables (Feature Importance)', font=dict(color='rgba(255,255,255,0.6)', size=12)),
+                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                xaxis=dict(visible=False, range=[0, max(values) * 1.3]),
+                yaxis=dict(tickfont=dict(color='rgba(255,255,255,0.7)', size=11)),
+                margin=dict(l=10, r=60, t=40, b=10), height=320, showlegend=False
+            )
+            st.plotly_chart(fig_imp, use_container_width=True)
 
 # ─── TEAM SELECTION ────────────────────────────────────────────────────────────
 col1, spacer, col2 = st.columns([5, 1, 5])
@@ -181,12 +241,14 @@ if equipo_local != equipo_visitante:
     m1c.metric("💪 Fuerza Histórica", f"{int(stats_visit['Fuerza_Score'])}")
     m1d.metric("🎂 Edad Promedio", f"{stats_visit['Avg_Age']:.1f} años")
 
-    # Fila 2: Caps y Asistencias
+    # Fila 2: Caps y Win Rate
     m2a, m2b, m2c, m2d = st.columns(4)
     m2a.metric("🌍 Partidos Int. Plantilla", f"{int(stats_local['Total_Caps'])}")
-    m2b.metric("🤝 Asistencias Plantilla", f"{int(stats_local['Total_Assists'])}")
+    win_local = stats_local.get('Avg_Win_Rate', None)
+    win_visit = stats_visit.get('Avg_Win_Rate', None)
+    m2b.metric("🏆 % Victorias Promedio", f"{win_local*100:.1f}%" if pd.notna(win_local) else "N/D")
     m2c.metric("🌍 Partidos Int. Plantilla", f"{int(stats_visit['Total_Caps'])}")
-    m2d.metric("🤝 Asistencias Plantilla", f"{int(stats_visit['Total_Assists'])}")
+    m2d.metric("🏆 % Victorias Promedio", f"{win_visit*100:.1f}%" if pd.notna(win_visit) else "N/D")
 
     # ─── RADAR CHART ────────────────────────────────────────────────────────────
     st.markdown("---")

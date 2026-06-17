@@ -1,0 +1,27 @@
+{
+  "modelo": "Random Forest Classifier",
+  "n_estimators": 100,
+  "max_depth": 7,
+  "partidos_entrenamiento": 20332,
+  "partidos_evaluacion": 5083,
+  "accuracy": 0.5298,
+  "f1_score_weighted": 0.4362,
+  "precision_weighted": 0.463,
+  "recall_weighted": 0.5298,
+  "cv_accuracy_mean": 0.5208,
+  "cv_accuracy_std": 0.0068,
+  "feature_importance": {
+    "away_Fuerza_Score": 0.1847,
+    "home_Fuerza_Score": 0.1472,
+    "away_Total_Caps": 0.1311,
+    "away_Avg_Age": 0.1191,
+    "home_Total_Caps": 0.1168,
+    "home_Avg_Age": 0.1127,
+    "score_diff": 0.1105,
+    "neutral": 0.0779,
+    "home_Total_Goals_Scored": 0.0,
+    "away_Total_Goals_Scored": 0.0,
+    "home_Total_Assists": 0.0,
+    "away_Total_Assists": 0.0
+  }
+}
