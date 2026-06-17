@@ -335,15 +335,17 @@ if equipo_local != equipo_visitante:
                     max_score = players['Peligrosidad'].max() if players['Peligrosidad'].max() > 0 else 1
                     for i, (_, p) in enumerate(players.iterrows(), 1):
                         pct = p['Peligrosidad'] / max_score * 100 if max_score > 0 else 0
-                        sels = int(p['Sel_n']) if not pd.isna(p['Sel_n']) else 0
-                        vics = int(p['Vic_n']) if not pd.isna(p['Vic_n']) else 0
+                        sels  = int(p.get('Partidos_Int', p.get('Sel_n', 0)) or 0)
+                        vics  = int(p.get('Victoria_Total', p.get('Vic_n', 0)) or 0)
+                        goles = int(p.get('Goles_Int', 0) or 0)
+                        goles_str = f" · ⚽ {goles} goles int." if goles > 0 else ""
                         st.markdown(f"""
                         <div class='danger-player'>
                             <span class='danger-rank'>#{i}</span>
                             <div style='flex:1;padding: 0 12px'>
                                 <div class='danger-name'>{p['Nombre']}</div>
                                 <div style='font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:2px'>
-                                    {sels} partidos int. · {vics} victorias
+                                    {sels} partidos int. · {vics} victorias{goles_str}
                                 </div>
                                 <div style='height:3px;background:rgba(255,255,255,0.06);border-radius:3px;margin-top:6px'>
                                     <div style='height:100%;width:{pct:.0f}%;background:#{color};border-radius:3px;opacity:0.7'></div>
