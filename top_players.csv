@@ -1,145 +1,241 @@
-Equipo,Nombre,Pos.,Goles paraGoles,Clubes
-Algeria,Melvin Mastil,P,0,Stade Nyonnais
-Algeria,Oussama Benbot,P,0,USM Alger
-Algeria,Luca Zidane,P,0,Granada CF
-Argentina,Juan Agustin Musso,P,0,Atlético
-Argentina,Gerónimo Rulli,P,0,Marsella
-Argentina,Emiliano Martinez,P,0,Aston Villa
-Australia,Mathew Ryan,P,0,Levante
-Australia,Paul Izzo,P,0,Randers
-Australia,Patrick Beach,P,0,Melbourne City
-Austria,Alexander Schlager,P,0,Salzburg
-Austria,Florian Wiegele,P,0,Viktoria Plzen
-Austria,Patrick Pentz,P,0,Bröndby
-Belgium,Thibaut Courtois,P,0,Extremadura 1924
-Belgium,Senne Lammens,P,0,Man United
-Belgium,Mike Penders,P,0,Strasbourg
-Bosnia and Herzegovina,Nikola Vasilj,P,0,St. Pauli
-Bosnia and Herzegovina,Mladen Jurkas,P,0,Banja Luka
-Bosnia and Herzegovina,Martin Zlomislic,P,0,Rijeka
-Brazil,Alisson Becker,P,0,Liverpool
-Brazil,Weverton,P,0,Grêmio
-Brazil,Ederson Moraes,P,0,Fenerbahçe
-Canada,Dayne St. Clair,P,0,Inter Miami
-Canada,Maxime Crépeau,P,0,Orlando City
-Canada,Owen Goodman,P,0,Palace U-23
-Cape Verde,Vozinha,P,0,Chaves
-Cape Verde,Marcio Rosa,P,0,Montana
-Cape Verde,Carlos Dos Santos,P,0,San Diego FC
-Colombia,David Ospina,P,0,Atl. Nacional
-Colombia,Camilo Vargas,P,0,Atlas
-Colombia,Alvaro Montero,P,0,Vélez Sarsfield
-Croatia,Dominik Livakovic,P,0,Dinamo Zagreb
-Croatia,Ivor Pandur,P,0,Hull City
-Croatia,Dominik Kotarski,P,0,FC Copenhague
-Curaçao,Eloy Room,P,0,Miami FC
-Curaçao,Tyrick Bodak,P,0,Telstar
-Curaçao,Trevor Doornbusch,P,0,VVV-Venlo
-Czech Republic,Matej Kovar,P,0,PSV Eindhoven
-Czech Republic,Jindrich Stanek,P,0,Slavia Prague
-Czech Republic,Lukas Hornicek,P,0,Braga
-DR Congo,Lionel Mpasi Nzau,P,0,Le Havre
-DR Congo,Timothy Fayulu,P,0,Noah
-DR Congo,Matthieu Epolo,P,0,Standard
-Ecuador,Hernán Galíndez,P,0,Huracán
-Ecuador,Moisés Ramirez,P,0,AE Kifisia
-Ecuador,Gonzalo Valle,P,0,LDU Quito
-Egypt,Mohamed El Shenawi,P,0,Al Ahly SC
-Egypt,Mahdy Soliman,P,0,Zamalek
-Egypt,Mostafa Shobeir,P,0,Al Ahly SC
-England,Jordan Pickford,P,0,Everton
-England,Dean Henderson,P,0,Crystal Palace
-England,James Trafford,P,0,Man City
-France,Brice Samba,P,0,Rennes
-France,Mike Maignan,P,0,AC Milán
-France,Robin Risser,P,0,Lens
-Germany,Manuel Neuer,P,0,Bayern
-Germany,Oliver Baumann,P,0,Hoffenheim
-Germany,Alexander Nübel,P,0,Stuttgart
-Ghana,Lawrence Ati-Zigi,P,0,St. Gallen
-Ghana,Joseph Anang,P,0,St. Patrick
-Ghana,Benjamin Asare,P,0,Hearts of Oak
-Haiti,Johny Placide,P,0,libre
-Haiti,Alexandre Pierre,P,0,Sochaux
-Haiti,Josue Duverger,P,0,Cosmos Koblenz
-Iran,Alireza Beiranvand,P,0,Teraktor Sazi
-Iran,Payam Niazmand,P,0,Persepolis
-Iran,S. H.  Hosseini,P,0,Sepahan
-Iraq,Fahad Talib,P,0,Al Talaba
-Iraq,Jalal Hassan,P,0,Al Zawra
-Iraq,Ahmed Basil,P,0,Al Shorta
-Ivory Coast,Yahia Fofana,P,0,Rizespor
-Ivory Coast,Mohamed Koné,P,0,Charleroi
-Ivory Coast,Alban Lafont,P,0,Panathinaikos
-Japan,Zion Suzuki,P,0,Parma
-Japan,Keisuke Osako,P,0,Sanfrecce
-Japan,Tomoki Hayakawa,P,0,Kashima
-Jordan,Yazid Abu Laila,P,0,Al Hussein
-Jordan,Nour Bani Ateyah,P,0,Al Faysali
-Jordan,Abdallah Al Fakhouri,P,0,Al Wahdat
-Mexico,Raul Rangel,P,0,Chivas
-Mexico,Carlos Acevedo,P,0,Santos Laguna
-Mexico,Guillermo Ochoa,P,0,AEL Limassol
-Morocco,Yassine Bounou,P,0,Al-Hilal Riad
-Morocco,Munir El Kajoui,P,0,RS Berkane
-Morocco,Ahmed Reda Tagnaouti,P,0,FAR Rabat
-Netherlands,Bart Verbruggen,P,0,Brighton
-Netherlands,Robin Roefs,P,0,Sunderland
-Netherlands,Mark Flekken,P,0,Bayer
-New Zealand,Max Crocombe,P,0,Millwall
-New Zealand,Alexander Paulsen,P,0,Lechia Gdansk
-New Zealand,Michael Woud,P,0,Auckland FC
-Norway,Örjan Nyland,P,0,Sevilla FC
-Norway,Sander Tangvik,P,0,Hambourg
-Norway,Egil Selvik,P,0,Watford
-Panama,Luis Mejía,P,0,Nacional
-Panama,César Samudio,P,0,Marathón
-Panama,Orlando Mosquera,P,0,Al Fayha
-Paraguay,Roberto Fernández,P,0,Cerro Porteño
-Paraguay,Orlando Gill,P,0,San Lorenzo
-Paraguay,Gaston Olveira,P,0,Olimpia
-Portugal,Diogo Costa,P,0,FC Porto
-Portugal,José Sá,P,0,Wolverhampton
-Portugal,Rui Silva,P,0,Sporting CP
-Qatar,Mahmoud Abunada,P,0,Al Rayyan
-Qatar,Salah Zakaria,P,0,Al Duhail
-Qatar,Meshaal Barsham,P,0,Al Sadd SC
-Saudi Arabia,Nawaf Al Aqidi,P,0,Al-Nassr Riad
-Saudi Arabia,Mohammed Al Owais,P,0,Al Ula FC
-Saudi Arabia,Ahmed Al Kassar,P,0,Al Qadisiya
-Scotland,Angus Gunn,P,0,Nottingham
-Scotland,Liam Kelly,P,0,Rangers
-Scotland,Craig Gordon,P,0,Hearts
-Senegal,Yehvann Diouf,P,0,Niza
-Senegal,Edouard Mendy,P,0,Al Ahli Yeda
-Senegal,Mory Diaw,P,0,Le Havre
-South Africa,Ronwen Williams,P,0,Mamelodi
-South Africa,Sipho Chaine,P,0,Orlando Pirates
-South Africa,Ricardo Goss,P,0,Siwelele
-South Korea,Seung-gyu Kim,P,0,FC Tokyo
-South Korea,Beom-keun Song,P,0,Jeonbuk
-South Korea,Hyun-woo Jo,P,0,Ulsan HD
-Spain,David Raya,P,0,Arsenal
-Spain,Joan García,P,0,FC Barcelona
-Spain,Unai Simón,P,0,Athletic Bilbao
-Sweden,Widell Zetterström,P,0,Derby County
-Sweden,Viktor Johansson,P,0,Stoke City
-Sweden,Kristoffer Nordfeldt,P,0,AIK Solna
-Switzerland,Gregor Kobel,P,0,Dortmund
-Switzerland,Yvon Mvogo,P,0,Lorient
-Switzerland,Marvin Keller,P,0,BSC Young Boys
-Tunisia,Abdelmouhib Chamakh,P,0,Club Africain
-Tunisia,Aymen Dahmen,P,0,CS Sfaxien
-Tunisia,Sabri Ben Hssine,P,0,ESS
-Turkey,Fehmi Mert Gunok,P,0,Fenerbahçe
-Turkey,Altay Bayindir,P,0,Man United
-Turkey,Ugurcan Cakir,P,0,Galatasaray
-United States,Matt Turner,P,0,New England
-United States,Matthew Freese,P,0,NYCFC
-United States,Chris Brady,P,0,Chicago Fire
-Uruguay,Sergio Rochet,P,0,Internacional
-Uruguay,Santiago Mele,P,0,Monterrey
-Uruguay,Fernando Muslera,P,0,Estudiantes LP
-Uzbekistan,Utkir Yusupov,P,0,Navbakhor
-Uzbekistan,Abduvohid Nematov,P,0,Nasaf Qarshi
-Uzbekistan,Botirali Ergashev,P,0,Neftchi F.
+Equipo,Nombre,Pos.,Sel_n,Vic_n,Asis_n,Min_n,Peligrosidad
+Croatia,Luka Modric,VDC,198.0,686.0,0.0,0.0,1425.0
+Croatia,Ivan Perisic,MOI,154.0,467.0,0.0,0.0,1008.5
+Egypt,Mohamed Salah,ED,115.0,478.0,0.0,0.0,947.0
+Belgium,Romelu Lukaku,G,127.0,436.0,0.0,0.0,908.0
+Germany,Joshua Kimmich,DLD,110.0,454.0,0.0,0.0,901.0
+Croatia,Mateo Kovacic,VDC,113.0,393.0,0.0,0.0,815.5
+Iran,Ehsan Hajsafi,DLI,142.0,343.0,0.0,0.0,798.5
+Turkey,Hakan Calhanoglu,VDC,106.0,378.0,0.0,0.0,779.0
+Senegal,Idrissa Gana Gueye,MD,129.0,341.0,0.0,0.0,769.5
+Mexico,Raúl Jiménez,G,127.0,331.0,0.0,0.0,750.5
+Austria,Marcel Sabitzer,MOD,98.0,366.0,0.0,0.0,745.0
+Netherlands,Memphis Depay,EI,109.0,344.0,0.0,0.0,734.0
+Austria,Marko Arnautovic,MOI,133.0,305.0,0.0,0.0,723.5
+Iran,Mehdi Taremi,G,98.0,335.0,0.0,0.0,698.5
+France,Adrien Rabiot,VM,59.0,380.0,0.0,0.0,688.0
+Belgium,Hans Vanaken,VDC,34.0,412.0,0.0,0.0,686.0
+Mexico,Jesus Gallardo,MI,122.0,289.0,0.0,0.0,677.5
+Portugal,Ruben Dias,DCD,76.0,344.0,0.0,0.0,668.0
+Qatar,Akram Afif,EI,133.0,252.0,0.0,0.0,644.0
+Argentina,Lautaro Martínez,G,77.0,322.0,0.0,0.0,637.0
+Portugal,João Cancelo,DLD,68.0,332.0,0.0,0.0,634.0
+Switzerland,Manuel Akanji,DC,81.0,313.0,0.0,0.0,631.5
+Brazil,Fabinho,VM,33.0,367.0,0.0,0.0,616.5
+DR Congo,Chancel Mbemba,DC,106.0,264.0,0.0,0.0,608.0
+Netherlands,Denzel Dumfries,DLD,72.0,305.0,0.0,0.0,601.5
+Panama,Alberto Quintero,ED,141.0,213.0,0.0,0.0,601.5
+Colombia,Davinson Sánchez,DC,79.0,291.0,0.0,0.0,594.5
+Netherlands,Frenkie de Jong,VM,66.0,306.0,0.0,0.0,591.0
+France,Lucas Digne,DLI,59.0,312.0,0.0,0.0,586.0
+United States,Tim Ream,DCI,82.0,274.0,0.0,0.0,575.0
+Czech Republic,Tomas Soucek,VM,90.0,261.0,0.0,0.0,571.5
+France,Ousmane Dembélé,ED,61.0,291.0,0.0,0.0,558.5
+Sweden,Victor Lindelöf,DCD,76.0,268.0,0.0,0.0,554.0
+Brazil,Vinícius Júnior,EI,49.0,304.0,0.0,0.0,554.0
+Japan,Shogo Taniguchi,DC,38.0,301.0,0.0,0.0,527.5
+Belgium,Leandro Trossard,EI,51.0,282.0,0.0,0.0,525.0
+France,Jules Koundé,DCD,48.0,280.0,0.0,0.0,516.0
+Switzerland,Breel Embolo,G,86.0,228.0,0.0,0.0,514.0
+Panama,Eric Davis,DLI,107.0,198.0,0.0,0.0,511.0
+Egypt,Mohamed Hany,DLD,41.0,277.0,0.0,0.0,497.5
+Germany,Kai Havertz,VDC,58.0,249.0,0.0,0.0,489.5
+Australia,Jackson Irvine,MD,82.0,216.0,0.0,0.0,488.0
+Turkey,Kaan Ayhan,DCD,73.0,225.0,0.0,0.0,483.5
+Canada,Alphonso Davies,DLI,58.0,244.0,0.0,0.0,482.0
+Canada,Cyle Larin,G,90.0,200.0,0.0,0.0,480.0
+Algeria,Ramy Bensebaini,DLI,81.0,209.0,0.0,0.0,475.5
+Japan,Junya Ito,ED,66.0,225.0,0.0,0.0,469.5
+Czech Republic,Tomas Holes,MC,41.0,256.0,0.0,0.0,466.0
+Belgium,Timothy Castagne,DLD,63.0,225.0,0.0,0.0,463.5
+Mexico,Roberto Alvarado,MO,68.0,218.0,0.0,0.0,463.0
+Tunisia,Ellyes Skhiri,MD,82.0,196.0,0.0,0.0,458.0
+Portugal,Cristiano Ronaldo,G,228.0,0.0,0.0,0.0,456.0
+Cape Verde,Garry Rodrigues,EI,57.0,227.0,0.0,0.0,454.5
+Spain,Mikel Oyarzabal,EI,53.0,230.0,0.0,0.0,451.0
+Netherlands,Donyell Malen,AP,53.0,229.0,0.0,0.0,449.5
+Brazil,Lucas Paquetá,VDC,63.0,215.0,0.0,0.0,448.5
+Norway,Patrick Berg,MD,43.0,240.0,0.0,0.0,446.0
+Ivory Coast,Nicolas Pépé,ED,53.0,222.0,0.0,0.0,439.0
+Colombia,J. F.  Quintero,VDC,48.0,227.0,0.0,0.0,436.5
+Norway,Sander Berge,MD,66.0,203.0,0.0,0.0,436.5
+South Korea,In-beom Hwang,MD,73.0,193.0,0.0,0.0,435.5
+Egypt,Hamdi Fathi,MD,60.0,205.0,0.0,0.0,427.5
+Japan,Ritsu Doan,MOD,65.0,197.0,0.0,0.0,425.5
+Japan,Daizen Maeda,SP,27.0,245.0,0.0,0.0,421.5
+United States,Cristian Roldan,MC,47.0,216.0,0.0,0.0,418.0
+Turkey,Kerem Aktürkoglu,EI,52.0,209.0,0.0,0.0,417.5
+England,Jude Bellingham,MC,48.0,213.0,0.0,0.0,415.5
+England,Ollie Watkins,G,22.0,246.0,0.0,0.0,413.0
+Japan,Daichi Kamada,VDC,49.0,207.0,0.0,0.0,408.5
+Iran,Milad Mohammadi,DLI,73.0,173.0,0.0,0.0,405.5
+Portugal,Gonçalo Guedes,MOI,34.0,223.0,0.0,0.0,402.5
+Iran,Saman Ghoddos,EI,64.0,181.0,0.0,0.0,399.5
+Argentina,Lionel Messi,ED,199.0,0.0,0.0,0.0,398.0
+Sweden,Alexander Isak,G,56.0,188.0,0.0,0.0,394.0
+Qatar,Mohamed Muntari,G,70.0,168.0,0.0,0.0,392.0
+Spain,Pedri,MOD,41.0,206.0,0.0,0.0,391.0
+United States,Brenden Aaronson,VDC,58.0,182.0,0.0,0.0,389.0
+Ecuador,Alan Franco,MD,58.0,182.0,0.0,0.0,389.0
+Netherlands,Teun Koopmeiners,MC,28.0,221.0,0.0,0.0,387.5
+Uruguay,Nicolás De la Cruz,MO,33.0,213.0,0.0,0.0,385.5
+Haiti,Duckens Nazon,G,77.0,152.0,0.0,0.0,382.0
+Turkey,Caglar Söyüncü,DC,59.0,174.0,0.0,0.0,379.0
+Turkey,Merih Demiral,DC,63.0,168.0,0.0,0.0,378.0
+Saudi Arabia,Abdullah Al Khaibari,MD,39.0,199.0,0.0,0.0,376.5
+Qatar,Hassan Al Haydos,MOI,187.0,0.0,0.0,0.0,374.0
+Saudi Arabia,Firas Al Birakan,CP,70.0,155.0,0.0,0.0,372.5
+Germany,Jamal Musiala,MO,42.0,191.0,0.0,0.0,370.5
+Uzbekistan,Dostonbek Khamdamov,ED,35.0,200.0,0.0,0.0,370.0
+Norway,Julian Ryerson,DLD,43.0,187.0,0.0,0.0,366.5
+Mexico,Alexis Vega,G,53.0,169.0,0.0,0.0,359.5
+Portugal,Nuno Mendes,DLI,45.0,178.0,0.0,0.0,357.0
+Brazil,Gabriel,DCI,17.0,213.0,0.0,0.0,353.5
+Saudi Arabia,Abdullah Al Hamdan,G,49.0,167.0,0.0,0.0,348.5
+Algeria,Houssem Aouar,MI,21.0,203.0,0.0,0.0,346.5
+Ivory Coast,Seko Fofana,VM,32.0,188.0,0.0,0.0,346.0
+Panama,José Fajardo,G,69.0,135.0,0.0,0.0,340.5
+South Korea,Kang-in Lee,MI,48.0,163.0,0.0,0.0,340.5
+Ecuador,Gonzalo Plata,ED,50.0,158.0,0.0,0.0,337.0
+Paraguay,A.  Romero Gamarra,VDC,36.0,176.0,0.0,0.0,336.0
+Australia,Cameron Burgess,DCI,27.0,188.0,0.0,0.0,336.0
+Cape Verde,Jamiro Monteiro,MC,53.0,151.0,0.0,0.0,332.5
+Algeria,Ramiz Zerrouki,MC,53.0,148.0,0.0,0.0,328.0
+Egypt,Omar Marmoush,G,50.0,152.0,0.0,0.0,328.0
+Norway,Jens Petter Hauge,EI,16.0,197.0,0.0,0.0,327.5
+Uzbekistan,Umar Eshmurodov,DC,33.0,172.0,0.0,0.0,324.0
+Argentina,Gonzalo Montiel,DLD,39.0,164.0,0.0,0.0,324.0
+Austria,Philipp Lienhart,DC,41.0,161.0,0.0,0.0,323.5
+Uruguay,Ronald Araújo,DC,26.0,181.0,0.0,0.0,323.5
+Uzbekistan,K.  Alizhonov,DLD,42.0,159.0,0.0,0.0,322.5
+Scotland,John Souttar,DCD,24.0,183.0,0.0,0.0,322.5
+Colombia,Johan Mojica,DLI,45.0,155.0,0.0,0.0,322.5
+Senegal,Abdoulaye Seck,DC,24.0,182.0,0.0,0.0,321.0
+New Zealand,Tim Payne,DLD,52.0,142.0,0.0,0.0,317.0
+Saudi Arabia,Abdulelah Al Amri,DC,41.0,156.0,0.0,0.0,316.0
+Brazil,Gabriel Martinelli,EI,23.0,179.0,0.0,0.0,314.5
+Senegal,Pape Gueye,MD,41.0,155.0,0.0,0.0,314.5
+Panama,Anibal Godoy,MD,157.0,0.0,0.0,0.0,314.0
+Austria,Stefan Posch,DLD,52.0,139.0,0.0,0.0,312.5
+Ivory Coast,Ghislain Konan,DLI,53.0,137.0,0.0,0.0,311.5
+Qatar,Assim Madebo,MD,62.0,125.0,0.0,0.0,311.5
+Ivory Coast,Evan Ndicka,DCI,28.0,169.0,0.0,0.0,309.5
+Jordan,Yazan Al Arab,DC,76.0,105.0,0.0,0.0,309.5
+Haiti,Carlens Arcus,DLD,53.0,133.0,0.0,0.0,305.5
+Mexico,Julian Quiñones,G,22.0,173.0,0.0,0.0,303.5
+Egypt,Marwan Ateya,MD,34.0,157.0,0.0,0.0,303.5
+Belgium,Alexis Saelemaekers,MOD,24.0,169.0,0.0,0.0,301.5
+Qatar,Homam Al Amin,DLI,73.0,103.0,0.0,0.0,300.5
+Germany,David Raum,DLI,37.0,150.0,0.0,0.0,299.0
+Panama,Ismael Diaz,EI,57.0,122.0,0.0,0.0,297.0
+Bosnia and Herzegovina,Edin Dzeko,G,148.0,0.0,0.0,0.0,296.0
+Cape Verde,Willy Semedo,MOI,36.0,149.0,0.0,0.0,295.5
+Curaçao,Joshua Brenet,DLD,18.0,171.0,0.0,0.0,292.5
+Switzerland,Granit Xhaka,MI,146.0,0.0,0.0,0.0,292.0
+Uruguay,Rodrigo Aguirre,SP,10.0,180.0,0.0,0.0,290.0
+South Korea,Heung-min Son,AP,145.0,0.0,0.0,0.0,290.0
+Croatia,Josip Stanisic,DLD,31.0,152.0,0.0,0.0,290.0
+Czech Republic,David Doudera,D,17.0,170.0,0.0,0.0,289.0
+Colombia,Jorge Carrascal,MO,24.0,160.0,0.0,0.0,288.0
+DR Congo,Gaël Kakuta,VDC,30.0,150.0,0.0,0.0,285.0
+Norway,Kristian Thorstvedt,MC,37.0,140.0,0.0,0.0,284.0
+United States,Miles Robinson,DC,40.0,135.0,0.0,0.0,282.5
+Switzerland,Ruben Vargas,MOI,61.0,103.0,0.0,0.0,276.5
+Paraguay,Antonio Sanabria,G,48.0,120.0,0.0,0.0,276.0
+Switzerland,Ricardo Rodriguez,DLI,138.0,0.0,0.0,0.0,276.0
+DR Congo,Simon Banza,G,14.0,165.0,0.0,0.0,275.5
+Colombia,Richard Rios,MD,32.0,139.0,0.0,0.0,272.5
+Scotland,Anthony Ralston,DLD,27.0,145.0,0.0,0.0,271.5
+Saudi Arabia,Ali Al Awjami,DCI,22.0,149.0,0.0,0.0,267.5
+Croatia,Josip Sutalo,DC,33.0,134.0,0.0,0.0,267.0
+United States,Mark McKenzie,DC,29.0,139.0,0.0,0.0,266.5
+Austria,Kevin Danso,DC,32.0,135.0,0.0,0.0,266.5
+Uruguay,Maximiliano Araujo,DLI,28.0,139.0,0.0,0.0,264.5
+Senegal,Pathé Ciss,MD,30.0,136.0,0.0,0.0,264.0
+Argentina,Nicolás Otamendi,DCD,132.0,0.0,0.0,0.0,264.0
+France,Bradley Barcola,EI,20.0,149.0,0.0,0.0,263.5
+South Korea,Jin-seob Park,DC,14.0,155.0,0.0,0.0,260.5
+Scotland,Lewis Ferguson,MC,24.0,141.0,0.0,0.0,259.5
+Sweden,Mattias Svanberg,MC,39.0,119.0,0.0,0.0,256.5
+Ghana,Derrick Luckassen,DCD,1.0,169.0,0.0,0.0,255.5
+Senegal,Sadio Mané,EI,127.0,0.0,0.0,0.0,254.0
+Sweden,Gabriel Gudmundsson,DLI,24.0,137.0,0.0,0.0,253.5
+New Zealand,Elijah Just,MD,44.0,109.0,0.0,0.0,251.5
+Paraguay,Omar Alderete,DC,36.0,119.0,0.0,0.0,250.5
+Morocco,Ismael Saibari,VM,30.0,126.0,0.0,0.0,249.0
+Australia,Jason Geria,DLD,14.0,146.0,0.0,0.0,247.0
+Bosnia and Herzegovina,Nikola Katic,DC,17.0,136.0,0.0,0.0,238.0
+Algeria,Aissa Mandi,DCD,118.0,0.0,0.0,0.0,236.0
+Ghana,Jordan Ayew,G,117.0,0.0,0.0,0.0,234.0
+Jordan,Ehsan Haddad,DLD,83.0,43.0,0.0,0.0,230.5
+Algeria,Riyad Mahrez,ED,115.0,0.0,0.0,0.0,230.0
+Haiti,Jean-Kévin Duverne,DCD,16.0,132.0,0.0,0.0,230.0
+England,Harry Kane,G,114.0,0.0,0.0,0.0,228.0
+Ghana,B.  Asante-Thomas,G,8.0,140.0,0.0,0.0,226.0
+Ghana,Gideon Mensah,DLI,38.0,98.0,0.0,0.0,223.0
+England,Noni Madueke,MO,11.0,133.0,0.0,0.0,221.5
+Czech Republic,David Zima,D,25.0,114.0,0.0,0.0,221.0
+South Africa,Iqraam Rayners,AP,20.0,120.0,0.0,0.0,220.0
+Jordan,Rajaei Ayed,MD,64.0,59.0,0.0,0.0,216.5
+England,Morgan Rogers,EI,15.0,124.0,0.0,0.0,216.0
+Uzbekistan,Sherzod Nasrullaev,DLI,30.0,103.0,0.0,0.0,214.5
+Uzbekistan,Akmal Mozgovoy,MC,18.0,118.0,0.0,0.0,213.0
+Sweden,Isak Hien,DC,29.0,102.0,0.0,0.0,211.0
+Iraq,Mohanad Ali Kadhim,CP,64.0,55.0,0.0,0.0,210.5
+South Korea,Jae-seong Lee,MO,105.0,0.0,0.0,0.0,210.0
+Ecuador,Enner Valencia,G,105.0,0.0,0.0,0.0,210.0
+Argentina,Marcos Senesi,DC,3.0,134.0,0.0,0.0,207.0
+Curaçao,Sherel Floranus,DLD,26.0,103.0,0.0,0.0,206.5
+Iran,Shahriar Moghanlou,CP,17.0,114.0,0.0,0.0,205.0
+Ivory Coast,Franck Kessié,MD,101.0,0.0,0.0,0.0,202.0
+Uruguay,Jose Maria Giménez,DCD,100.0,0.0,0.0,0.0,200.0
+Morocco,Issa Diop,DCI,4.0,126.0,0.0,0.0,197.0
+Scotland,Ross Stewart,CP,3.0,127.0,0.0,0.0,196.5
+Morocco,Youssef Belammari,DLI,18.0,107.0,0.0,0.0,196.5
+Tunisia,Elias Achouri,EI,29.0,92.0,0.0,0.0,196.0
+Ecuador,Kevin Rodríguez,A,30.0,90.0,0.0,0.0,195.0
+Bosnia and Herzegovina,Haris Tabakovic,G,10.0,116.0,0.0,0.0,194.0
+Cape Verde,Ryan Mendes,ED,96.0,0.0,0.0,0.0,192.0
+Morocco,Achraf Hakimi,DLD,95.0,0.0,0.0,0.0,190.0
+New Zealand,Alex Rufer,MC,26.0,92.0,0.0,0.0,190.0
+Haiti,Danley Jean-Jacques,MD,29.0,87.0,0.0,0.0,188.5
+Ecuador,Jordy Alcivar,MD,10.0,112.0,0.0,0.0,188.0
+Scotland,Andrew Robertson,DLI,94.0,0.0,0.0,0.0,188.0
+DR Congo,Noah Sadiki,MD,20.0,98.0,0.0,0.0,187.0
+Canada,Jonathan Osorio,VDC,91.0,0.0,0.0,0.0,182.0
+Bosnia and Herzegovina,Nihad Mujakic,MD,12.0,105.0,0.0,0.0,181.5
+New Zealand,Chris Wood,CP,90.0,0.0,0.0,0.0,180.0
+Ghana,Kamal-Deen Sulemana,MP,28.0,82.0,0.0,0.0,179.0
+Paraguay,Gustavo Gómez,DC,89.0,0.0,0.0,0.0,178.0
+Jordan,Musa Al Taamari,ED,88.0,0.0,0.0,0.0,176.0
+Australia,Aziz Behich,DLI,84.0,0.0,0.0,0.0,168.0
+Germany,Antonio Rüdiger,DCI,82.0,0.0,0.0,0.0,164.0
+Iraq,Aymen Hussein,G,82.0,0.0,0.0,0.0,164.0
+New Zealand,Nando Pijnaker,DC,24.0,77.0,0.0,0.0,163.5
+Jordan,Mahmoud Mardi,MP,81.0,0.0,0.0,0.0,162.0
+Australia,Matthew Leckie,MD,81.0,0.0,0.0,0.0,162.0
+Bosnia and Herzegovina,Armin Gigovic,MD,20.0,81.0,0.0,0.0,161.5
+Canada,Alfie Jones,DC,2.0,105.0,0.0,0.0,161.5
+Czech Republic,Vladimir Darida,MC,79.0,0.0,0.0,0.0,158.0
+Canada,Jonathan David,G,78.0,0.0,0.0,0.0,156.0
+Curaçao,Armando Obispo,DC,6.0,96.0,0.0,0.0,156.0
+DR Congo,Nathanaël Mbuku,EI,20.0,77.0,0.0,0.0,155.5
+Paraguay,Braian Ojeda,MC,17.0,80.0,0.0,0.0,154.0
+Morocco,Sofyan Amrabat,MD,75.0,0.0,0.0,0.0,150.0
+Curaçao,Godfried Roemeratoe,MD,27.0,62.0,0.0,0.0,147.0
+Iraq,Hussein Ali,DLD,30.0,55.0,0.0,0.0,142.5
+Curaçao,Leandro Bacuna,DLD,70.0,0.0,0.0,0.0,140.0
+Iraq,Ibrahim Bayesh,ED,69.0,0.0,0.0,0.0,138.0
+Haiti,G.-M. Metusala,DC,13.0,72.0,0.0,0.0,134.0
+Iraq,Ahmed Qasem,MO,2.0,86.0,0.0,0.0,133.0
+South Africa,Sphephelo Sithole,MC,28.0,50.0,0.0,0.0,131.0
+Tunisia,Montassar Talbi,DC,63.0,0.0,0.0,0.0,126.0
+Cape Verde,Dailon Livramento,CP,22.0,54.0,0.0,0.0,125.0
+Spain,Rodri,MD,61.0,0.0,0.0,0.0,122.0
+South Africa,Teboho Mokoena,MC,56.0,0.0,0.0,0.0,112.0
+Spain,Ferrán Torres,MOD,56.0,0.0,0.0,0.0,112.0
+Tunisia,Hazem Mastouri,A,18.0,48.0,0.0,0.0,108.0
+South Africa,Themba Zwane,MO,54.0,0.0,0.0,0.0,108.0
+Tunisia,Dylan Bronn,DC,51.0,0.0,0.0,0.0,102.0
+Spain,Dani Olmo,MO,49.0,0.0,0.0,0.0,98.0
+South Africa,Aubrey Modiba,DLI,47.0,0.0,0.0,0.0,94.0
