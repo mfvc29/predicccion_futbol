@@ -15,31 +15,74 @@ st.set_page_config(
 # ─── CSS PREMIUM ──────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 
-    /* Fondo oscuro */
+    /* ── FONDO BLANCO LIMPIO ── */
     .stApp {
-        background: linear-gradient(135deg, #0a0e1a 0%, #0d1b2a 50%, #0a1628 100%);
+        background: #f8f9fc;
+    }
+    .stApp > header { background: transparent !important; }
+
+    /* Sidebar blanco */
+    [data-testid="stSidebar"] {
+        background: #ffffff;
+        border-right: 1px solid #e8ecf0;
     }
 
-    /* Tarjetas glassmorphism */
+    /* Inputs y selects */
+    .stSelectbox > div > div,
+    .stTextInput > div > div {
+        background: #ffffff !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        color: #1a202c !important;
+    }
+    .stSelectbox > div > div:focus-within,
+    .stTextInput > div > div:focus-within {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.12) !important;
+    }
+
+    /* Checkbox */
+    .stCheckbox > label { color: #4a5568 !important; font-weight: 500; }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 4px;
+        border: 1px solid #e8ecf0;
+        gap: 4px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        color: #718096;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.88rem;
+    }
+    .stTabs [aria-selected="true"] {
+        background: #6366f1 !important;
+        color: white !important;
+    }
+
+    /* Tarjetas */
     .glass-card {
-        background: rgba(255,255,255,0.04);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 20px;
-        padding: 28px 32px;
-        margin-bottom: 20px;
+        background: #ffffff;
+        border: 1px solid #e8ecf0;
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
-    /* Header hero */
+    /* Hero */
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.8rem;
         font-weight: 900;
-        background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff6b6b);
+        background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -48,76 +91,102 @@ st.markdown("""
     }
     .hero-sub {
         text-align: center;
-        color: rgba(255,255,255,0.45);
+        color: #718096;
         font-size: 1rem;
-        font-weight: 300;
-        margin-bottom: 40px;
+        font-weight: 400;
+        margin-bottom: 32px;
     }
 
-    /* Selector de equipo */
+    /* Labels */
     .team-label {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.4);
+        color: #a0aec0;
         margin-bottom: 6px;
     }
 
-    /* Resultado predicción */
-    .result-home { color: #00d4ff; font-size: 2.8rem; font-weight: 900; text-align: center; }
-    .result-draw { color: #ffd700; font-size: 2rem; font-weight: 700; text-align: center; }
-    .result-away { color: #ff6b6b; font-size: 2.8rem; font-weight: 900; text-align: center; }
-    .result-label { color: rgba(255,255,255,0.45); font-size: 0.8rem; text-align: center; margin-top: 4px; }
+    /* Resultados predicción */
+    .result-home { color: #6366f1; font-size: 2.6rem; font-weight: 900; text-align: center; }
+    .result-draw { color: #d97706; font-size: 2rem; font-weight: 700; text-align: center; }
+    .result-away { color: #ef4444; font-size: 2.6rem; font-weight: 900; text-align: center; }
+    .result-label { color: #a0aec0; font-size: 0.8rem; text-align: center; margin-top: 4px; }
     .winner-badge {
-        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-        text-transform: uppercase; padding: 4px 12px;
-        border-radius: 999px; display: inline-block; margin-top: 6px;
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+        text-transform: uppercase; padding: 6px 16px;
+        border-radius: 999px; display: inline-block; margin-top: 8px;
     }
-    .badge-home { background: rgba(0,212,255,0.15); color: #00d4ff; border: 1px solid #00d4ff44; }
-    .badge-away { background: rgba(255,107,107,0.15); color: #ff6b6b; border: 1px solid #ff6b6b44; }
-    .badge-draw { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd70044; }
+    .badge-home { background: rgba(99,102,241,0.1); color: #6366f1; border: 1px solid rgba(99,102,241,0.3); }
+    .badge-away { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .badge-draw { background: rgba(217,119,6,0.1); color: #d97706; border: 1px solid rgba(217,119,6,0.3); }
 
-    /* Players danger table */
+    /* Players */
     .danger-player {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 10px 0; border-bottom: 1px solid #f1f5f9;
     }
-    .danger-rank { font-size: 1.1rem; font-weight: 900; color: rgba(255,255,255,0.15); min-width: 28px; }
-    .danger-name { font-weight: 600; color: #fff; flex: 1; }
+    .danger-rank { font-size: 1.1rem; font-weight: 900; color: #cbd5e0; min-width: 28px; }
+    .danger-name { font-weight: 600; color: #1a202c; flex: 1; }
     .danger-pos {
         font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
-        background: rgba(123,47,247,0.2); color: #a78bfa; border: 1px solid #7b2ff744;
+        background: rgba(99,102,241,0.1); color: #6366f1; border: 1px solid rgba(99,102,241,0.25);
     }
-    .danger-score { font-weight: 700; color: #00d4ff; min-width: 60px; text-align: right; }
+    .danger-score { font-weight: 700; color: #6366f1; min-width: 60px; text-align: right; }
 
     /* Section title */
     .section-title {
-        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
-        text-transform: uppercase; color: rgba(255,255,255,0.3);
-        margin-bottom: 18px; padding-bottom: 10px;
-        border-bottom: 1px solid rgba(255,255,255,0.07);
+        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em;
+        text-transform: uppercase; color: #a0aec0;
+        margin-bottom: 16px; padding-bottom: 10px;
+        border-bottom: 1px solid #e8ecf0;
     }
 
-    /* Metric override */
+    /* Metrics */
     [data-testid="metric-container"] {
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 14px; padding: 16px !important;
+        background: #ffffff !important;
+        border: 1px solid #e8ecf0 !important;
+        border-radius: 12px !important;
+        padding: 14px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
     }
-    [data-testid="stMetricValue"] { font-size: 1.6rem !important; font-weight: 700 !important; }
+    [data-testid="stMetricValue"] {
+        font-size: 1.5rem !important;
+        font-weight: 700 !important;
+        color: #1a202c !important;
+    }
+    [data-testid="stMetricLabel"] { color: #718096 !important; }
 
     /* Button */
     .stButton > button {
-        background: linear-gradient(90deg, #7b2ff7, #00d4ff) !important;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
         color: white !important; border: none !important;
         font-weight: 700 !important; font-size: 1rem !important;
-        padding: 16px 32px !important; border-radius: 14px !important;
-        letter-spacing: 0.05em; transition: all 0.3s;
+        padding: 14px 32px !important; border-radius: 12px !important;
+        letter-spacing: 0.04em; transition: all 0.25s ease;
+        box-shadow: 0 4px 12px rgba(99,102,241,0.3) !important;
     }
-    .stButton > button:hover { opacity: 0.9; transform: translateY(-2px); }
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(99,102,241,0.4) !important;
+    }
 
-    /* Hide default streamlit menu */
+    /* Divider */
+    hr { border-color: #e8ecf0 !important; }
+
+    /* Dataframe */
+    .stDataFrame { border: 1px solid #e8ecf0 !important; border-radius: 12px !important; }
+
+    /* Expander */
+    .streamlit-expanderHeader { color: #4a5568 !important; font-weight: 600 !important; }
+    .streamlit-expanderContent { background: #ffffff !important; border: 1px solid #e8ecf0 !important; border-radius: 0 0 12px 12px !important; }
+
+    /* General text */
+    p, li, span, div { color: #2d3748; }
+    h1, h2, h3, h4 { color: #1a202c !important; }
+    label { color: #4a5568 !important; }
+
+    /* Hide streamlit chrome */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
@@ -204,18 +273,18 @@ with tab1:
                 }
                 labels_clean = [label_map.get(l, l) for l in labels]
 
-                colors = [f'rgba(123, 47, 247, {0.4 + 0.6 * (v / max(values))})' for v in values]
+                colors = [f'rgba(99, 102, 241, {0.35 + 0.65 * (v / max(values))})' for v in values]
                 fig_imp = go.Figure(go.Bar(
                     x=values, y=labels_clean, orientation='h',
                     marker=dict(color=colors),
                     text=[f"{v*100:.1f}%" for v in values],
-                    textposition='outside', textfont=dict(color='white', size=11)
+                    textposition='outside', textfont=dict(color='#2d3748', size=11)
                 ))
                 fig_imp.update_layout(
-                    title=dict(text='Importancia de Variables (Feature Importance)', font=dict(color='rgba(255,255,255,0.6)', size=12)),
-                    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                    title=dict(text='Importancia de Variables (Feature Importance)', font=dict(color='#718096', size=12)),
+                    paper_bgcolor='rgba(255,255,255,0)', plot_bgcolor='rgba(255,255,255,0)',
                     xaxis=dict(visible=False, range=[0, max(values) * 1.3]),
-                    yaxis=dict(tickfont=dict(color='rgba(255,255,255,0.7)', size=11)),
+                    yaxis=dict(tickfont=dict(color='#4a5568', size=11)),
                     margin=dict(l=10, r=60, t=40, b=10), height=320, showlegend=False
                 )
                 st.plotly_chart(fig_imp, use_container_width=True)
@@ -246,8 +315,8 @@ with tab1:
 
         # Cabecera con nombre de equipos
         mc_header_l, mc_header_r = st.columns(2)
-        mc_header_l.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#00d4ff;margin-bottom:10px'>🏠 {equipo_local}</div>", unsafe_allow_html=True)
-        mc_header_r.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#ff6b6b;margin-bottom:10px'>✈️ {equipo_visitante}</div>", unsafe_allow_html=True)
+        mc_header_l.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#6366f1;margin-bottom:10px'>🏠 {equipo_local}</div>", unsafe_allow_html=True)
+        mc_header_r.markdown(f"<div style='font-weight:700;font-size:1.05rem;color:#ef4444;margin-bottom:10px'>✈️ {equipo_visitante}</div>", unsafe_allow_html=True)
 
         # Fila 1: Fuerza y Edad
         m1a, m1b, m1c, m1d = st.columns(4)
@@ -309,28 +378,28 @@ with tab1:
             theta=categorias + [categorias[0]],
             fill='toself',
             name=equipo_local,
-            line=dict(color='#00d4ff', width=2),
-            fillcolor='rgba(0, 212, 255, 0.15)',
-            marker=dict(size=6, color='#00d4ff')
+            line=dict(color='#6366f1', width=2.5),
+            fillcolor='rgba(99, 102, 241, 0.12)',
+            marker=dict(size=6, color='#6366f1')
         ))
         fig_radar.add_trace(go.Scatterpolar(
             r=values_visit + [values_visit[0]],
             theta=categorias + [categorias[0]],
             fill='toself',
             name=equipo_visitante,
-            line=dict(color='#ff6b6b', width=2),
-            fillcolor='rgba(255, 107, 107, 0.15)',
-            marker=dict(size=6, color='#ff6b6b')
+            line=dict(color='#ef4444', width=2.5),
+            fillcolor='rgba(239, 68, 68, 0.10)',
+            marker=dict(size=6, color='#ef4444')
         ))
         fig_radar.update_layout(
             polar=dict(
-                radialaxis=dict(visible=True, range=[0, 100], showticklabels=True, tickfont=dict(color='rgba(255,255,255,0.3)', size=9), gridcolor='rgba(255,255,255,0.08)'),
-                angularaxis=dict(tickfont=dict(color='rgba(255,255,255,0.7)', size=12), gridcolor='rgba(255,255,255,0.08)'),
-                bgcolor='rgba(0,0,0,0)'
+                radialaxis=dict(visible=True, range=[0, 100], showticklabels=True, tickfont=dict(color='#a0aec0', size=9), gridcolor='#e8ecf0'),
+                angularaxis=dict(tickfont=dict(color='#4a5568', size=12), gridcolor='#e8ecf0'),
+                bgcolor='rgba(255,255,255,0)'
             ),
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            legend=dict(font=dict(color='white', size=12), bgcolor='rgba(0,0,0,0)'),
+            paper_bgcolor='rgba(255,255,255,0)',
+            plot_bgcolor='rgba(255,255,255,0)',
+            legend=dict(font=dict(color='#2d3748', size=12), bgcolor='rgba(255,255,255,0)'),
             margin=dict(l=60, r=60, t=40, b=40),
             height=420
         )
@@ -342,7 +411,7 @@ with tab1:
             st.markdown('<div class="section-title">🚨 Jugadores Más Peligrosos (Índice de Peligrosidad)</div>', unsafe_allow_html=True)
 
             pcol1, pcol2 = st.columns(2)
-            for col_ui, equipo_nombre, color in [(pcol1, equipo_local, '00d4ff'), (pcol2, equipo_visitante, 'ff6b6b')]:
+            for col_ui, equipo_nombre, color in [(pcol1, equipo_local, '6366f1'), (pcol2, equipo_visitante, 'ef4444')]:
                 with col_ui:
                     st.markdown(f"<h4 style='color:#{color};margin-bottom:12px'>{equipo_nombre}</h4>", unsafe_allow_html=True)
                     players = top_players_df[top_players_df['Equipo'] == equipo_nombre].head(5)
@@ -448,17 +517,17 @@ with tab1:
                 x=[prob_home, prob_draw, prob_away],
                 y=[equipo_local, 'Empate', equipo_visitante],
                 orientation='h',
-                marker=dict(color=['#00d4ff', '#ffd700', '#ff6b6b'], opacity=0.85),
+                marker=dict(color=['#6366f1', '#d97706', '#ef4444'], opacity=0.85),
                 text=[f"{prob_home:.1f}%", f"{prob_draw:.1f}%", f"{prob_away:.1f}%"],
                 textposition='outside',
-                textfont=dict(color='white', size=14, family='Inter')
+                textfont=dict(color='#2d3748', size=14, family='Inter')
             ))
             fig_bar.update_layout(
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                xaxis=dict(visible=False, range=[0, 110]),
-                yaxis=dict(tickfont=dict(color='white', size=13)),
-                margin=dict(l=10, r=60, t=10, b=10),
+                paper_bgcolor='rgba(255,255,255,0)',
+                plot_bgcolor='rgba(255,255,255,0)',
+                xaxis=dict(visible=False, range=[0, 115]),
+                yaxis=dict(tickfont=dict(color='#2d3748', size=13)),
+                margin=dict(l=10, r=70, t=10, b=10),
                 height=180,
                 showlegend=False
             )
@@ -536,6 +605,7 @@ with tab1:
 
 with tab2:
     st.markdown('<div class="hero-title" style="font-size:2rem; margin-top:20px;">🌍 Análisis de Selecciones</div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-sub">Historial, rendimiento reciente y estadísticas de cada selección nacional</div>', unsafe_allow_html=True)
     
     sel_equipo = st.selectbox("Selecciona un País", equipos, key="sel_pais_tab2")
     
@@ -559,11 +629,11 @@ with tab2:
             # Format the table
             def color_result(row):
                 if row['home_score'] > row['away_score']:
-                    return ['background-color: rgba(0, 212, 255, 0.1)'] * len(row) if row['home_team'] == sel_equipo else ['background-color: rgba(255, 107, 107, 0.1)'] * len(row)
+                    return ['background-color: rgba(99, 102, 241, 0.08)'] * len(row) if row['home_team'] == sel_equipo else ['background-color: rgba(239, 68, 68, 0.08)'] * len(row)
                 elif row['home_score'] < row['away_score']:
-                    return ['background-color: rgba(255, 107, 107, 0.1)'] * len(row) if row['home_team'] == sel_equipo else ['background-color: rgba(0, 212, 255, 0.1)'] * len(row)
+                    return ['background-color: rgba(239, 68, 68, 0.08)'] * len(row) if row['home_team'] == sel_equipo else ['background-color: rgba(99, 102, 241, 0.08)'] * len(row)
                 else:
-                    return ['background-color: rgba(255, 215, 0, 0.1)'] * len(row)
+                    return ['background-color: rgba(217, 119, 6, 0.08)'] * len(row)
                     
             st.dataframe(ultimos.style.apply(color_result, axis=1), use_container_width=True, hide_index=True)
             
@@ -600,16 +670,16 @@ with tab3:
             st.markdown(f"""
             <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h2 style="margin:0; color:#00d4ff;">{get_val(jug.get('Nombre'))}</h2>
-                    <p style="color:rgba(255,255,255,0.6); font-size:1.1rem; margin:5px 0;">{get_val(jug.get('Pos.'))} · {get_val(jug.get('Clubes'))}</p>
+                    <h2 style="margin:0; color:#6366f1;">{get_val(jug.get('Nombre'))}</h2>
+                    <p style="color:#718096; font-size:1.1rem; margin:5px 0;">{get_val(jug.get('Pos.'))} · {get_val(jug.get('Clubes'))}</p>
                 </div>
                 <div style="text-align:right; margin-left: 20px;">
-                    <div style="color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase;">Edad</div>
-                    <div style="font-size:1.5rem; font-weight:bold;">{get_val(jug.get('Edad'))}</div>
+                    <div style="color:#a0aec0; font-size:0.8rem; text-transform:uppercase;">Edad</div>
+                    <div style="font-size:1.5rem; font-weight:bold; color:#1a202c;">{get_val(jug.get('Edad'))}</div>
                 </div>
                 <div style="text-align:right; margin-left: 20px;">
-                    <div style="color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase;">Físico</div>
-                    <div style="font-size:1.5rem; font-weight:bold;">{get_val(jug.get('Tamaño'), '-')} / {get_val(jug.get('Peso'), '-')}</div>
+                    <div style="color:#a0aec0; font-size:0.8rem; text-transform:uppercase;">Físico</div>
+                    <div style="font-size:1.5rem; font-weight:bold; color:#1a202c;">{get_val(jug.get('Tamaño'), '-')} / {get_val(jug.get('Peso'), '-')}</div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
