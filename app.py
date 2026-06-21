@@ -561,7 +561,7 @@ st.markdown("""
         Machine Learning con datos 100% reales · Ensemble GradientBoosting + RandomForest
     </div>
     <div style="margin-top: 16px;">
-        <span class="hero-badge">🤖 IA Avanzada</span>
+        <span class="hero-badge">🤖 ML Avanzado</span>
         <span class="hero-badge"><span class="live-dot"></span>&nbsp; Datos Live API</span>
         <span class="hero-badge">🏆 48 Selecciones</span>
         <span class="hero-badge">📊 Datos Reales</span>
