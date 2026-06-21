@@ -847,6 +847,7 @@ with tab1:
                 </div>
                 """
             st.markdown(rows_html, unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.75rem; color:#94a3b8; margin-top:12px;'><i>*Nota: La <b>Fuerza Score</b> es un índice inteligente de 0 a 100+ calculado desde datos reales de la API (tasa de victorias, goles, vallas invictas) de los últimos torneos (Euro, Mundial, Ligas).</i></div>", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -1072,6 +1073,7 @@ with tab3:
                     <div style="font-size:0.7rem;color:#94a3b8;">{int(r['wins'])}W</div>
                 </div>
                 """, unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.75rem; color:#94a3b8; margin-top:12px;'><i>*Nota: La <b>Fuerza Score</b> es un índice inteligente calculado desde datos reales de la API (tasa de victorias, goles, vallas invictas) de los últimos torneos (Euro, Mundial, Ligas).</i></div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 
