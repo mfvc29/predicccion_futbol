@@ -372,7 +372,7 @@ def cargar_datos():
 
     # Modelo
     model_data = joblib.load("modelo_futbol.pkl")
-    is_ensemble = isinstance(model_data, dict) and "gb" in model_data
+    is_ensemble = isinstance(model_data, dict) and ("gb" in model_data or "hgb" in model_data)
 
     # Métricas
     with open("modelo_metricas.json") as f:
