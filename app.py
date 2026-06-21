@@ -1106,15 +1106,16 @@ with tab4:
                     pos_c = get_pos_class(ppos)
                     pos_l = pos_label(ppos)
                     team_logo = get_team_logo(pteam)
-                    st.markdown(f"""
-                    <div class="player-row">
-                        <div class="player-info">
-                            <div class="player-name">{pname}</div>
-                            <div class="player-meta">{team_logo} {pteam} · {pclub or 'Club n/d'} · {page} años</div>
-                        </div>
-                        <span class="player-pos {pos_c}">{pos_l}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    html_str = f"""
+<div class="player-row">
+    <div class="player-info">
+        <div class="player-name">{pname}</div>
+        <div class="player-meta">{team_logo} {pteam} &middot; {pclub or 'Club n/d'} &middot; {page} años</div>
+    </div>
+    <span class="player-pos {pos_c}">{pos_l}</span>
+</div>
+"""
+                    st.markdown(html_str, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
             # Selector de equipo para ver plantilla
@@ -1152,16 +1153,17 @@ with tab4:
                     club_txt = f" · {pclub}" if pclub and str(pclub) != "nan" else ""
                     shirt_txt = f"<span style='color:#94a3b8;font-size:0.75rem;'>#{shirt}</span>" if shirt and str(shirt) != "nan" else ""
 
-                    st.markdown(f"""
-                    <div class="player-row">
-                        {shirt_txt}
-                        <div class="player-info">
-                            <div class="player-name">{pname}</div>
-                            <div class="player-meta">{page} años{club_txt}</div>
-                        </div>
-                        <span class="player-pos {pos_c}">{pos_l}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    html_str = f"""
+<div class="player-row">
+    {shirt_txt}
+    <div class="player-info">
+        <div class="player-name">{pname}</div>
+        <div class="player-meta">{page} años{club_txt}</div>
+    </div>
+    <span class="player-pos {pos_c}">{pos_l}</span>
+</div>
+"""
+                    st.markdown(html_str, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
         with col_p2:
