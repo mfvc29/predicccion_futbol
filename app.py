@@ -863,9 +863,8 @@ with tab2:
         mc4.metric("📊 Promedio Goles", f"{finished['total_goals'].mean():.2f}" if len(finished) > 0 and "total_goals" in finished.columns else "-")
 
         st.markdown("<br>", unsafe_allow_html=True)
-        col_res, col_sched = st.columns([1.2, 1])
-
-        with col_res:
+        st.markdown("<br>", unsafe_allow_html=True)
+        if True:
             st.markdown('<div class="card">', unsafe_allow_html=True)
             st.markdown('<div class="card-header"><span>✅</span> Partidos Terminados</div>', unsafe_allow_html=True)
             if len(finished) > 0:
@@ -905,31 +904,7 @@ with tab2:
                     """, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
-        with col_sched:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-header"><span>📅</span> Próximos Partidos</div>', unsafe_allow_html=True)
-            if len(scheduled) > 0:
-                for _, m in scheduled.sort_values("date").head(20).iterrows():
-                    ht = m.get("home_team") or "TBD"
-                    at = m.get("away_team") or "TBD"
-                    st_date = str(m.get("date", ""))[:10]
-                    stage = str(m.get("stage", "")).replace("_", " ").title()
-                    ht_logo = get_team_logo(ht)
-                    at_logo = get_team_logo(at)
-                    st.markdown(f"""
-                    <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;margin-bottom:5px;
-                                background:#fafbff;border-radius:10px;border:1px solid #e0e7ff;">
-                        <div style="flex:1;text-align:right;font-size:0.84rem;color:#475569;">{ht_logo} {ht}</div>
-                        <div style="text-align:center;min-width:60px;">
-                            <div style="font-size:0.72rem;font-weight:700;color:#94a3b8;">{st_date}</div>
-                            <div style="font-size:0.65rem;color:#c4b5fd;">{stage}</div>
-                        </div>
-                        <div style="flex:1;font-size:0.84rem;color:#475569;">{at_logo} {at}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-            else:
-                st.info("No hay partidos programados disponibles.")
-            st.markdown("</div>", unsafe_allow_html=True)
+
 
         # Gráfico goles por partido
         if len(finished) > 0 and "total_goals" in finished.columns and "group" in finished.columns:
