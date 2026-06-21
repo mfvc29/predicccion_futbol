@@ -1,0 +1,49 @@
+team_id,team_name,short_name,tla,founded,club_colors,venue,website,coach_name,coach_nationality,coach_dob,squad_size
+758,Uruguay,Uruguay,URU,1900,Sky Blue / White / Black,,http://www.auf.org.uy,Marcelo Bielsa,Argentina,1955-07-21,26
+759,Germany,Germany,GER,1900,White / Black,,http://www.dfb.de,Julian Nagelsmann,Germany,1987-07-23,26
+760,Spain,Spain,ESP,1909,Red / Blue / Yellow,,http://www.rfef.es,Luis de la Fuente,Spain,1961-06-21,26
+761,Paraguay,Paraguay,PAR,1906,Red / White / Blue,,http://www.apf.org.py,Gustavo Alfaro,Argentina,1962-08-14,26
+762,Argentina,Argentina,ARG,1893,Sky Blue / White / Black,,http://www.afa.org.ar,Lionel Scaloni,Argentina,1978-05-16,26
+763,Ghana,Ghana,GHA,1957,White / Black,,http://www.ghanafa.org,Carlos Queiroz,Portugal,1953-03-01,26
+764,Brazil,Brazil,BRA,1914,Yellow / Green / Blue,,http://www.cbf.com.br/,Carlo Ancelotti,Italy,1959-06-10,26
+765,Portugal,Portugal,POR,1914,Red / Green,,http://www.fpf.pt,Roberto Martínez,Spain,1973-07-13,26
+766,Japan,Japan,JPN,1921,Blue / White,,http://www.jfa.or.jp,Hajime Moriyasu,Japan,1968-08-23,26
+769,Mexico,Mexico,MEX,1927,Green / White / Red,,http://www.femexfut.org.mx,Javier Aguirre,Mexico,1958-12-01,26
+770,England,England,ENG,1863,White / Red / Navy Blue,,http://www.thefa.com,Thomas Tuchel,Germany,1973-08-29,26
+771,United States,USA,USA,1913,White / Navy Blue / Red,,http://www.ussoccer.com,Mauricio Pochettino,Argentina,1972-03-02,26
+772,South Korea,Korea Republic,KOR,1928,Red / White / Blue,,http://www.kfa.or.kr,Hong Myungbo,South Korea,1969-02-12,26
+773,France,France,FRA,1919,Blue / White / Red,,http://www.fff.fr,Didier Deschamps,France,1968-10-15,26
+774,South Africa,South Africa,RSA,1991,Gold / Green / Black,,http://www.safa.net,Hugo Broos,Belgium,1952-04-10,26
+778,Algeria,Algeria,ALG,1962,White / Green,,http://www.faf.dz,Vladimir Petković,Switzerland,1963-08-15,26
+779,Australia,Australia,AUS,1961,Gold / Green,,http://www.footballaustralia.com.au,Tony Popović,Australia,1973-07-04,26
+783,New Zealand,New Zealand,NZL,1891,White / Black,,http://www.nzfootball.co.nz,Darren Bazeley,England,1972-10-05,26
+788,Switzerland,Switzerland,SUI,1895,Red / White,,http://www.football.ch,Murat Yakin,Switzerland,1974-09-15,26
+791,Ecuador,Ecuador,ECU,1925,Yellow / Blue / Red,,http://www.ecuafutbol.org,Sebastián Beccacece,Argentina,1980-12-17,26
+792,Sweden,Sweden,SWE,1904,Yellow / Blue,,http://www.svenskfotboll.se,Graham Potter,England,1975-05-20,26
+798,Czechia,Czechia,CZE,1901,Red / White / Blue,,http://www.fotbal.cz,Miroslav Koubek,Czech Republic,1951-09-01,26
+799,Croatia,Croatia,CRO,1912,Red / White / Blue,,http://www.hns-cff.hr,Zlatko Dalić,Croatia,1966-10-26,26
+801,Saudi Arabia,Saudi Arabia,KSA,1956,White / Green,,http://www.thesaff.com.sa,Giorgios Donis,Greece,1969-10-22,26
+802,Tunisia,Tunisia,TUN,1957,White / Red,,http://www.ftf.org.tn,Hervé Renard,France,1968-09-30,26
+803,Turkey,Turkey,TUR,1923,Red / White,,http://www.tff.org,Vincenzo Montella,Italy,1974-06-18,26
+804,Senegal,Senegal,SEN,1960,White / Green,,http://www.fsfoot.sn,,,,27
+805,Belgium,Belgium,BEL,1895,Red / Black / Yellow,,https://www.rbfa.be,Rudi Garcia,France,1964-02-20,26
+815,Morocco,Morocco,MAR,1955,Red / Green,,http://www.frmf.ma,Mohamed Ouahbi,Belgium,1976-09-07,26
+816,Austria,Austria,AUT,1904,Red / White / Black,,http://www.oefb.at,Ralf Rangnick,Germany,1958-06-29,26
+818,Colombia,Colombia,COL,1924,Yellow / Red / Blue,,http://www.fcf.com.co,Néstor Lorenzo,Argentina,1966-02-28,26
+825,Egypt,Egypt,EGY,1921,Red / White / Black,,http://www.efa.com.eg,Hossam Hassan,Egypt,1966-08-10,26
+828,Canada,Canada,CAN,,,,,Jesse Marsch,USA,1973-11-08,26
+836,Haiti,Haiti,HAI,1904,Blue / White / Red,,http://fhfhaiti.com,Sébastien Migné,France,1972-11-30,26
+840,Iran,Iran,IRN,1920,White / Green / Red,,http://www.ffiri.ir,Amir Ghalenoei,Iran,1963-11-23,26
+1060,Bosnia-Herzegovina,Bosnia-H.,BIH,1992,White / Blue,,http://www.nfsbih.ba,Sergej Barbarez,Bosnia-Herzegovina,1971-09-17,26
+1836,Panama,Panama,PAN,1937,Red / White / Navy Blue,,http://www.fepafut.com,Thomas Christiansen,Spain,1973-03-11,26
+1930,Cape Verde Islands,Cape Verde,CPV,1982,Blue / White / Red,,http://www.fcf.cv,Bubista,Cape Verde Islands,1970-01-06,26
+1934,Congo DR,Congo DR,COD,1919,Blue / Yellow / Red,,http://www.fecofa.cd,Sébastien Desabre,France,1976-08-02,26
+1935,Ivory Coast,Ivory Coast,CIV,1960,Orange / Green / White,,http://www.fif-ci.com,Emerse Faé,Ivory Coast,,26
+8030,Qatar,Qatar,QAT,1960,Maroon / White,,http://www.qfa.com.qa,Julen Lopetegui,Spain,1966-08-28,26
+8049,Jordan,Jordan,JOR,1949,Red / White,,http://www.jfa.com.jo,,,,26
+8062,Iraq,Iraq,IRQ,1948,White / Green,,http://www.ifa.iq,Graham Arnold,Australia,1963-08-03,26
+8070,Uzbekistan,Uzbekistan,UZB,1946,White / Blue / Green,,http://www.the-uff.com,Fabio Cannavaro,Italy,1973-09-13,26
+8601,Netherlands,Netherlands,NED,1889,Orange / White / Blue,,http://www.knvb.nl,Ronald Koeman,Netherlands,1963-03-21,26
+8872,Norway,Norway,NOR,1902,Red / White / Navy Blue,,http://www.fotball.no,Ståle Solbakken,Norway,1968-02-27,26
+8873,Scotland,Scotland,SCO,1873,Navy Blue / White,,http://www.scottishfa.co.uk,Steve Clarke,Scotland,1963-08-29,26
+9460,Curaçao,Curaçao,CUW,,,,,Dick Advocaat,Netherlands,1947-09-27,26
