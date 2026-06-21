@@ -817,13 +817,7 @@ with tab1:
         mb.metric("F1-Score", f"{f1*100:.1f}%")
         mc.metric("CV Score", f"{cv*100:.1f}%")
 
-        st.markdown(f"""
-        <div style="margin-top:14px;padding:12px 16px;background:#f0f4ff;border-radius:10px;border:1px solid #e0e7ff;">
-            <div style="font-size:0.75rem;font-weight:700;color:#4f46e5;margin-bottom:6px;">FUENTE DE DATOS</div>
-            <div style="font-size:0.82rem;color:#475569;">{fuente}</div>
-            {'<div style="margin-top:8px;"><span style="font-size:0.7rem;color:#94a3b8;">Competencias: ' + ', '.join(comps[:6]) + ('...' if len(comps)>6 else '') + '</span></div>' if comps else ''}
-        </div>
-        """, unsafe_allow_html=True)
+
         st.markdown("</div>", unsafe_allow_html=True)
 
         # TOP RANKING
