@@ -1436,183 +1436,279 @@ with tab5:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
 
-    # ── SECCIÓN: Bracket proyectado ───────────────────────────────────────────
-    st.markdown("### 🏆 Bracket Proyectado — Camino al Título")
-    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:16px;'>Basado en clasificados actuales de cada grupo · Los enfrentamientos de eliminatorias se irán actualizando</div>", unsafe_allow_html=True)
-
-    # Construir la proyección del bracket con los 1eros y 2dos de cada grupo
-    # Formato WC2026 R32: cruce 1ro_Grp vs 2do_Grp según fixture oficial
-    # (simplificado con lo que tenemos)
-    bracket_left = [
-        (qualifiers["A"][0], qualifiers["B"][1]),  # 1A vs 2B
-        (qualifiers["C"][0], qualifiers["D"][1]),  # 1C vs 2D
-        (qualifiers["E"][0], qualifiers["F"][1]),  # 1E vs 2F
-        (qualifiers["G"][0], qualifiers["H"][1]),  # 1G vs 2H
-        (qualifiers["I"][0], qualifiers["J"][1]),  # 1I vs 2J
-        (qualifiers["K"][0], qualifiers["L"][1]),  # 1K vs 2L
-        (qualifiers["B"][0], qualifiers["A"][1]),  # 1B vs 2A
-        (qualifiers["D"][0], qualifiers["C"][1]),  # 1D vs 2C
-    ]
-    bracket_right = [
-        (qualifiers["F"][0], qualifiers["E"][1]),  # 1F vs 2E
-        (qualifiers["H"][0], qualifiers["G"][1]),  # 1H vs 2G
-        (qualifiers["J"][0], qualifiers["I"][1]),  # 1J vs 2I
-        (qualifiers["L"][0], qualifiers["K"][1]),  # 1L vs 2K
-        (qualifiers["A"][0], qualifiers["C"][1]),  # cruce adicional
-        (qualifiers["E"][0], qualifiers["G"][1]),  # cruce adicional
-        (qualifiers["I"][0], qualifiers["K"][1]),  # cruce adicional
-        (qualifiers["C"][0], qualifiers["E"][1]),  # cruce adicional
-    ]
+    # ── SECCIÓN: Bracket árbol ────────────────────────────────────────────────
+    st.markdown("### 🏆 Bracket — Árbol del Torneo (Proyectado)")
+    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · Se actualiza automáticamente con el actualizador</div>", unsafe_allow_html=True)
 
     def fuerza_equipo(team_name, ts):
-        """Devuelve el Fuerza_Score del equipo desde api_team_stats.csv."""
         if ts is None:
             return 50
         for _, row in ts.iterrows():
-            if row.get("team", "").lower() in team_name.lower() or team_name.lower() in row.get("team", "").lower():
+            if row.get("team","").lower() in team_name.lower() or team_name.lower() in row.get("team","").lower():
                 return float(row.get("Fuerza_Score", 50))
         return 50
 
-    def proyectar_ganador(t1, t2, ts):
-        """Proyecta al ganador en base a pts de grupo y Fuerza_Score."""
+    def win(t1, t2, ts):
         f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
         f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
         return t1 if f1 >= f2 else t2
 
-    def bracket_side_html(matchups, ts):
-        """Genera el HTML de una rama (R32 → R16 → QF → SF)."""
-        html = ""
-        r16_teams = []
-        # Octavos
-        html += '<div style="font-size:0.65rem;font-weight:800;color:#4f46e5;letter-spacing:1px;margin-bottom:6px;">OCTAVOS DE FINAL</div>'
-        for t1, t2 in matchups:
-            g1 = get_team_logo(t1["team"])
-            g2 = get_team_logo(t2["team"])
-            proj = proyectar_ganador(t1, t2, ts)
-            r16_teams.append(proj)
-            html += f"""
-<div class="bracket-box winner">
-    <span style="font-size:1rem">{g1}</span>
-    <span class="bname">{t1['team']}</span>
-    <span class="bpts">{t1['pts']}pts</span>
+    # Cruces R32 — izquierda (8 partidos) y derecha (8 partidos)
+    q = qualifiers
+    r32_l = [
+        (q["A"][0], q["B"][1]),  # 1A vs 2B
+        (q["C"][0], q["D"][1]),  # 1C vs 2D
+        (q["E"][0], q["F"][1]),  # 1E vs 2F
+        (q["G"][0], q["H"][1]),  # 1G vs 2H
+        (q["I"][0], q["J"][1]),  # 1I vs 2J
+        (q["K"][0], q["L"][1]),  # 1K vs 2L
+        (q["B"][0], q["A"][1]),  # 1B vs 2A
+        (q["D"][0], q["C"][1]),  # 1D vs 2C
+    ]
+    r32_r = [
+        (q["F"][0], q["E"][1]),  # 1F vs 2E
+        (q["H"][0], q["G"][1]),  # 1H vs 2G
+        (q["J"][0], q["I"][1]),  # 1J vs 2I
+        (q["L"][0], q["K"][1]),  # 1L vs 2K
+        (q["A"][0], q["C"][1]),
+        (q["E"][0], q["G"][1]),
+        (q["I"][0], q["K"][1]),
+        (q["C"][0], q["E"][1]),
+    ]
+
+    # Proyectar rondas
+    def proj_round(pairs, ts):
+        return [win(a, b, ts) for a, b in pairs]
+
+    def pair_up(teams):
+        return [(teams[i], teams[i+1]) for i in range(0, len(teams)-1, 2)]
+
+    r16_l  = proj_round(r32_l, team_stats)
+    r16_r  = proj_round(r32_r, team_stats)
+    qf_l   = proj_round(pair_up(r16_l),  team_stats)
+    qf_r   = proj_round(pair_up(r16_r),  team_stats)
+    sf_l   = proj_round(pair_up(qf_l),   team_stats)
+    sf_r   = proj_round(pair_up(qf_r),   team_stats)
+    final_l = sf_l[0] if sf_l else q["A"][0]
+    final_r = sf_r[0] if sf_r else q["B"][0]
+    campeon = win(final_l, final_r, team_stats)
+
+    # ── Generar HTML del árbol ────────────────────────────────────────────────
+    def team_box(t, highlight=False, champion=False):
+        logo = get_team_logo(t["team"]) if t else "❓"
+        name = t["team"] if t else "TBD"
+        pts  = t["pts"]  if t else 0
+        if champion:
+            bg   = "linear-gradient(135deg,#fbbf24,#f59e0b)"
+            bord = "2px solid #fbbf24"
+            col  = "#1c1400"
+        elif highlight:
+            bg   = "linear-gradient(135deg,#312e81,#4c1d95)"
+            bord = "1.5px solid #7c3aed"
+            col  = "#e0e7ff"
+        else:
+            bg   = "#1e1b4b"
+            bord = "1px solid #3730a3"
+            col  = "#c7d2fe"
+        return (
+            f'<div style="background:{bg};border:{bord};border-radius:8px;'
+            f'padding:5px 8px;margin:2px 0;display:flex;align-items:center;gap:6px;'
+            f'white-space:nowrap;min-width:130px;max-width:155px;">'
+            f'<span style="font-size:0.9rem">{logo}</span>'
+            f'<span style="font-size:0.72rem;font-weight:700;color:{col};flex:1;overflow:hidden;text-overflow:ellipsis;">{name}</span>'
+            f'<span style="font-size:0.6rem;color:#a5b4fc;font-weight:700;">{pts}p</span>'
+            f'</div>'
+        )
+
+    def match_block(t1, t2, winner, reverse=False):
+        box1 = team_box(t1, highlight=(winner["team"]==t1["team"]))
+        box2 = team_box(t2, highlight=(winner["team"]==t2["team"]))
+        arrow = "←" if reverse else "→"
+        return (
+            f'<div style="display:flex;flex-direction:column;align-items:{"flex-end" if reverse else "flex-start"};">'
+            f'{box1}{box2}'
+            f'<div style="font-size:0.55rem;color:#7c3aed;font-weight:700;margin-top:1px;text-align:{"right" if reverse else "left"};">'
+            f'{arrow} {winner["team"]}</div>'
+            f'</div>'
+        )
+
+    def render_column(matches_pairs, winners, reverse=False):
+        items = []
+        for (t1,t2), w in zip(matches_pairs, winners):
+            items.append(match_block(t1, t2, w, reverse))
+        align = "flex-end" if reverse else "flex-start"
+        return (
+            f'<div style="display:flex;flex-direction:column;justify-content:space-around;'
+            f'height:100%;align-items:{align};gap:4px;">'
+            + "".join(items) + "</div>"
+        )
+
+    # Construir HTML completo del bracket
+    col_h = 760  # height del área del bracket
+
+    r32_l_html  = render_column(r32_l,          [win(a,b,team_stats) for a,b in r32_l])
+    r16_l_html  = render_column(pair_up(r16_l),  qf_l)
+    qf_l_html   = render_column(pair_up(qf_l),   sf_l)
+    sf_l_html   = f'<div style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;height:100%;">{team_box(final_l, highlight=True)}</div>'
+
+    r32_r_html  = render_column(r32_r,           [win(a,b,team_stats) for a,b in r32_r], reverse=True)
+    r16_r_html  = render_column(pair_up(r16_r),  qf_r, reverse=True)
+    qf_r_html   = render_column(pair_up(qf_r),   sf_r, reverse=True)
+    sf_r_html   = f'<div style="display:flex;flex-direction:column;justify-content:center;align-items:flex-end;height:100%;">{team_box(final_r, highlight=True)}</div>'
+
+    lbl_style = "font-size:0.58rem;font-weight:800;color:#6366f1;letter-spacing:1px;text-align:center;margin-bottom:4px;"
+
+    bracket_html = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+<style>
+  body {{ margin:0; background:#0f0e1a; font-family: 'Segoe UI', Arial, sans-serif; }}
+  .bracket-wrap {{
+      display: grid;
+      grid-template-columns: 160px 155px 140px 100px 120px 100px 140px 155px 160px;
+      gap: 0;
+      width: 100%;
+      height: {col_h}px;
+      align-items: stretch;
+      padding: 10px 8px;
+      box-sizing: border-box;
+  }}
+  .col {{ display:flex; flex-direction:column; height:100%; padding:0 2px; }}
+  .col-label {{ font-size:0.55rem;font-weight:800;color:#6366f1;letter-spacing:1px;
+                text-align:center;padding:4px 0 6px;text-transform:uppercase; }}
+  .center-col {{
+      display:flex; flex-direction:column; justify-content:center;
+      align-items:center; padding: 0 4px;
+  }}
+  .trophy {{ font-size:2.2rem; text-align:center; }}
+  .champ-box {{
+      background: linear-gradient(135deg,#fbbf24,#d97706);
+      border:2px solid #fbbf24; border-radius:12px;
+      padding:10px 12px; text-align:center; margin-top:6px;
+      min-width:100px;
+  }}
+  .champ-lbl {{ font-size:0.5rem; font-weight:800; color:#1c1400; letter-spacing:1.5px; }}
+  .champ-logo {{ font-size:1.8rem; }}
+  .champ-name {{ font-size:0.75rem; font-weight:900; color:#1c1400; margin-top:2px; }}
+  .champ-sub  {{ font-size:0.5rem; color:#78350f; margin-top:2px; }}
+  .vs {{ font-size:0.55rem;color:#a5b4fc;text-align:center;padding:3px 0; }}
+</style>
+</head>
+<body>
+<div class="bracket-wrap">
+
+  <!-- R32 IZQ -->
+  <div class="col">
+    <div class="col-label">R32</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;">
+      {chr(10).join(
+        f'<div>{team_box(r32_l[i][0])}<div class="vs">vs</div>{team_box(r32_l[i][1])}</div>'
+        for i in range(8)
+      )}
+    </div>
+  </div>
+
+  <!-- R16 IZQ -->
+  <div class="col">
+    <div class="col-label">Octavos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;">
+      {chr(10).join(
+        f'<div>{team_box(r16_l[i], highlight=True)}<div class="vs">vs</div>{team_box(r16_l[i^1], highlight=False)}</div>'
+        for i in range(0, 8, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- QF IZQ -->
+  <div class="col">
+    <div class="col-label">Cuartos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;">
+      {chr(10).join(
+        f'<div>{team_box(qf_l[i], highlight=True)}<div class="vs">vs</div>{team_box(qf_l[i^1], highlight=False)}</div>'
+        for i in range(0, len(qf_l), 2) if i+1 < len(qf_l)
+      )}
+    </div>
+  </div>
+
+  <!-- SF IZQ -->
+  <div class="col">
+    <div class="col-label">Semi</div>
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;">
+      {team_box(final_l, highlight=True)}
+    </div>
+  </div>
+
+  <!-- CENTRO: Copa + Campeón -->
+  <div class="center-col">
+    <div class="trophy">🏆</div>
+    <div class="champ-box">
+      <div class="champ-lbl">CAMPEÓN</div>
+      <div class="champ-logo">{get_team_logo(campeon["team"])}</div>
+      <div class="champ-name">{campeon["team"]}</div>
+      <div class="champ-sub">ML + datos reales</div>
+    </div>
+    <div style="font-size:0.55rem;color:#6366f1;margin-top:8px;text-align:center;">FINAL</div>
+    <div style="font-size:0.5rem;color:#4338ca;text-align:center;margin-top:2px;">
+      {final_l["team"]}<br>vs<br>{final_r["team"]}
+    </div>
+  </div>
+
+  <!-- SF DER -->
+  <div class="col">
+    <div class="col-label">Semi</div>
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;align-items:flex-end;">
+      {team_box(final_r, highlight=True)}
+    </div>
+  </div>
+
+  <!-- QF DER -->
+  <div class="col">
+    <div class="col-label">Cuartos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;align-items:flex-end;">
+      {chr(10).join(
+        f'<div style="text-align:right">{team_box(qf_r[i], highlight=True)}<div class="vs">vs</div>{team_box(qf_r[i^1], highlight=False)}</div>'
+        for i in range(0, len(qf_r), 2) if i+1 < len(qf_r)
+      )}
+    </div>
+  </div>
+
+  <!-- R16 DER -->
+  <div class="col">
+    <div class="col-label">Octavos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;align-items:flex-end;">
+      {chr(10).join(
+        f'<div style="text-align:right">{team_box(r16_r[i], highlight=True)}<div class="vs">vs</div>{team_box(r16_r[i^1], highlight=False)}</div>'
+        for i in range(0, 8, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- R32 DER -->
+  <div class="col">
+    <div class="col-label">R32</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:3px;align-items:flex-end;">
+      {chr(10).join(
+        f'<div style="text-align:right">{team_box(r32_r[i][0])}<div class="vs">vs</div>{team_box(r32_r[i][1])}</div>'
+        for i in range(8)
+      )}
+    </div>
+  </div>
+
 </div>
-<div style="text-align:center;color:#c4b5fd;font-size:0.75rem;margin:1px 0;">vs</div>
-<div class="bracket-box">
-    <span style="font-size:1rem">{g2}</span>
-    <span class="bname">{t2['team']}</span>
-    <span class="bpts">{t2['pts']}pts</span>
-</div>
-<div class="connector">↓ <span style="font-size:0.65rem;color:#7c3aed;font-weight:700;">Proyectado: {proj['team']}</span></div>
+</body>
+</html>
 """
-        return html, r16_teams
 
-    col_left, col_center, col_right = st.columns([1, 0.3, 1])
+    import streamlit.components.v1 as components
+    components.html(bracket_html, height=col_h + 40, scrolling=False)
 
-    with col_left:
-        html_left, r16_left = bracket_side_html(bracket_left[:4], team_stats)
-        st.markdown(html_left, unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:0.72rem;color:#94a3b8;text-align:center;margin-top:8px;'>"
+        "⚠️ Proyección basada en resultados reales de fase de grupos + Fuerza Score del modelo ML. "
+        "Los cruces de R32 son aproximados hasta confirmar el fixture oficial."
+        "</div>",
+        unsafe_allow_html=True
+    )
 
-    with col_right:
-        html_right, r16_right = bracket_side_html(bracket_right[:4], team_stats)
-        st.markdown(html_right, unsafe_allow_html=True)
-
-    # Cuartos de final
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("### ⚡ Cuartos de Final (Proyectados)")
-    qf_col_l, qf_col_r = st.columns(2)
-
-    def qf_html(teams, ts):
-        html = ""
-        sf_teams = []
-        for i in range(0, len(teams), 2):
-            if i + 1 >= len(teams):
-                break
-            t1, t2 = teams[i], teams[i+1]
-            proj = proyectar_ganador(t1, t2, ts)
-            sf_teams.append(proj)
-            g1, g2 = get_team_logo(t1["team"]), get_team_logo(t2["team"])
-            html += f"""
-<div class="bracket-box winner">
-    <span style="font-size:1rem">{g1}</span>
-    <span class="bname">{t1['team']}</span>
-</div>
-<div style="text-align:center;color:#c4b5fd;font-size:0.75rem;margin:1px 0;">vs</div>
-<div class="bracket-box">
-    <span style="font-size:1rem">{g2}</span>
-    <span class="bname">{t2['team']}</span>
-</div>
-<div class="connector">↓ {proj['team']}</div><br>
-"""
-        return html, sf_teams
-
-    with qf_col_l:
-        html_qfl, sf_left = qf_html(r16_left, team_stats)
-        st.markdown(html_qfl, unsafe_allow_html=True)
-    with qf_col_r:
-        html_qfr, sf_right = qf_html(r16_right, team_stats)
-        st.markdown(html_qfr, unsafe_allow_html=True)
-
-    # Semifinal y Final
-    st.markdown("---")
-    st.markdown("### 🔥 Semifinales y Final (Proyectados)")
-
-    sf_all = sf_left + sf_right
-    final_teams = []
-    sf_cols = st.columns(len(sf_all)) if sf_all else st.columns(1)
-    for i, t in enumerate(sf_all):
-        logo = get_team_logo(t["team"])
-        with sf_cols[i]:
-            st.markdown(f"""
-<div class="bracket-box winner" style="flex-direction:column;text-align:center;">
-    <span style="font-size:1.5rem">{logo}</span>
-    <span class="bname" style="text-align:center;">{t['team']}</span>
-    <span style="font-size:0.65rem;color:#7c3aed;">SF</span>
-</div>""", unsafe_allow_html=True)
-
-    # Final proyectada
-    if len(sf_all) >= 2:
-        fin1 = proyectar_ganador(sf_all[0], sf_all[1], team_stats) if len(sf_all) > 0 else sf_all[0]
-        fin2 = proyectar_ganador(sf_all[2], sf_all[3], team_stats) if len(sf_all) > 2 else (sf_all[1] if len(sf_all) > 1 else sf_all[0])
-        campeon = proyectar_ganador(fin1, fin2, team_stats)
-        campeon_logo = get_team_logo(campeon["team"])
-        fin1_logo = get_team_logo(fin1["team"])
-        fin2_logo = get_team_logo(fin2["team"])
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        fc1, fc2, fc3 = st.columns([1, 1, 1])
-        with fc1:
-            st.markdown(f"""
-<div class="bracket-box winner" style="justify-content:center;">
-    <span style="font-size:1.2rem">{fin1_logo}</span>
-    <span class="bname">{fin1['team']}</span>
-</div>""", unsafe_allow_html=True)
-        with fc2:
-            st.markdown("""
-<div style="text-align:center;padding-top:8px;">
-    <div style="font-size:0.65rem;font-weight:800;color:#94a3b8;letter-spacing:1px;">GRAN FINAL</div>
-    <div style="font-size:1.5rem;color:#4f46e5;font-weight:900;">VS</div>
-</div>""", unsafe_allow_html=True)
-        with fc3:
-            st.markdown(f"""
-<div class="bracket-box winner" style="justify-content:center;">
-    <span style="font-size:1.2rem">{fin2_logo}</span>
-    <span class="bname">{fin2['team']}</span>
-</div>""", unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        _, cam_col, _ = st.columns([1, 1.5, 1])
-        with cam_col:
-            st.markdown(f"""
-<div class="final-box">
-    <div class="final-title">🏆 CAMPEÓN PROYECTADO</div>
-    <div style="font-size:2.5rem;margin:6px 0;">{campeon_logo}</div>
-    <div class="final-name">{campeon['team']}</div>
-    <div class="final-sub">Basado en resultados reales + Fuerza Score ML</div>
-</div>""", unsafe_allow_html=True)
-
-    st.markdown("<br><div style='font-size:0.72rem;color:#94a3b8;text-align:center;'>"
-                "⚠️ Proyección basada en resultados reales de fase de grupos + Fuerza Score del modelo ML. "
-                "Los cruces de eliminatorias se confirmarán al finalizar la fase de grupos."
-                "</div>", unsafe_allow_html=True)
 
