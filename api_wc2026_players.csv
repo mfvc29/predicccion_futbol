@@ -63,8 +63,8 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 760,Spain,ESP,217540,Pau Cubarsí,Defence,,2007-01-22,19,Spain
 760,Spain,ESP,22,Fabián Ruiz,Midfield,,1996-04-03,30,Spain
 760,Spain,ESP,70,Marcos Llorente,Midfield,,1995-01-30,31,Spain
-760,Spain,ESP,3199,Rodri,Midfield,,1996-06-22,29,Spain
-760,Spain,ESP,7935,Mikel Merino,Midfield,,1996-06-22,29,Spain
+760,Spain,ESP,3199,Rodri,Midfield,,1996-06-22,30,Spain
+760,Spain,ESP,7935,Mikel Merino,Midfield,,1996-06-22,30,Spain
 760,Spain,ESP,23132,Dani Olmo,Midfield,,1998-05-07,28,Spain
 760,Spain,ESP,33154,Ferrán Torres,Midfield,,2000-02-29,26,Spain
 760,Spain,ESP,115035,Martín Zubimendi,Midfield,,1999-02-02,27,Spain
@@ -91,7 +91,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 761,Paraguay,PAR,46467,Andrés Cubas,Midfield,,1996-05-11,30,Paraguay
 761,Paraguay,PAR,57316,Kaku,Midfield,,1995-01-11,31,Paraguay
 761,Paraguay,PAR,76861,Miguel Almirón,Midfield,,1994-02-10,32,Paraguay
-761,Paraguay,PAR,119594,Mauricio,Midfield,,2001-06-22,24,Paraguay
+761,Paraguay,PAR,119594,Mauricio,Midfield,,2001-06-22,25,Paraguay
 761,Paraguay,PAR,122397,Braian Ojeda,Midfield,,2000-06-27,25,Paraguay
 761,Paraguay,PAR,165622,Matías Galarza,Midfield,,2002-02-11,24,Paraguay
 761,Paraguay,PAR,168954,Damian Bobadilla,Midfield,,2001-07-11,24,Paraguay
@@ -531,7 +531,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 792,Sweden,SWE,166538,Gustaf Lagerbielke,Defence,,2000-04-10,26,Sweden
 792,Sweden,SWE,167031,Isak Hien,Defence,,1999-01-13,27,Sweden
 792,Sweden,SWE,167409,Herman Johansson,Defence,,1997-10-16,28,Sweden
-792,Sweden,SWE,192811,Elliot Stroud,Defence,,2002-06-22,23,Sweden
+792,Sweden,SWE,192811,Elliot Stroud,Defence,,2002-06-22,24,Sweden
 792,Sweden,SWE,3500,Ken Sema,Midfield,,1993-09-30,32,Sweden
 792,Sweden,SWE,15354,Mattias Svanberg,Midfield,,1999-01-05,27,Sweden
 792,Sweden,SWE,31065,Jesper Karlström,Midfield,,1995-06-21,31,Sweden
@@ -677,7 +677,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 803,Turkey,TUR,193605,Can Uzun,Offence,,2005-11-11,20,Turkey
 804,Senegal,SEN,805,Edouard Mendy,Goalkeeper,,1992-03-01,34,Senegal
 804,Senegal,SEN,8608,Yehvann Diouf,Goalkeeper,,1999-11-16,26,Senegal
-804,Senegal,SEN,20931,Mory Diaw,Goalkeeper,,1993-06-22,32,Senegal
+804,Senegal,SEN,20931,Mory Diaw,Goalkeeper,,1993-06-22,33,Senegal
 804,Senegal,SEN,194,Ismail Jakobs,Defence,,1999-08-17,26,Senegal
 804,Senegal,SEN,2086,Kalidou Koulibaly,Defence,,1991-06-20,35,Senegal
 804,Senegal,SEN,8723,Moussa Niakhaté,Defence,,1996-03-08,30,Senegal
@@ -961,7 +961,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 1836,Panama,PAN,3868,José Fajardo,Offence,,1993-08-18,32,Panama
 1836,Panama,PAN,43795,Ismael Díaz,Offence,,1997-05-12,29,Panama
 1836,Panama,PAN,105650,Tomas Rodriguez,Offence,,1999-03-09,27,Panama
-1836,Panama,PAN,159094,Azarias Londoño,Offence,,2001-06-21,24,Panama
+1836,Panama,PAN,159094,Azarias Londoño,Offence,,2001-06-21,25,Panama
 1930,Cape Verde Islands,CPV,53172,Márcio Rosa,Goalkeeper,,1997-02-23,29,Cape Verde Islands
 1930,Cape Verde Islands,CPV,120725,Vózinha,Goalkeeper,,1986-06-03,40,Cape Verde Islands
 1930,Cape Verde Islands,CPV,150997,C.J. dos Santos,Goalkeeper,,2000-08-24,25,Cape Verde Islands
@@ -978,7 +978,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 1930,Cape Verde Islands,CPV,40121,Kevin Pina,Midfield,,1997-01-27,29,Cape Verde Islands
 1930,Cape Verde Islands,CPV,67968,Laros Duarte,Midfield,,1997-02-28,29,Cape Verde Islands
 1930,Cape Verde Islands,CPV,103108,Yannick Semedo,Midfield,,1995-12-29,30,Cape Verde Islands
-1930,Cape Verde Islands,CPV,145346,Telmo Arcanjo,Midfield,,2001-06-21,24,Cape Verde Islands
+1930,Cape Verde Islands,CPV,145346,Telmo Arcanjo,Midfield,,2001-06-21,25,Cape Verde Islands
 1930,Cape Verde Islands,CPV,167455,Jamiro Monteiro,Midfield,,1993-11-23,32,Cape Verde Islands
 1930,Cape Verde Islands,CPV,212575,João Paulo,Midfield,,1998-05-26,28,Cape Verde Islands
 1930,Cape Verde Islands,CPV,9278,Willy Semedo,Offence,,1994-04-27,32,Cape Verde Islands
@@ -1119,7 +1119,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8062,Iraq,IRQ,221753,Mohanad Ali,Offence,,2000-06-20,26,Iraq
 8062,Iraq,IRQ,295189,Ali Yousif,Offence,,1996-01-19,30,Iraq
 8070,Uzbekistan,UZB,243911,Abduvakhid Nematov,Goalkeeper,,2001-03-20,25,Uzbekistan
-8070,Uzbekistan,UZB,244395,Botir Ergashev,Goalkeeper,,1995-06-23,30,Uzbekistan
+8070,Uzbekistan,UZB,244395,Botir Ergashev,Goalkeeper,,1995-06-23,31,Uzbekistan
 8070,Uzbekistan,UZB,244531,Utkir Yusupov,Goalkeeper,,1991-01-04,35,Uzbekistan
 8070,Uzbekistan,UZB,132172,Rustam Ashurmatov,Defence,,1996-07-07,29,Uzbekistan
 8070,Uzbekistan,UZB,132173,Umar Eshmurodov,Defence,,1992-11-30,33,Uzbekistan
@@ -1132,7 +1132,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8070,Uzbekistan,UZB,295345,Bekhruz Karimov,Defence,,2007-08-07,18,Uzbekistan
 8070,Uzbekistan,UZB,295866,Avazbek Ulmasaliev,Defence,,2000-03-27,26,Uzbekistan
 8070,Uzbekistan,UZB,49149,Dostonbek Xamdamov,Midfield,,1996-07-24,29,Uzbekistan
-8070,Uzbekistan,UZB,117321,Otabek Shukurov,Midfield,,1996-06-22,29,Uzbekistan
+8070,Uzbekistan,UZB,117321,Otabek Shukurov,Midfield,,1996-06-22,30,Uzbekistan
 8070,Uzbekistan,UZB,119221,Oston Urunov,Midfield,,2000-12-19,25,Uzbekistan
 8070,Uzbekistan,UZB,132176,Jamshid Iskanderov,Midfield,,1993-10-16,32,Uzbekistan
 8070,Uzbekistan,UZB,149716,Akmal Mozgovoy,Midfield,,2000-04-02,26,Uzbekistan
