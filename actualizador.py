@@ -212,20 +212,27 @@ def main():
     except Exception as e:
         print(f"  ⚠️  Error actualizando standings: {e}")
 
-    # ── 3. Git add de los archivos de datos y app.py ─────────────
-    print("\n📦 PASO 3: Preparando archivos para el commit...")
+    # ── 3. Reentrenar el modelo con los datos frescos ─────────────
+    print("\n🤖 PASO 3: Reentrenando el modelo con los datos actualizados...")
+    run([sys.executable, "train_model_api.py"])
+
+    # ── 4. Git add de todos los archivos actualizados ─────────────
+    print("\n📦 PASO 4: Preparando archivos para el commit...")
     run([
         "git", "add",
         "api_matches_all.csv",
         "api_team_stats.csv",
         "api_wc2026_teams.csv",
         "api_wc2026_players.csv",
+        "modelo_futbol.pkl",
+        "modelo_metricas.json",
+        "equipos_scores.csv",
         "app.py",
     ])
 
-    # ── 4. Commit con fecha de hoy ────────────────────────────────
-    print(f"\n💾 PASO 4: Haciendo commit ({hoy})...")
-    commit_msg = f"Data: Actualización automática {hoy} — standings WC2026"
+    # ── 5. Commit con fecha de hoy ────────────────────────────────
+    print(f"\n💾 PASO 5: Haciendo commit ({hoy})...")
+    commit_msg = f"Data+Model: Actualización automática {hoy} — datos y modelo reentrenado"
     result = subprocess.run(
         ["git", "commit", "-m", commit_msg],
         cwd=BASE_DIR,
@@ -239,8 +246,8 @@ def main():
         print(result.stderr)
         print("⚠️  Hubo un problema con el commit.")
 
-    # ── 5. Push a GitHub ──────────────────────────────────────────
-    print("\n🚀 PASO 5: Subiendo cambios a GitHub...")
+    # ── 6. Push a GitHub ──────────────────────────────────────────
+    print("\n🚀 PASO 6: Subiendo cambios a GitHub...")
     run(["git", "push", "origin", "main"])
 
     # ── Resumen final ─────────────────────────────────────────────
@@ -248,6 +255,7 @@ def main():
     print("✅ ¡Actualización completa!")
     print("   · Datos frescos de la API descargados")
     print("   · Standings WC2026 actualizados en app.py")
+    print("   · Modelo reentrenado con los datos más recientes")
     print("   · Cambios subidos a GitHub")
     print("   · Streamlit Cloud actualizará la app en ~1 minuto")
     print("=" * 60)
@@ -255,3 +263,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

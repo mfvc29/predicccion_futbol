@@ -1438,7 +1438,7 @@ with tab5:
 
     # ── SECCIÓN: Bracket árbol ────────────────────────────────────────────────
     st.markdown("### 🏆 Bracket — Árbol del Torneo (Proyectado)")
-    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · Se actualiza automáticamente con el actualizador</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · Se actualiza automáticamente con el actualizador · <b>✅</b> modelo acertó · <b>❌</b> modelo falló · <b>—</b> no jugado</div>", unsafe_allow_html=True)
 
     def fuerza_equipo(team_name, ts):
         if ts is None:
@@ -1452,6 +1452,278 @@ with tab5:
         f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
         f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
         return t1 if f1 >= f2 else t2
+
+    # Cruces R32 — izquierda (8 partidos) y derecha (8 partidos)
+    q = qualifiers
+    r32_l = [
+        (q["A"][0], q["B"][1]),  # 1A vs 2B
+        (q["C"][0], q["D"][1]),  # 1C vs 2D
+        (q["E"][0], q["F"][1]),  # 1E vs 2F
+        (q["G"][0], q["H"][1]),  # 1G vs 2H
+        (q["I"][0], q["J"][1]),  # 1I vs 2J
+        (q["K"][0], q["L"][1]),  # 1K vs 2L
+        (q["B"][0], q["A"][1]),  # 1B vs 2A
+        (q["D"][0], q["C"][1]),  # 1D vs 2C
+    ]
+    r32_r = [
+        (q["F"][0], q["E"][1]),  # 1F vs 2E
+        (q["H"][0], q["G"][1]),  # 1H vs 2G
+        (q["J"][0], q["I"][1]),  # 1J vs 2I
+        (q["L"][0], q["K"][1]),  # 1L vs 2K
+        (q["A"][0], q["C"][1]),
+        (q["E"][0], q["G"][1]),
+        (q["I"][0], q["K"][1]),
+        (q["C"][0], q["E"][1]),
+    ]
+
+    def proj_round(pairs, ts):
+        return [win(a, b, ts) for a, b in pairs]
+
+    def pair_up(teams):
+        return [(teams[i], teams[i+1]) for i in range(0, len(teams)-1, 2)]
+
+    r16_l  = proj_round(r32_l, team_stats)
+    r16_r  = proj_round(r32_r, team_stats)
+    qf_l   = proj_round(pair_up(r16_l),  team_stats)
+    qf_r   = proj_round(pair_up(r16_r),  team_stats)
+    sf_l   = proj_round(pair_up(qf_l),   team_stats)
+    sf_r   = proj_round(pair_up(qf_r),   team_stats)
+    final_l = sf_l[0] if sf_l else q["A"][0]
+    final_r = sf_r[0] if sf_r else q["B"][0]
+    campeon = win(final_l, final_r, team_stats)
+
+    # ── Lookup de resultados reales para badges ───────────────────────────────
+    # Índice: (equipo_local_norm, equipo_visita_norm) → winner real
+    wc_results_index = {}
+    if wc_matches is not None:
+        fin_wc = wc_matches[wc_matches["status"] == "FINISHED"] if "status" in wc_matches.columns else wc_matches
+        for _, m in fin_wc.iterrows():
+            ht_n = str(m.get("home_team","")).strip().lower()
+            at_n = str(m.get("away_team","")).strip().lower()
+            wc_results_index[(ht_n, at_n)] = m.get("winner","")
+
+    def find_result(ht, at):
+        """Busca si hay resultado real para home_team vs away_team."""
+        ht_n, at_n = ht.strip().lower(), at.strip().lower()
+        return wc_results_index.get((ht_n, at_n), None)
+
+    def pred_badge(t1, t2):
+        """Devuelve badge HTML ✅/❌/— comparando predicción del modelo con resultado real."""
+        result = find_result(t1["team"], t2["team"])
+        if result is None:
+            # try reversed
+            result_rev = find_result(t2["team"], t1["team"])
+            if result_rev is not None:
+                # result was played with teams reversed in CSV
+                real_win = 1 if result_rev == "AWAY_TEAM" else (-1 if result_rev == "HOME_TEAM" else 0)
+                real_winner_name = t1["team"] if real_win == 1 else (t2["team"] if real_win == -1 else "Empate")
+            else:
+                return '<span style="font-size:0.65rem;color:#94a3b8;font-weight:700;padding:1px 5px;background:#f1f5f9;border-radius:999px;">—</span>'
+        else:
+            real_win = 1 if result == "HOME_TEAM" else (-1 if result == "AWAY_TEAM" else 0)
+            real_winner_name = t1["team"] if real_win == 1 else (t2["team"] if real_win == -1 else "Empate")
+
+        try:
+            _, _, _, pred_class = predecir(t1["team"], t2["team"])
+            pred_winner_name = t1["team"] if pred_class == 1 else (t2["team"] if pred_class == -1 else "Empate")
+            if pred_class == real_win:
+                return '<span style="font-size:0.65rem;color:#065f46;font-weight:800;padding:1px 6px;background:#d1fae5;border-radius:999px;">✅</span>'
+            else:
+                return f'<span style="font-size:0.65rem;color:#991b1b;font-weight:800;padding:1px 6px;background:#fee2e2;border-radius:999px;" title="Predijo: {pred_winner_name}">❌</span>'
+        except Exception:
+            return '<span style="font-size:0.65rem;color:#94a3b8;padding:1px 5px;background:#f1f5f9;border-radius:999px;">—</span>'
+
+    # ── Funciones para generar los team_box HTML (fondo blanco) ──────────────
+    def team_box(t, highlight=False, champion=False):
+        logo = get_team_logo(t["team"]) if t else "❓"
+        name = t["team"] if t else "TBD"
+        pts  = t["pts"]  if t else 0
+        if champion:
+            bg   = "linear-gradient(135deg,#fef3c7,#fde68a)"
+            bord = "2px solid #f59e0b"
+            col  = "#78350f"
+            ptsc = "#92400e"
+        elif highlight:
+            bg   = "linear-gradient(135deg,#ede9fe,#ddd6fe)"
+            bord = "1.5px solid #7c3aed"
+            col  = "#3730a3"
+            ptsc = "#4f46e5"
+        else:
+            bg   = "#f8faff"
+            bord = "1px solid #e0e7ff"
+            col  = "#475569"
+            ptsc = "#94a3b8"
+        return (
+            f'<div style="background:{bg};border:{bord};border-radius:8px;'
+            f'padding:5px 8px;margin:2px 0;display:flex;align-items:center;gap:5px;'
+            f'white-space:nowrap;min-width:125px;max-width:150px;">'
+            f'<span style="font-size:0.85rem">{logo}</span>'
+            f'<span style="font-size:0.7rem;font-weight:700;color:{col};flex:1;overflow:hidden;text-overflow:ellipsis;">{name}</span>'
+            f'<span style="font-size:0.58rem;color:{ptsc};font-weight:700;">{pts}p</span>'
+            f'</div>'
+        )
+
+    # ── Construir HTML completo del bracket ───────────────────────────────────
+    col_h = 760
+
+    # Pre-calcular badges para R32 (únicos que pueden tener resultados reales)
+    r32_l_badges = [pred_badge(t1, t2) for t1, t2 in r32_l]
+    r32_r_badges = [pred_badge(t1, t2) for t1, t2 in r32_r]
+
+    def r32_match_html(t1, t2, badge):
+        return (
+            f'<div style="margin-bottom:2px;">'
+            f'{team_box(t1)}'
+            f'<div style="font-size:0.5rem;color:#94a3b8;text-align:center;padding:1px 0;">vs</div>'
+            f'{team_box(t2)}'
+            f'<div style="text-align:center;margin-top:1px;">{badge}</div>'
+            f'</div>'
+        )
+
+    bracket_html = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+<style>
+  body {{ margin:0; background:#ffffff; font-family: 'Segoe UI', Arial, sans-serif; }}
+  .bwrap {{
+      display:grid;
+      grid-template-columns: 158px 152px 138px 98px 116px 98px 138px 152px 158px;
+      width:100%; height:{col_h}px;
+      align-items:stretch; padding:8px 4px; box-sizing:border-box;
+  }}
+  .col {{ display:flex; flex-direction:column; height:100%; padding:0 2px; }}
+  .lbl {{ font-size:0.52rem;font-weight:800;color:#6366f1;letter-spacing:1px;
+           text-align:center;padding:4px 0 5px;text-transform:uppercase;border-bottom:2px solid #e0e7ff;margin-bottom:4px; }}
+  .mid {{ display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 3px; }}
+  .trophy {{ font-size:2rem;text-align:center; }}
+  .chbox {{
+      background:linear-gradient(135deg,#fef3c7,#fde68a);
+      border:2px solid #f59e0b; border-radius:12px;
+      padding:8px 10px; text-align:center; margin-top:5px; min-width:95px;
+  }}
+  .chlbl {{ font-size:0.47rem;font-weight:800;color:#78350f;letter-spacing:1.5px; }}
+  .chlogo {{ font-size:1.6rem; }}
+  .chname {{ font-size:0.7rem;font-weight:900;color:#78350f;margin-top:2px; }}
+  .chsub  {{ font-size:0.46rem;color:#92400e;margin-top:2px; }}
+  .vs {{ font-size:0.5rem;color:#94a3b8;text-align:center;padding:1px 0; }}
+  .sep {{ border-left:2px dashed #e0e7ff; height:80%; align-self:center; }}
+</style>
+</head>
+<body>
+<div class="bwrap">
+
+  <!-- R32 IZQ -->
+  <div class="col">
+    <div class="lbl">R32</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;">
+      {chr(10).join(r32_match_html(r32_l[i][0], r32_l[i][1], r32_l_badges[i]) for i in range(8))}
+    </div>
+  </div>
+
+  <!-- OCTAVOS IZQ -->
+  <div class="col">
+    <div class="lbl">Octavos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;">
+      {chr(10).join(
+        f'<div>{team_box(r16_l[i], highlight=True)}<div class="vs">vs</div>{team_box(r16_l[i+1])}</div>'
+        for i in range(0, 8, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- CUARTOS IZQ -->
+  <div class="col">
+    <div class="lbl">Cuartos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;">
+      {chr(10).join(
+        f'<div>{team_box(qf_l[i], highlight=True)}<div class="vs">vs</div>{team_box(qf_l[i+1])}</div>'
+        for i in range(0, len(qf_l)-1, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- SEMI IZQ -->
+  <div class="col">
+    <div class="lbl">Semi</div>
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;">
+      {team_box(final_l, highlight=True)}
+    </div>
+  </div>
+
+  <!-- CENTRO: Copa + Campeón -->
+  <div class="mid">
+    <div class="trophy">🏆</div>
+    <div class="chbox">
+      <div class="chlbl">CAMPEÓN</div>
+      <div class="chlogo">{get_team_logo(campeon["team"])}</div>
+      <div class="chname">{campeon["team"]}</div>
+      <div class="chsub">ML + datos reales</div>
+    </div>
+    <div style="font-size:0.5rem;color:#6366f1;margin-top:6px;text-align:center;font-weight:700;">FINAL</div>
+    <div style="font-size:0.46rem;color:#818cf8;text-align:center;margin-top:2px;line-height:1.4;">
+      {final_l["team"]}<br>vs<br>{final_r["team"]}
+    </div>
+  </div>
+
+  <!-- SEMI DER -->
+  <div class="col">
+    <div class="lbl">Semi</div>
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;align-items:flex-end;">
+      {team_box(final_r, highlight=True)}
+    </div>
+  </div>
+
+  <!-- CUARTOS DER -->
+  <div class="col">
+    <div class="lbl">Cuartos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;align-items:flex-end;">
+      {chr(10).join(
+        f'<div style="text-align:right">{team_box(qf_r[i], highlight=True)}<div class="vs">vs</div>{team_box(qf_r[i+1])}</div>'
+        for i in range(0, len(qf_r)-1, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- OCTAVOS DER -->
+  <div class="col">
+    <div class="lbl">Octavos</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;align-items:flex-end;">
+      {chr(10).join(
+        f'<div style="text-align:right">{team_box(r16_r[i], highlight=True)}<div class="vs">vs</div>{team_box(r16_r[i+1])}</div>'
+        for i in range(0, 8, 2)
+      )}
+    </div>
+  </div>
+
+  <!-- R32 DER -->
+  <div class="col">
+    <div class="lbl">R32</div>
+    <div style="display:flex;flex-direction:column;justify-content:space-around;height:100%;gap:2px;align-items:flex-end;">
+      {chr(10).join(r32_match_html(r32_r[i][0], r32_r[i][1], r32_r_badges[i]) for i in range(8))}
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+"""
+
+    import streamlit.components.v1 as components
+    components.html(bracket_html, height=col_h + 40, scrolling=False)
+
+    st.markdown(
+        "<div style='font-size:0.72rem;color:#94a3b8;text-align:center;margin-top:8px;'>"
+        "⚠️ Proyección basada en resultados reales de fase de grupos + Fuerza Score del modelo ML. "
+        "✅ = modelo acertó el ganador · ❌ = modelo falló · — = partido no jugado aún."
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+
+
+
+
 
     # Cruces R32 — izquierda (8 partidos) y derecha (8 partidos)
     q = qualifiers
