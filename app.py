@@ -573,11 +573,12 @@ st.markdown("""
 # ═════════════════════════════════════════════════════════════════════════════
 # TABS PRINCIPALES
 # ═════════════════════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "⚡ Predictor",
     "🏆 Resultados WC2026",
     "🌍 Selecciones",
     "👤 Jugadores",
+    "🥇 Ganadores",
 ])
 
 
@@ -866,42 +867,70 @@ with tab2:
         st.markdown("<br>", unsafe_allow_html=True)
         if True:
             st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-header"><span>✅</span> Partidos Terminados</div>', unsafe_allow_html=True)
+            st.markdown('<div class="card-header"><span>✅</span> Partidos Terminados — con verificación del modelo</div>', unsafe_allow_html=True)
+
+            # Contador de aciertos
+            total_pred, aciertos_pred = 0, 0
+
             if len(finished) > 0:
                 for _, m in finished.sort_values("date", ascending=False).iterrows():
-                    ht = m.get("home_team", "?")
-                    at = m.get("away_team", "?")
-                    hs = m.get("home_score", "-")
+                    ht  = m.get("home_team", "?")
+                    at  = m.get("away_team", "?")
+                    hs  = m.get("home_score", "-")
                     as_ = m.get("away_score", "-")
-                    w = m.get("winner", "")
+                    w   = m.get("winner", "")
                     st_date = str(m.get("date", ""))[:10]
-                    group = m.get("group", m.get("stage", ""))
 
-                    winner_icon = "🏠" if w == "HOME_TEAM" else ("✈️" if w == "AWAY_TEAM" else "🤝")
                     home_bold = "font-weight:900;" if w == "HOME_TEAM" else ""
                     away_bold = "font-weight:900;" if w == "AWAY_TEAM" else ""
-                    home_col = "color:#4f46e5;" if w == "HOME_TEAM" else "color:#64748b;"
-                    away_col = "color:#ef4444;" if w == "AWAY_TEAM" else "color:#64748b;"
+                    home_col  = "color:#4f46e5;" if w == "HOME_TEAM" else "color:#64748b;"
+                    away_col  = "color:#ef4444;" if w == "AWAY_TEAM" else "color:#64748b;"
+                    ht_logo   = get_team_logo(ht)
+                    at_logo   = get_team_logo(at)
 
-                    ht_logo = get_team_logo(ht)
-                    at_logo = get_team_logo(at)
+                    # ── Predicción del modelo ──────────────────────────────
+                    # resultado real: 1=local, 0=empate, -1=visita
+                    real_result = 1 if w == "HOME_TEAM" else (-1 if w == "AWAY_TEAM" else 0)
+                    try:
+                        _, _, _, pred_class = predecir(ht, at)
+                        total_pred += 1
+                        if pred_class == real_result:
+                            aciertos_pred += 1
+                            pred_badge = "<span style='background:#d1fae5;color:#065f46;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>✅ Acertó</span>"
+                        else:
+                            pred_nombre = "Local" if pred_class == 1 else ("Empate" if pred_class == 0 else "Visita")
+                            pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_nombre}</span>"
+                    except Exception:
+                        pred_badge = "<span style='background:#f1f5f9;color:#94a3b8;font-size:0.65rem;padding:3px 8px;border-radius:999px;'>— sin datos</span>"
 
                     st.markdown(f"""
-                    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;
-                                background:#f8faff;border-radius:12px;border:1px solid #e0e7ff;">
-                        <div style="flex:1;text-align:right;{home_bold}{home_col}font-size:0.88rem;">
-                            {ht_logo} {ht}
-                        </div>
-                        <div style="text-align:center;min-width:70px;background:#fff;border-radius:8px;
-                                    padding:6px 10px;border:1px solid #e0e7ff;">
-                            <div style="font-size:1.1rem;font-weight:900;color:#1e1b4b;">{hs} – {as_}</div>
-                            <div style="font-size:0.65rem;color:#94a3b8;">{st_date}</div>
-                        </div>
-                        <div style="flex:1;text-align:left;{away_bold}{away_col}font-size:0.88rem;">
-                            {at_logo} {at}
-                        </div>
-                    </div>
-                    """, unsafe_allow_html=True)
+<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:6px;
+            background:#f8faff;border-radius:12px;border:1px solid #e0e7ff;">
+    <div style="flex:1;text-align:right;{home_bold}{home_col}font-size:0.88rem;">{ht_logo} {ht}</div>
+    <div style="text-align:center;min-width:70px;background:#fff;border-radius:8px;padding:6px 10px;border:1px solid #e0e7ff;">
+        <div style="font-size:1.1rem;font-weight:900;color:#1e1b4b;">{hs} – {as_}</div>
+        <div style="font-size:0.65rem;color:#94a3b8;">{st_date}</div>
+    </div>
+    <div style="flex:1;text-align:left;{away_bold}{away_col}font-size:0.88rem;">{at_logo} {at}</div>
+    <div style="min-width:110px;text-align:right;">{pred_badge}</div>
+</div>
+""", unsafe_allow_html=True)
+
+            # Resumen de aciertos
+            if total_pred > 0:
+                pct = aciertos_pred / total_pred * 100
+                color_bg = "#d1fae5" if pct >= 50 else "#fef3c7"
+                color_tx = "#065f46" if pct >= 50 else "#92400e"
+                st.markdown(f"""
+<div style="background:{color_bg};border-radius:10px;padding:10px 16px;margin-top:10px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:1.3rem;">🎯</span>
+    <div>
+        <div style="font-size:0.82rem;font-weight:800;color:{color_tx};">Precisión del modelo en WC2026: {aciertos_pred}/{total_pred} partidos acertados ({pct:.0f}%)</div>
+        <div style="font-size:0.72rem;color:{color_tx};opacity:0.8;">Solo partidos donde había suficientes datos de ambos equipos</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
             st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -1228,3 +1257,362 @@ with tab4:
                 st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.info("👤 Ejecuta `python fetch_api_data.py` para descargar los datos de los jugadores del Mundial 2026 desde la API.")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 5: GANADORES — BRACKET WC2026
+# ─────────────────────────────────────────────────────────────────────────────
+with tab5:
+    st.markdown('<div style="height:16px"></div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <style>
+    .bracket-title { font-size:1.5rem; font-weight:900; color:#1e1b4b; margin-bottom:4px; }
+    .bracket-sub   { font-size:0.85rem; color:#94a3b8; margin-bottom:20px; }
+    .group-card {
+        background: linear-gradient(135deg,#f8faff 0%,#f0f4ff 100%);
+        border: 1px solid #e0e7ff; border-radius:14px;
+        padding:14px; margin-bottom:10px;
+    }
+    .group-title { font-size:0.7rem; font-weight:800; color:#4f46e5; letter-spacing:1px; margin-bottom:8px; }
+    .team-row {
+        display:flex; align-items:center; gap:8px;
+        padding:5px 6px; border-radius:8px; margin-bottom:3px;
+    }
+    .team-row.qualified { background:#ede9fe; }
+    .team-row.maybe     { background:#fef9c3; }
+    .team-rank  { font-size:0.7rem; font-weight:800; color:#94a3b8; min-width:14px; }
+    .team-name  { font-size:0.82rem; font-weight:700; color:#1e1b4b; flex:1; }
+    .team-pts   { font-size:0.72rem; font-weight:800; color:#4f46e5; background:#e0e7ff;
+                  padding:2px 7px; border-radius:999px; }
+    .q-badge    { font-size:0.6rem; color:#7c3aed; font-weight:700; }
+    .bracket-box {
+        background:#fff; border:2px solid #e0e7ff; border-radius:12px;
+        padding:10px 14px; margin:4px 0; display:flex; align-items:center; gap:8px;
+        min-height:42px;
+    }
+    .bracket-box.winner { border-color:#4f46e5; background:#ede9fe; }
+    .bracket-box.tbd    { border-color:#e2e8f0; background:#f8faff; opacity:0.6; }
+    .bname { font-size:0.84rem; font-weight:700; color:#1e1b4b; flex:1; }
+    .bpts  { font-size:0.7rem; color:#4f46e5; font-weight:800; }
+    .final-box {
+        background: linear-gradient(135deg,#4f46e5,#7c3aed);
+        color:#fff; border-radius:16px; padding:18px 24px;
+        text-align:center; margin:10px 0;
+    }
+    .final-title { font-size:0.7rem; font-weight:700; letter-spacing:2px; opacity:0.7; }
+    .final-name  { font-size:1.3rem; font-weight:900; margin-top:4px; }
+    .final-sub   { font-size:0.75rem; opacity:0.75; margin-top:2px; }
+    .connector   { text-align:center; color:#c4b5fd; font-size:1.2rem; padding:2px 0; }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="bracket-title">🥇 Camino al Título — WC2026</div>', unsafe_allow_html=True)
+    st.markdown('<div class="bracket-sub">Resultados reales de fase de grupos · Se actualiza con cada ejecución del actualizador</div>', unsafe_allow_html=True)
+
+    # ── Datos de grupos (se actualizan al correr el actualizador) ──────────────
+    GRUPOS = {
+        "A": [
+            {"team": "México",           "pts": 6,  "gf": 3,  "gc": 0,  "pj": 2},
+            {"team": "Corea del Sur",    "pts": 3,  "gf": 2,  "gc": 2,  "pj": 2},
+            {"team": "Chequia",          "pts": 1,  "gf": 2,  "gc": 3,  "pj": 2},
+            {"team": "Sudáfrica",        "pts": 1,  "gf": 1,  "gc": 3,  "pj": 2},
+        ],
+        "B": [
+            {"team": "Canadá",           "pts": 4,  "gf": 7,  "gc": 1,  "pj": 2},
+            {"team": "Suiza",            "pts": 4,  "gf": 5,  "gc": 2,  "pj": 2},
+            {"team": "Bosnia-Herzegovina","pts": 1, "gf": 2,  "gc": 5,  "pj": 2},
+            {"team": "Catar",            "pts": 1,  "gf": 1,  "gc": 7,  "pj": 2},
+        ],
+        "C": [
+            {"team": "Brasil",           "pts": 4,  "gf": 4,  "gc": 1,  "pj": 2},
+            {"team": "Marruecos",        "pts": 4,  "gf": 2,  "gc": 1,  "pj": 2},
+            {"team": "Escocia",          "pts": 3,  "gf": 1,  "gc": 1,  "pj": 2},
+            {"team": "Haití",            "pts": 0,  "gf": 0,  "gc": 4,  "pj": 2},
+        ],
+        "D": [
+            {"team": "EE.UU.",           "pts": 6,  "gf": 6,  "gc": 1,  "pj": 2},
+            {"team": "Australia",        "pts": 3,  "gf": 2,  "gc": 2,  "pj": 2},
+            {"team": "Paraguay",         "pts": 3,  "gf": 2,  "gc": 4,  "pj": 2},
+            {"team": "Turquía",          "pts": 0,  "gf": 0,  "gc": 3,  "pj": 2},
+        ],
+        "E": [
+            {"team": "Alemania",         "pts": 6,  "gf": 9,  "gc": 2,  "pj": 2},
+            {"team": "Costa de Marfil",  "pts": 3,  "gf": 2,  "gc": 2,  "pj": 2},
+            {"team": "Ecuador",          "pts": 1,  "gf": 0,  "gc": 1,  "pj": 2},
+            {"team": "Curazao",          "pts": 1,  "gf": 1,  "gc": 7,  "pj": 2},
+        ],
+        "F": [
+            {"team": "Países Bajos",     "pts": 4,  "gf": 7,  "gc": 3,  "pj": 2},
+            {"team": "Japón",            "pts": 4,  "gf": 6,  "gc": 2,  "pj": 2},
+            {"team": "Suecia",           "pts": 3,  "gf": 6,  "gc": 6,  "pj": 2},
+            {"team": "Túnez",            "pts": 0,  "gf": 1,  "gc": 9,  "pj": 2},
+        ],
+        "G": [
+            {"team": "Egipto",           "pts": 4,  "gf": 4,  "gc": 2,  "pj": 2},
+            {"team": "Irán",             "pts": 2,  "gf": 2,  "gc": 2,  "pj": 2},
+            {"team": "Bélgica",          "pts": 2,  "gf": 1,  "gc": 1,  "pj": 2},
+            {"team": "Nueva Zelanda",    "pts": 1,  "gf": 3,  "gc": 5,  "pj": 2},
+        ],
+        "H": [
+            {"team": "España",           "pts": 4,  "gf": 4,  "gc": 0,  "pj": 2},
+            {"team": "Uruguay",          "pts": 2,  "gf": 3,  "gc": 3,  "pj": 2},
+            {"team": "Cabo Verde",       "pts": 2,  "gf": 2,  "gc": 2,  "pj": 2},
+            {"team": "Arabia Saudí",     "pts": 1,  "gf": 1,  "gc": 5,  "pj": 2},
+        ],
+        "I": [
+            {"team": "Francia",          "pts": 6,  "gf": 6,  "gc": 1,  "pj": 2},
+            {"team": "Noruega",          "pts": 6,  "gf": 7,  "gc": 3,  "pj": 2},
+            {"team": "Senegal",          "pts": 0,  "gf": 3,  "gc": 6,  "pj": 2},
+            {"team": "Irak",             "pts": 0,  "gf": 1,  "gc": 7,  "pj": 2},
+        ],
+        "J": [
+            {"team": "Argentina",        "pts": 6,  "gf": 5,  "gc": 0,  "pj": 2},
+            {"team": "Austria",          "pts": 3,  "gf": 3,  "gc": 3,  "pj": 2},
+            {"team": "Argelia",          "pts": 3,  "gf": 2,  "gc": 4,  "pj": 2},
+            {"team": "Jordania",         "pts": 0,  "gf": 2,  "gc": 5,  "pj": 2},
+        ],
+        "K": [
+            {"team": "Portugal",         "pts": 4,  "gf": 6,  "gc": 1,  "pj": 2},
+            {"team": "Colombia",         "pts": 3,  "gf": 3,  "gc": 1,  "pj": 1},
+            {"team": "RD Congo",         "pts": 1,  "gf": 1,  "gc": 1,  "pj": 1},
+            {"team": "Uzbekistán",       "pts": 0,  "gf": 1,  "gc": 8,  "pj": 2},
+        ],
+        "L": [
+            {"team": "Inglaterra",       "pts": 4,  "gf": 4,  "gc": 2,  "pj": 2},
+            {"team": "Ghana",            "pts": 4,  "gf": 1,  "gc": 0,  "pj": 2},
+            {"team": "Panamá",           "pts": 1,  "gf": 0,  "gc": 1,  "pj": 2},
+            {"team": "Croacia",          "pts": 1,  "gf": 2,  "gc": 4,  "pj": 2},
+        ],
+    }
+
+    def get_qualifiers(grupos):
+        """Devuelve los 2 primeros de cada grupo (clasificados seguros o proyectados)."""
+        qualifiers = {}
+        for grp, teams in grupos.items():
+            sorted_teams = sorted(teams, key=lambda x: (-x["pts"], -(x["gf"]-x["gc"]), -x["gf"]))
+            qualifiers[grp] = sorted_teams[:2]
+        return qualifiers
+
+    qualifiers = get_qualifiers(GRUPOS)
+
+    # ── SECCIÓN: Fase de Grupos ───────────────────────────────────────────────
+    st.markdown("### 📋 Fase de Grupos — Clasificados")
+    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:16px;'>🟣 Clasificado seguro &nbsp;|&nbsp; 🟡 En disputa</div>", unsafe_allow_html=True)
+
+    # Mostrar grupos en columnas de 3
+    grupo_keys = list(GRUPOS.keys())
+    for row_start in range(0, len(grupo_keys), 3):
+        cols = st.columns(3)
+        for ci, grp_key in enumerate(grupo_keys[row_start:row_start+3]):
+            teams = GRUPOS[grp_key]
+            sorted_t = sorted(teams, key=lambda x: (-x["pts"], -(x["gf"]-x["gc"]), -x["gf"]))
+            with cols[ci]:
+                html = f'<div class="group-card"><div class="group-title">GRUPO {grp_key}</div>'
+                for i, t in enumerate(sorted_t):
+                    emoji = get_team_logo(t["team"])
+                    all_played = t["pj"] >= 2
+                    if i == 0 and all_played:
+                        cls, badge = "qualified", "✓"
+                    elif i == 1 and all_played:
+                        cls, badge = "qualified", "✓"
+                    elif i <= 1:
+                        cls, badge = "maybe", "~"
+                    else:
+                        cls, badge = "", ""
+                    dg = t['gf'] - t['gc']
+                    dg_str = f"+{dg}" if dg > 0 else str(dg)
+                    html += f"""
+<div class="team-row {cls}">
+    <span class="team-rank">{i+1}</span>
+    <span style="font-size:1rem">{emoji}</span>
+    <span class="team-name">{t['team']}</span>
+    <span style="font-size:0.65rem;color:#94a3b8;">{dg_str}</span>
+    <span class="team-pts">{t['pts']}pts</span>
+</div>"""
+                html += "</div>"
+                st.markdown(html, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    # ── SECCIÓN: Bracket proyectado ───────────────────────────────────────────
+    st.markdown("### 🏆 Bracket Proyectado — Camino al Título")
+    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:16px;'>Basado en clasificados actuales de cada grupo · Los enfrentamientos de eliminatorias se irán actualizando</div>", unsafe_allow_html=True)
+
+    # Construir la proyección del bracket con los 1eros y 2dos de cada grupo
+    # Formato WC2026 R32: cruce 1ro_Grp vs 2do_Grp según fixture oficial
+    # (simplificado con lo que tenemos)
+    bracket_left = [
+        (qualifiers["A"][0], qualifiers["B"][1]),  # 1A vs 2B
+        (qualifiers["C"][0], qualifiers["D"][1]),  # 1C vs 2D
+        (qualifiers["E"][0], qualifiers["F"][1]),  # 1E vs 2F
+        (qualifiers["G"][0], qualifiers["H"][1]),  # 1G vs 2H
+        (qualifiers["I"][0], qualifiers["J"][1]),  # 1I vs 2J
+        (qualifiers["K"][0], qualifiers["L"][1]),  # 1K vs 2L
+        (qualifiers["B"][0], qualifiers["A"][1]),  # 1B vs 2A
+        (qualifiers["D"][0], qualifiers["C"][1]),  # 1D vs 2C
+    ]
+    bracket_right = [
+        (qualifiers["F"][0], qualifiers["E"][1]),  # 1F vs 2E
+        (qualifiers["H"][0], qualifiers["G"][1]),  # 1H vs 2G
+        (qualifiers["J"][0], qualifiers["I"][1]),  # 1J vs 2I
+        (qualifiers["L"][0], qualifiers["K"][1]),  # 1L vs 2K
+        (qualifiers["A"][0], qualifiers["C"][1]),  # cruce adicional
+        (qualifiers["E"][0], qualifiers["G"][1]),  # cruce adicional
+        (qualifiers["I"][0], qualifiers["K"][1]),  # cruce adicional
+        (qualifiers["C"][0], qualifiers["E"][1]),  # cruce adicional
+    ]
+
+    def fuerza_equipo(team_name, ts):
+        """Devuelve el Fuerza_Score del equipo desde api_team_stats.csv."""
+        if ts is None:
+            return 50
+        for _, row in ts.iterrows():
+            if row.get("team", "").lower() in team_name.lower() or team_name.lower() in row.get("team", "").lower():
+                return float(row.get("Fuerza_Score", 50))
+        return 50
+
+    def proyectar_ganador(t1, t2, ts):
+        """Proyecta al ganador en base a pts de grupo y Fuerza_Score."""
+        f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
+        f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
+        return t1 if f1 >= f2 else t2
+
+    def bracket_side_html(matchups, ts):
+        """Genera el HTML de una rama (R32 → R16 → QF → SF)."""
+        html = ""
+        r16_teams = []
+        # Octavos
+        html += '<div style="font-size:0.65rem;font-weight:800;color:#4f46e5;letter-spacing:1px;margin-bottom:6px;">OCTAVOS DE FINAL</div>'
+        for t1, t2 in matchups:
+            g1 = get_team_logo(t1["team"])
+            g2 = get_team_logo(t2["team"])
+            proj = proyectar_ganador(t1, t2, ts)
+            r16_teams.append(proj)
+            html += f"""
+<div class="bracket-box winner">
+    <span style="font-size:1rem">{g1}</span>
+    <span class="bname">{t1['team']}</span>
+    <span class="bpts">{t1['pts']}pts</span>
+</div>
+<div style="text-align:center;color:#c4b5fd;font-size:0.75rem;margin:1px 0;">vs</div>
+<div class="bracket-box">
+    <span style="font-size:1rem">{g2}</span>
+    <span class="bname">{t2['team']}</span>
+    <span class="bpts">{t2['pts']}pts</span>
+</div>
+<div class="connector">↓ <span style="font-size:0.65rem;color:#7c3aed;font-weight:700;">Proyectado: {proj['team']}</span></div>
+"""
+        return html, r16_teams
+
+    col_left, col_center, col_right = st.columns([1, 0.3, 1])
+
+    with col_left:
+        html_left, r16_left = bracket_side_html(bracket_left[:4], team_stats)
+        st.markdown(html_left, unsafe_allow_html=True)
+
+    with col_right:
+        html_right, r16_right = bracket_side_html(bracket_right[:4], team_stats)
+        st.markdown(html_right, unsafe_allow_html=True)
+
+    # Cuartos de final
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("---")
+    st.markdown("### ⚡ Cuartos de Final (Proyectados)")
+    qf_col_l, qf_col_r = st.columns(2)
+
+    def qf_html(teams, ts):
+        html = ""
+        sf_teams = []
+        for i in range(0, len(teams), 2):
+            if i + 1 >= len(teams):
+                break
+            t1, t2 = teams[i], teams[i+1]
+            proj = proyectar_ganador(t1, t2, ts)
+            sf_teams.append(proj)
+            g1, g2 = get_team_logo(t1["team"]), get_team_logo(t2["team"])
+            html += f"""
+<div class="bracket-box winner">
+    <span style="font-size:1rem">{g1}</span>
+    <span class="bname">{t1['team']}</span>
+</div>
+<div style="text-align:center;color:#c4b5fd;font-size:0.75rem;margin:1px 0;">vs</div>
+<div class="bracket-box">
+    <span style="font-size:1rem">{g2}</span>
+    <span class="bname">{t2['team']}</span>
+</div>
+<div class="connector">↓ {proj['team']}</div><br>
+"""
+        return html, sf_teams
+
+    with qf_col_l:
+        html_qfl, sf_left = qf_html(r16_left, team_stats)
+        st.markdown(html_qfl, unsafe_allow_html=True)
+    with qf_col_r:
+        html_qfr, sf_right = qf_html(r16_right, team_stats)
+        st.markdown(html_qfr, unsafe_allow_html=True)
+
+    # Semifinal y Final
+    st.markdown("---")
+    st.markdown("### 🔥 Semifinales y Final (Proyectados)")
+
+    sf_all = sf_left + sf_right
+    final_teams = []
+    sf_cols = st.columns(len(sf_all)) if sf_all else st.columns(1)
+    for i, t in enumerate(sf_all):
+        logo = get_team_logo(t["team"])
+        with sf_cols[i]:
+            st.markdown(f"""
+<div class="bracket-box winner" style="flex-direction:column;text-align:center;">
+    <span style="font-size:1.5rem">{logo}</span>
+    <span class="bname" style="text-align:center;">{t['team']}</span>
+    <span style="font-size:0.65rem;color:#7c3aed;">SF</span>
+</div>""", unsafe_allow_html=True)
+
+    # Final proyectada
+    if len(sf_all) >= 2:
+        fin1 = proyectar_ganador(sf_all[0], sf_all[1], team_stats) if len(sf_all) > 0 else sf_all[0]
+        fin2 = proyectar_ganador(sf_all[2], sf_all[3], team_stats) if len(sf_all) > 2 else (sf_all[1] if len(sf_all) > 1 else sf_all[0])
+        campeon = proyectar_ganador(fin1, fin2, team_stats)
+        campeon_logo = get_team_logo(campeon["team"])
+        fin1_logo = get_team_logo(fin1["team"])
+        fin2_logo = get_team_logo(fin2["team"])
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        fc1, fc2, fc3 = st.columns([1, 1, 1])
+        with fc1:
+            st.markdown(f"""
+<div class="bracket-box winner" style="justify-content:center;">
+    <span style="font-size:1.2rem">{fin1_logo}</span>
+    <span class="bname">{fin1['team']}</span>
+</div>""", unsafe_allow_html=True)
+        with fc2:
+            st.markdown("""
+<div style="text-align:center;padding-top:8px;">
+    <div style="font-size:0.65rem;font-weight:800;color:#94a3b8;letter-spacing:1px;">GRAN FINAL</div>
+    <div style="font-size:1.5rem;color:#4f46e5;font-weight:900;">VS</div>
+</div>""", unsafe_allow_html=True)
+        with fc3:
+            st.markdown(f"""
+<div class="bracket-box winner" style="justify-content:center;">
+    <span style="font-size:1.2rem">{fin2_logo}</span>
+    <span class="bname">{fin2['team']}</span>
+</div>""", unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        _, cam_col, _ = st.columns([1, 1.5, 1])
+        with cam_col:
+            st.markdown(f"""
+<div class="final-box">
+    <div class="final-title">🏆 CAMPEÓN PROYECTADO</div>
+    <div style="font-size:2.5rem;margin:6px 0;">{campeon_logo}</div>
+    <div class="final-name">{campeon['team']}</div>
+    <div class="final-sub">Basado en resultados reales + Fuerza Score ML</div>
+</div>""", unsafe_allow_html=True)
+
+    st.markdown("<br><div style='font-size:0.72rem;color:#94a3b8;text-align:center;'>"
+                "⚠️ Proyección basada en resultados reales de fase de grupos + Fuerza Score del modelo ML. "
+                "Los cruces de eliminatorias se confirmarán al finalizar la fase de grupos."
+                "</div>", unsafe_allow_html=True)
+
