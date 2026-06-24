@@ -443,11 +443,33 @@ def predecir(home, away):
     eq_idx = equipos_df.set_index("Equipo")
 
     def feat(team):
+        # 1. Búsqueda exacta
         if team in eq_idx.index:
             r = eq_idx.loc[team]
-            return {
-                "win_rate":       r.get("Win_Rate", 0.33),
-                "pts_per_game":   r.get("Pts_Per_Game", 1.0),
+        else:
+            # 2. Búsqueda flexible (ej: "Brasil" -> "Brazil")
+            match = None
+            for idx in eq_idx.index:
+                idx_str = str(idx).lower()
+                tm_str = str(team).lower()
+                if tm_str in idx_str or idx_str in tm_str:
+                    match = idx
+                    break
+                # Casos especiales manuales comunes
+                if (tm_str == "brasil" and idx_str == "brazil") or (tm_str == "alemania" and idx_str == "germany") or (tm_str == "inglaterra" and idx_str == "england") or (tm_str == "francia" and idx_str == "france"):
+                    match = idx
+                    break
+            
+            if match is not None:
+                r = eq_idx.loc[match]
+            else:
+                return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
+                                         "clean_sheet_rate","score_rate","Fuerza_Score",
+                                         "diferencia_goles_total","partidos_jugados"]}
+        
+        return {
+            "win_rate":       r.get("Win_Rate", 0.33),
+            "pts_per_game":   r.get("Pts_Per_Game", 1.0),
                 "goles_favor":    r.get("Goles_Por_Partido", 1.0),
                 "goles_contra":   r.get("Goles_Recibidos", 1.2),
                 "clean_sheet_rate": r.get("Clean_Sheet_Rate", 0.25),
@@ -748,7 +770,7 @@ with tab1:
             <div class="result-container">
                 <div style="font-size:2.5rem;">{resultado_emoji}</div>
                 <div class="result-winner">{resultado_texto}</div>
-                <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:18px;">Predicción del modelo IA</div>
+                <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:18px;">Predicción del modelo ML</div>
                 <div class="result-score-row">
                     <div class="result-prob">
                         <div class="result-prob-value prob-home">{ph}%</div>
