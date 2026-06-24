@@ -1448,9 +1448,23 @@ with tab5:
         return 50
 
     def win(t1, t2, ts):
-        f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
-        f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
-        return t1 if f1 >= f2 else t2
+        # Intentar predecir con el modelo ML primero
+        try:
+            _, _, _, pred_class = predecir(t1["team"], t2["team"])
+            if pred_class == 1:
+                return t1
+            elif pred_class == -1:
+                return t2
+            else:
+                # Si predice empate, desempata usando la Fuerza Score y puntos
+                f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
+                f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
+                return t1 if f1 >= f2 else t2
+        except Exception:
+            # Fallback si no hay suficientes datos para el modelo
+            f1 = fuerza_equipo(t1["team"], ts) + t1["pts"] * 3
+            f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
+            return t1 if f1 >= f2 else t2
 
     # Cruces R32 — izquierda (8 partidos) y derecha (8 partidos)
     q = qualifiers
