@@ -132,9 +132,8 @@ def calcular_standings_wc():
     # Agrupar por grupo
     grupos = defaultdict(list)
     for team, s in stats.items():
-        nombre_es = NOMBRE_ES.get(team, team)
         grupos[s["grp"]].append({
-            "team": nombre_es,
+            "team": team,
             "pts":  s["pts"],
             "gf":   s["gf"],
             "gc":   s["gc"],
@@ -215,6 +214,19 @@ def main():
     # ── 3. Reentrenar el modelo con los datos frescos ─────────────
     print("\n🤖 PASO 3: Reentrenando el modelo con los datos actualizados...")
     run([sys.executable, "train_model_api.py"])
+    
+    # ── 3.5. Leer métricas generadas y reportar ──────────────────
+    try:
+        import json
+        with open("modelo_metricas.json", "r") as f:
+            metricas = json.load(f)
+            acc = metricas.get("accuracy", 0) * 100
+            f1 = metricas.get("f1_score_weighted", 0) * 100
+            print(f"  ✅ Reentrenamiento completado con éxito.")
+            print(f"  📊 Nueva precisión (Accuracy): {acc:.1f}%")
+            print(f"  🎯 F1-Score: {f1:.1f}%")
+    except Exception as e:
+        print(f"  ⚠️ No se pudieron leer las métricas del modelo: {e}")
 
     # ── 4. Git add de todos los archivos actualizados ─────────────
     print("\n📦 PASO 4: Preparando archivos para el commit...")
