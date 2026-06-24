@@ -459,27 +459,7 @@ def predecir(home, away):
         return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
                                  "clean_sheet_rate","score_rate","Fuerza_Score",
                                  "diferencia_goles_total","partidos_jugados"]}
-            if match is not None:
-                r = eq_idx.loc[match]
-            else:
-                return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
-                                         "clean_sheet_rate","score_rate","Fuerza_Score",
-                                         "diferencia_goles_total","partidos_jugados"]}
-        
-        return {
-            "win_rate":       r.get("Win_Rate", 0.33),
-            "pts_per_game":   r.get("Pts_Per_Game", 1.0),
-                "goles_favor":    r.get("Goles_Por_Partido", 1.0),
-                "goles_contra":   r.get("Goles_Recibidos", 1.2),
-                "clean_sheet_rate": r.get("Clean_Sheet_Rate", 0.25),
-                "score_rate":     r.get("Score_Rate", 0.7),
-                "Fuerza_Score":   r.get("Fuerza_Score", 50),
-                "diferencia_goles_total": r.get("Diff_Goles", 0),
-                "partidos_jugados": r.get("Total_Caps", r.get("Partidos", 10)),
-            }
-        return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
-                                 "clean_sheet_rate","score_rate","Fuerza_Score",
-                                 "diferencia_goles_total","partidos_jugados"]}
+
 
     h = feat(home)
     a = feat(away)
