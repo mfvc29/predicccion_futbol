@@ -409,6 +409,12 @@ def cargar_datos():
     if matches_api is not None:
         wc_matches = matches_api[matches_api["competition"] == "WC"].copy()
 
+    # Predicciones honestas (OOS)
+    predicciones_honestas = {}
+    if os.path.exists("predicciones_honestas.json"):
+        with open("predicciones_honestas.json", "r") as f:
+            predicciones_honestas = json.load(f)
+
     return {
         "model": model_data,
         "is_ensemble": is_ensemble,
@@ -419,6 +425,7 @@ def cargar_datos():
         "players": players_api,
         "team_stats": team_stats,
         "wc_matches": wc_matches,
+        "predicciones_honestas": predicciones_honestas,
     }
 
 datos = cargar_datos()
@@ -431,9 +438,26 @@ partidos_hist = datos["partidos_hist"]
 players_df   = datos["players"]
 team_stats   = datos["team_stats"]
 wc_matches   = datos["wc_matches"]
+predicciones_honestas = datos["predicciones_honestas"]
 
 equipos_list = sorted(equipos_df["Equipo"].dropna().unique().tolist())
 
+# Rankings FIFA aproximados (Top 50)
+RANKINGS_FIFA = {
+    "Argentina": 1, "France": 2, "Belgium": 3, "England": 4, "Brazil": 5,
+    "Portugal": 6, "Netherlands": 7, "Spain": 8, "Croatia": 10, "United States": 11,
+    "Colombia": 12, "Morocco": 13, "Mexico": 15, "Uruguay": 15, "Germany": 16,
+    "Senegal": 17, "Japan": 18, "Switzerland": 19, "Iran": 20, "South Korea": 22,
+    "Australia": 23, "Austria": 25, "Sweden": 26, "Turkey": 35, "Ecuador": 31,
+    "Egypt": 36, "Tunisia": 41, "Canada": 48, "Saudi Arabia": 53, "Ghana": 67,
+    "South Africa": 58, "Algeria": 43, "New Zealand": 104, "Czechia": 36,
+    "Paraguay": 56, "Bosnia-Herzegovina": 71, "Panama": 43, "Cape Verde Islands": 65,
+    "Congo DR": 63, "Ivory Coast": 38, "Qatar": 34, "Jordan": 71, "Iraq": 58,
+    "Uzbekistan": 64, "Norway": 47, "Scotland": 39, "Curaçao": 91, "Haiti": 90
+}
+
+def get_rank(team):
+    return RANKINGS_FIFA.get(team, 80)
 
 # ═════════════════════════════════════════════════════════════════════════════
 # FUNCIÓN DE PREDICCIÓN
@@ -455,10 +479,11 @@ def predecir(home, away):
                 "Fuerza_Score":   r.get("Fuerza_Score", 50),
                 "diferencia_goles_total": r.get("Diff_Goles", 0),
                 "partidos_jugados": r.get("Total_Caps", r.get("Partidos", 10)),
+                "rank":           get_rank(team),
             }
         return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
                                  "clean_sheet_rate","score_rate","Fuerza_Score",
-                                 "diferencia_goles_total","partidos_jugados"]}
+                                 "diferencia_goles_total","partidos_jugados", "rank"]}
 
 
     h = feat(home)
@@ -475,6 +500,7 @@ def predecir(home, away):
     row["diff_concedidos"] = h["goles_contra"] - a["goles_contra"]
     row["diff_pts"]      = h["pts_per_game"] - a["pts_per_game"]
     row["diff_clean"]    = h["clean_sheet_rate"] - a["clean_sheet_rate"]
+    row["diff_rank"]     = h["rank"] - a["rank"]
 
     if is_ensemble:
         features = model_data["features"]
@@ -868,7 +894,8 @@ with tab2:
         st.markdown("<br>", unsafe_allow_html=True)
         if True:
             st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-header"><span>✅</span> Partidos Terminados — con verificación del modelo</div>', unsafe_allow_html=True)
+            st.markdown('<div class="card-header"><span>✅</span> Historial (Predicciones Honestas "Out-Of-Sample")</div>', unsafe_allow_html=True)
+            st.markdown('<p style="font-size:0.8rem;color:#64748b;margin-bottom:15px;line-height:1.3;">Para asegurar transparencia matemática, el modelo muestra qué habría predicho para estos partidos <b>sin conocer su resultado final</b>.</p>', unsafe_allow_html=True)
 
             # Contador de aciertos
             total_pred, aciertos_pred = 0, 0
@@ -890,19 +917,32 @@ with tab2:
                     at_logo   = get_team_logo(at)
 
                     # ── Predicción del modelo ──────────────────────────────
-                    # resultado real: 1=local, 0=empate, -1=visita
-                    real_result = 1 if w == "HOME_TEAM" else (-1 if w == "AWAY_TEAM" else 0)
-                    try:
-                        _, _, _, pred_class = predecir(ht, at)
+                    # resultado real: "Local", "Empate", "Visita"
+                    real_str = "Local" if w == "HOME_TEAM" else ("Visita" if w == "AWAY_TEAM" else "Empate")
+                    
+                    key = f"{ht}_{at}"
+                    if key in predicciones_honestas:
+                        pred_str = predicciones_honestas[key]
                         total_pred += 1
-                        if pred_class == real_result:
+                        if pred_str == real_str:
                             aciertos_pred += 1
                             pred_badge = "<span style='background:#d1fae5;color:#065f46;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>✅ Acertó</span>"
                         else:
-                            pred_nombre = "Local" if pred_class == 1 else ("Empate" if pred_class == 0 else "Visita")
-                            pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_nombre}</span>"
-                    except Exception:
-                        pred_badge = "<span style='background:#f1f5f9;color:#94a3b8;font-size:0.65rem;padding:3px 8px;border-radius:999px;'>— sin datos</span>"
+                            pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_str}</span>"
+                    else:
+                        # Fallback por si no hay historial honesto para este partido
+                        try:
+                            _, _, _, pred_class = predecir(ht, at)
+                            total_pred += 1
+                            real_result = 1 if w == "HOME_TEAM" else (-1 if w == "AWAY_TEAM" else 0)
+                            if pred_class == real_result:
+                                aciertos_pred += 1
+                                pred_badge = "<span style='background:#d1fae5;color:#065f46;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>✅ Acertó</span>"
+                            else:
+                                pred_nombre = "Local" if pred_class == 1 else ("Empate" if pred_class == 0 else "Visita")
+                                pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_nombre}</span>"
+                        except Exception:
+                            pred_badge = "<span style='background:#f1f5f9;color:#94a3b8;font-size:0.65rem;padding:3px 8px;border-radius:999px;'>— sin datos</span>"
 
                     st.markdown(f"""
 <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:6px;
@@ -1381,8 +1421,8 @@ with tab5:
         "L": [
             {"team": "England", "pts": 4, "gf": 4, "gc": 2, "pj": 2},
             {"team": "Ghana", "pts": 4, "gf": 1, "gc": 0, "pj": 2},
-            {"team": "Panama", "pts": 0, "gf": 0, "gc": 1, "pj": 1},
-            {"team": "Croatia", "pts": 0, "gf": 2, "gc": 4, "pj": 1},
+            {"team": "Croatia", "pts": 3, "gf": 3, "gc": 4, "pj": 2},
+            {"team": "Panama", "pts": 0, "gf": 0, "gc": 2, "pj": 2},
         ],
     }
 
