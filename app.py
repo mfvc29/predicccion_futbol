@@ -423,43 +423,24 @@ def cargar_datos():
 
 datos = cargar_datos()
 model_data   = datos["model"]
-is_ensemble  = datos["is_ensemble"]
-metricas     = datos["metricas"]
-equipos_df   = datos["equipos"]
-matches_api  = datos["matches_api"]
-partidos_hist = datos["partidos_hist"]
-players_df   = datos["players"]
-team_stats   = datos["team_stats"]
-wc_matches   = datos["wc_matches"]
-
-equipos_list = sorted(equipos_df["Equipo"].dropna().unique().tolist())
-
-
-# ═════════════════════════════════════════════════════════════════════════════
-# FUNCIÓN DE PREDICCIÓN
-# ═════════════════════════════════════════════════════════════════════════════
-def predecir(home, away):
-    """Hace la predicción usando el modelo (ensemble o simple)."""
-    eq_idx = equipos_df.set_index("Equipo")
-
-    def feat(team):
+is_ensembl    def feat(team):
         # 1. Búsqueda exacta
         if team in eq_idx.index:
             r = eq_idx.loc[team]
-        else:
-            # 2. Búsqueda flexible (ej: "Brasil" -> "Brazil")
-            match = None
-            for idx in eq_idx.index:
-                idx_str = str(idx).lower()
-                tm_str = str(team).lower()
-                if tm_str in idx_str or idx_str in tm_str:
-                    match = idx
-                    break
-                # Casos especiales manuales comunes
-                if (tm_str == "brasil" and idx_str == "brazil") or (tm_str == "alemania" and idx_str == "germany") or (tm_str == "inglaterra" and idx_str == "england") or (tm_str == "francia" and idx_str == "france"):
-                    match = idx
-                    break
-            
+            return {
+                "win_rate":       r.get("Win_Rate", 0.33),
+                "pts_per_game":   r.get("Pts_Per_Game", 1.0),
+                "goles_favor":    r.get("Goles_Por_Partido", 1.0),
+                "goles_contra":   r.get("Goles_Recibidos", 1.2),
+                "clean_sheet_rate": r.get("Clean_Sheet_Rate", 0.25),
+                "score_rate":     r.get("Score_Rate", 0.7),
+                "Fuerza_Score":   r.get("Fuerza_Score", 50),
+                "diferencia_goles_total": r.get("Diff_Goles", 0),
+                "partidos_jugados": r.get("Total_Caps", r.get("Partidos", 10)),
+            }
+        return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
+                                 "clean_sheet_rate","score_rate","Fuerza_Score",
+                                 "diferencia_goles_total","partidos_jugados"]}
             if match is not None:
                 r = eq_idx.loc[match]
             else:
@@ -1334,76 +1315,76 @@ with tab5:
     # ── Datos de grupos (se actualizan al correr el actualizador) ──────────────
     GRUPOS = {
         "A": [
-            {"team": "México", "pts": 6, "gf": 3, "gc": 0, "pj": 2},
-            {"team": "Corea del Sur", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
-            {"team": "Chequia", "pts": 1, "gf": 2, "gc": 3, "pj": 2},
-            {"team": "Sudáfrica", "pts": 1, "gf": 1, "gc": 3, "pj": 2},
+            {"team": "Mexico", "pts": 6, "gf": 3, "gc": 0, "pj": 2},
+            {"team": "South Korea", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
+            {"team": "Czechia", "pts": 1, "gf": 2, "gc": 3, "pj": 2},
+            {"team": "South Africa", "pts": 1, "gf": 1, "gc": 3, "pj": 2},
         ],
         "B": [
-            {"team": "Canadá", "pts": 4, "gf": 7, "gc": 1, "pj": 2},
-            {"team": "Suiza", "pts": 4, "gf": 5, "gc": 2, "pj": 2},
+            {"team": "Canada", "pts": 4, "gf": 7, "gc": 1, "pj": 2},
+            {"team": "Switzerland", "pts": 4, "gf": 5, "gc": 2, "pj": 2},
             {"team": "Bosnia-Herzegovina", "pts": 1, "gf": 2, "gc": 5, "pj": 2},
-            {"team": "Catar", "pts": 1, "gf": 1, "gc": 7, "pj": 2},
+            {"team": "Qatar", "pts": 1, "gf": 1, "gc": 7, "pj": 2},
         ],
         "C": [
-            {"team": "Brasil", "pts": 4, "gf": 4, "gc": 1, "pj": 2},
-            {"team": "Marruecos", "pts": 4, "gf": 2, "gc": 1, "pj": 2},
-            {"team": "Escocia", "pts": 3, "gf": 1, "gc": 1, "pj": 2},
-            {"team": "Haití", "pts": 0, "gf": 0, "gc": 4, "pj": 2},
+            {"team": "Brazil", "pts": 4, "gf": 4, "gc": 1, "pj": 2},
+            {"team": "Morocco", "pts": 4, "gf": 2, "gc": 1, "pj": 2},
+            {"team": "Scotland", "pts": 3, "gf": 1, "gc": 1, "pj": 2},
+            {"team": "Haiti", "pts": 0, "gf": 0, "gc": 4, "pj": 2},
         ],
         "D": [
-            {"team": "EE.UU.", "pts": 6, "gf": 6, "gc": 1, "pj": 2},
+            {"team": "United States", "pts": 6, "gf": 6, "gc": 1, "pj": 2},
             {"team": "Australia", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
             {"team": "Paraguay", "pts": 3, "gf": 2, "gc": 4, "pj": 2},
-            {"team": "Turquía", "pts": 0, "gf": 0, "gc": 3, "pj": 2},
+            {"team": "Turkey", "pts": 0, "gf": 0, "gc": 3, "pj": 2},
         ],
         "E": [
-            {"team": "Alemania", "pts": 6, "gf": 9, "gc": 2, "pj": 2},
-            {"team": "Costa de Marfil", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
+            {"team": "Germany", "pts": 6, "gf": 9, "gc": 2, "pj": 2},
+            {"team": "Ivory Coast", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
             {"team": "Ecuador", "pts": 1, "gf": 0, "gc": 1, "pj": 2},
-            {"team": "Curazao", "pts": 1, "gf": 1, "gc": 7, "pj": 2},
+            {"team": "Curaçao", "pts": 1, "gf": 1, "gc": 7, "pj": 2},
         ],
         "F": [
-            {"team": "Países Bajos", "pts": 4, "gf": 7, "gc": 3, "pj": 2},
-            {"team": "Japón", "pts": 4, "gf": 6, "gc": 2, "pj": 2},
-            {"team": "Suecia", "pts": 3, "gf": 6, "gc": 6, "pj": 2},
-            {"team": "Túnez", "pts": 0, "gf": 1, "gc": 9, "pj": 2},
+            {"team": "Netherlands", "pts": 4, "gf": 7, "gc": 3, "pj": 2},
+            {"team": "Japan", "pts": 4, "gf": 6, "gc": 2, "pj": 2},
+            {"team": "Sweden", "pts": 3, "gf": 6, "gc": 6, "pj": 2},
+            {"team": "Tunisia", "pts": 0, "gf": 1, "gc": 9, "pj": 2},
         ],
         "G": [
-            {"team": "Egipto", "pts": 4, "gf": 4, "gc": 2, "pj": 2},
-            {"team": "Irán", "pts": 2, "gf": 2, "gc": 2, "pj": 2},
-            {"team": "Bélgica", "pts": 2, "gf": 1, "gc": 1, "pj": 2},
-            {"team": "Nueva Zelanda", "pts": 1, "gf": 3, "gc": 5, "pj": 2},
+            {"team": "Egypt", "pts": 4, "gf": 4, "gc": 2, "pj": 2},
+            {"team": "Iran", "pts": 2, "gf": 2, "gc": 2, "pj": 2},
+            {"team": "Belgium", "pts": 2, "gf": 1, "gc": 1, "pj": 2},
+            {"team": "New Zealand", "pts": 1, "gf": 3, "gc": 5, "pj": 2},
         ],
         "H": [
-            {"team": "España", "pts": 4, "gf": 4, "gc": 0, "pj": 2},
+            {"team": "Spain", "pts": 4, "gf": 4, "gc": 0, "pj": 2},
             {"team": "Uruguay", "pts": 2, "gf": 3, "gc": 3, "pj": 2},
-            {"team": "Cabo Verde", "pts": 2, "gf": 2, "gc": 2, "pj": 2},
-            {"team": "Arabia Saudí", "pts": 1, "gf": 1, "gc": 5, "pj": 2},
+            {"team": "Cape Verde Islands", "pts": 2, "gf": 2, "gc": 2, "pj": 2},
+            {"team": "Saudi Arabia", "pts": 1, "gf": 1, "gc": 5, "pj": 2},
         ],
         "I": [
-            {"team": "Francia", "pts": 6, "gf": 6, "gc": 1, "pj": 2},
-            {"team": "Noruega", "pts": 6, "gf": 7, "gc": 3, "pj": 2},
+            {"team": "France", "pts": 6, "gf": 6, "gc": 1, "pj": 2},
+            {"team": "Norway", "pts": 6, "gf": 7, "gc": 3, "pj": 2},
             {"team": "Senegal", "pts": 0, "gf": 3, "gc": 6, "pj": 2},
-            {"team": "Irak", "pts": 0, "gf": 1, "gc": 7, "pj": 2},
+            {"team": "Iraq", "pts": 0, "gf": 1, "gc": 7, "pj": 2},
         ],
         "J": [
             {"team": "Argentina", "pts": 6, "gf": 5, "gc": 0, "pj": 2},
             {"team": "Austria", "pts": 3, "gf": 3, "gc": 3, "pj": 2},
-            {"team": "Argelia", "pts": 3, "gf": 2, "gc": 4, "pj": 2},
-            {"team": "Jordania", "pts": 0, "gf": 2, "gc": 5, "pj": 2},
+            {"team": "Algeria", "pts": 3, "gf": 2, "gc": 4, "pj": 2},
+            {"team": "Jordan", "pts": 0, "gf": 2, "gc": 5, "pj": 2},
         ],
         "K": [
             {"team": "Portugal", "pts": 4, "gf": 6, "gc": 1, "pj": 2},
             {"team": "Colombia", "pts": 3, "gf": 3, "gc": 1, "pj": 1},
             {"team": "Congo DR", "pts": 1, "gf": 1, "gc": 1, "pj": 1},
-            {"team": "Uzbekistán", "pts": 0, "gf": 1, "gc": 8, "pj": 2},
+            {"team": "Uzbekistan", "pts": 0, "gf": 1, "gc": 8, "pj": 2},
         ],
         "L": [
-            {"team": "Inglaterra", "pts": 4, "gf": 4, "gc": 2, "pj": 2},
+            {"team": "England", "pts": 4, "gf": 4, "gc": 2, "pj": 2},
             {"team": "Ghana", "pts": 4, "gf": 1, "gc": 0, "pj": 2},
-            {"team": "Panamá", "pts": 0, "gf": 0, "gc": 1, "pj": 1},
-            {"team": "Croacia", "pts": 0, "gf": 2, "gc": 4, "pj": 1},
+            {"team": "Panama", "pts": 0, "gf": 0, "gc": 1, "pj": 1},
+            {"team": "Croatia", "pts": 0, "gf": 2, "gc": 4, "pj": 1},
         ],
     }
 
