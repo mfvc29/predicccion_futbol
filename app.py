@@ -926,7 +926,6 @@ with tab2:
     <span style="font-size:1.3rem;">🎯</span>
     <div>
         <div style="font-size:0.82rem;font-weight:800;color:{color_tx};">Precisión del modelo en WC2026: {aciertos_pred}/{total_pred} partidos acertados ({pct:.0f}%)</div>
-        <div style="font-size:0.72rem;color:{color_tx};opacity:0.8;">Solo partidos donde había suficientes datos de ambos equipos</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
