@@ -423,8 +423,26 @@ def cargar_datos():
 
 datos = cargar_datos()
 model_data   = datos["model"]
-is_ensembl    def feat(team):
-        # 1. Búsqueda exacta
+is_ensemble  = datos["is_ensemble"]
+metricas     = datos["metricas"]
+equipos_df   = datos["equipos"]
+matches_api  = datos["matches_api"]
+partidos_hist = datos["partidos_hist"]
+players_df   = datos["players"]
+team_stats   = datos["team_stats"]
+wc_matches   = datos["wc_matches"]
+
+equipos_list = sorted(equipos_df["Equipo"].dropna().unique().tolist())
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# FUNCIÓN DE PREDICCIÓN
+# ═════════════════════════════════════════════════════════════════════════════
+def predecir(home, away):
+    """Hace la predicción usando el modelo (ensemble o simple)."""
+    eq_idx = equipos_df.set_index("Equipo")
+
+    def feat(team):
         if team in eq_idx.index:
             r = eq_idx.loc[team]
             return {
