@@ -22,7 +22,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 758,Uruguay,URU,152435,Juan Sanabria,Midfield,,2000-03-29,26,Uruguay
 758,Uruguay,URU,168795,Nicolas de la Cruz,Midfield,,1997-06-01,29,Uruguay
 758,Uruguay,URU,11206,Rodrigo Aguirre,Offence,,1994-10-01,31,Uruguay
-758,Uruguay,URU,28612,Darwin Núñez,Offence,,1999-06-24,26,Uruguay
+758,Uruguay,URU,28612,Darwin Núñez,Offence,,1999-06-24,27,Uruguay
 758,Uruguay,URU,28614,Agustín Canobbio,Offence,,1998-10-01,27,Uruguay
 758,Uruguay,URU,112678,Federico Viñas,Offence,,1998-06-30,27,Uruguay
 759,Germany,GER,316,Oliver Baumann,Goalkeeper,,1990-06-02,36,Germany
@@ -123,7 +123,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 762,Argentina,ARG,79953,Thiago Almada,Midfield,,2001-04-26,25,Argentina
 762,Argentina,ARG,102603,Enzo Fernández,Midfield,,2001-01-17,25,Argentina
 762,Argentina,ARG,203511,Nico Paz,Midfield,,2004-09-08,21,Argentina
-762,Argentina,ARG,3218,Lionel Messi,Offence,,1987-06-24,38,Argentina
+762,Argentina,ARG,3218,Lionel Messi,Offence,,1987-06-24,39,Argentina
 762,Argentina,ARG,3220,Lautaro Martínez,Offence,,1997-08-22,28,Argentina
 762,Argentina,ARG,45680,Nicolás González,Offence,,1998-04-06,28,Argentina
 762,Argentina,ARG,98571,Julián Álvarez,Offence,,2000-01-31,26,Argentina
@@ -143,7 +143,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 763,Ghana,GHA,202896,Kojo Peprah Oppong,Defence,,2004-06-04,22,Ghana
 763,Ghana,GHA,110,Thomas Partey,Midfield,,1993-06-13,33,Ghana
 763,Ghana,GHA,8470,Elisha Owusu,Midfield,,1997-11-07,28,Ghana
-763,Ghana,GHA,79960,Kwasi Sibo,Midfield,,1998-06-24,27,Ghana
+763,Ghana,GHA,79960,Kwasi Sibo,Midfield,,1998-06-24,28,Ghana
 763,Ghana,GHA,175747,Augustine Boakye,Midfield,,2000-11-03,25,Ghana
 763,Ghana,GHA,262187,Caleb Yirenkyi,Midfield,,2006-01-15,20,Ghana
 763,Ghana,GHA,4417,Antoine Semenyo,Offence,,2000-01-07,26,Ghana
@@ -285,7 +285,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 770,England,ENG,8004,Harry Kane,Offence,,1993-07-28,32,England
 770,England,ENG,99813,Bukayo Saka,Offence,,2001-09-05,24,England
 770,England,ENG,167720,Noni Madueke,Offence,,2002-03-10,24,England
-771,United States,USA,76936,Matt Turner,Goalkeeper,,1994-06-24,31,USA
+771,United States,USA,76936,Matt Turner,Goalkeeper,,1994-06-24,32,USA
 771,United States,USA,113261,Matt Freese,Goalkeeper,,1998-09-02,27,USA
 771,United States,USA,167172,Chris Brady,Goalkeeper,,2004-03-03,22,USA
 771,United States,USA,3927,Antonee Robinson,Defence,,1997-08-08,28,USA
@@ -514,12 +514,12 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 791,Ecuador,ECU,212692,Denil Castillo,Midfield,,2004-03-24,22,Ecuador
 791,Ecuador,ECU,24562,Jordy Caicedo,Offence,,1997-11-18,28,Ecuador
 791,Ecuador,ECU,40009,Enner Valencia,Offence,,1989-11-04,36,Ecuador
-791,Ecuador,ECU,98549,John Yeboah,Offence,,2000-06-23,25,Ecuador
+791,Ecuador,ECU,98549,John Yeboah,Offence,,2000-06-23,26,Ecuador
 791,Ecuador,ECU,178940,Anthony Valencia,Offence,,2003-07-21,22,Ecuador
 791,Ecuador,ECU,187375,Nilson Angulo,Offence,,2003-06-19,23,Ecuador
 791,Ecuador,ECU,189975,Kevin Rodríguez,Offence,,2000-03-04,26,Ecuador
 791,Ecuador,ECU,215510,Jeremy,Offence,,2005-03-19,21,Ecuador
-792,Sweden,SWE,3484,Kristoffer Nordfeldt,Goalkeeper,,1989-06-23,36,Sweden
+792,Sweden,SWE,3484,Kristoffer Nordfeldt,Goalkeeper,,1989-06-23,37,Sweden
 792,Sweden,SWE,149732,Viktor Johansson,Goalkeeper,,1998-09-14,27,Sweden
 792,Sweden,SWE,180671,Jacob Widell Zetterström,Goalkeeper,,1998-07-11,27,Sweden
 792,Sweden,SWE,3492,Victor Nilsson-Lindelöf,Defence,,1994-07-17,31,Sweden
@@ -792,6 +792,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 818,Colombia,COL,22113,Jhon Lucumí,Defence,,1998-06-26,27,Colombia
 818,Colombia,COL,82825,Willer Ditta,Defence,,1997-01-23,29,Colombia
 818,Colombia,COL,365,James Rodríguez,Midfield,,1991-07-12,34,Colombia
+818,Colombia,COL,3730,Juan Fernando Quintero,Midfield,,1993-01-18,33,Colombia
 818,Colombia,COL,3737,Jefferson Lerma,Midfield,,1994-10-25,31,Colombia
 818,Colombia,COL,22306,Jhon Arias,Midfield,,1997-09-21,28,Colombia
 818,Colombia,COL,29012,Jorge Carrascal,Midfield,,1998-05-25,28,Colombia
@@ -1012,7 +1013,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 1934,Congo DR,COD,125668,Nathanael Mbuku,Offence,,2002-03-16,24,Congo DR
 1934,Congo DR,COD,166776,Meschack Elia,Offence,,1997-08-06,28,Congo DR
 1934,Congo DR,COD,243626,Brian Cipenga,Offence,,1998-03-11,28,Congo DR
-1934,Congo DR,COD,245577,Fiston Mayele,Offence,,1994-06-24,31,Congo DR
+1934,Congo DR,COD,245577,Fiston Mayele,Offence,,1994-06-24,32,Congo DR
 1935,Ivory Coast,CIV,616,Yahia Fofana,Goalkeeper,,2000-08-21,25,Ivory Coast
 1935,Ivory Coast,CIV,8292,Alban Lafont,Goalkeeper,,1999-01-23,27,Ivory Coast
 1935,Ivory Coast,CIV,170943,Mohamed Kone,Goalkeeper,,2002-03-07,24,Ivory Coast

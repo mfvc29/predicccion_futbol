@@ -1353,22 +1353,22 @@ with tab5:
     # ── Datos de grupos (se actualizan al correr el actualizador) ──────────────
     GRUPOS = {
         "A": [
-            {"team": "Mexico", "pts": 6, "gf": 3, "gc": 0, "pj": 2},
-            {"team": "South Korea", "pts": 3, "gf": 2, "gc": 2, "pj": 2},
-            {"team": "Czechia", "pts": 1, "gf": 2, "gc": 3, "pj": 2},
-            {"team": "South Africa", "pts": 1, "gf": 1, "gc": 3, "pj": 2},
+            {"team": "Mexico", "pts": 9, "gf": 6, "gc": 0, "pj": 3},
+            {"team": "South Africa", "pts": 4, "gf": 2, "gc": 3, "pj": 3},
+            {"team": "South Korea", "pts": 3, "gf": 2, "gc": 3, "pj": 3},
+            {"team": "Czechia", "pts": 1, "gf": 2, "gc": 6, "pj": 3},
         ],
         "B": [
-            {"team": "Canada", "pts": 4, "gf": 7, "gc": 1, "pj": 2},
-            {"team": "Switzerland", "pts": 4, "gf": 5, "gc": 2, "pj": 2},
-            {"team": "Bosnia-Herzegovina", "pts": 1, "gf": 2, "gc": 5, "pj": 2},
-            {"team": "Qatar", "pts": 1, "gf": 1, "gc": 7, "pj": 2},
+            {"team": "Switzerland", "pts": 7, "gf": 7, "gc": 3, "pj": 3},
+            {"team": "Canada", "pts": 4, "gf": 8, "gc": 3, "pj": 3},
+            {"team": "Bosnia-Herzegovina", "pts": 4, "gf": 5, "gc": 6, "pj": 3},
+            {"team": "Qatar", "pts": 1, "gf": 2, "gc": 10, "pj": 3},
         ],
         "C": [
-            {"team": "Brazil", "pts": 4, "gf": 4, "gc": 1, "pj": 2},
-            {"team": "Morocco", "pts": 4, "gf": 2, "gc": 1, "pj": 2},
-            {"team": "Scotland", "pts": 3, "gf": 1, "gc": 1, "pj": 2},
-            {"team": "Haiti", "pts": 0, "gf": 0, "gc": 4, "pj": 2},
+            {"team": "Brazil", "pts": 7, "gf": 7, "gc": 1, "pj": 3},
+            {"team": "Morocco", "pts": 7, "gf": 6, "gc": 3, "pj": 3},
+            {"team": "Scotland", "pts": 3, "gf": 1, "gc": 4, "pj": 3},
+            {"team": "Haiti", "pts": 0, "gf": 2, "gc": 8, "pj": 3},
         ],
         "D": [
             {"team": "United States", "pts": 6, "gf": 6, "gc": 1, "pj": 2},
@@ -1413,9 +1413,9 @@ with tab5:
             {"team": "Jordan", "pts": 0, "gf": 2, "gc": 5, "pj": 2},
         ],
         "K": [
+            {"team": "Colombia", "pts": 6, "gf": 4, "gc": 1, "pj": 2},
             {"team": "Portugal", "pts": 4, "gf": 6, "gc": 1, "pj": 2},
-            {"team": "Colombia", "pts": 3, "gf": 3, "gc": 1, "pj": 1},
-            {"team": "Congo DR", "pts": 1, "gf": 1, "gc": 1, "pj": 1},
+            {"team": "Congo DR", "pts": 1, "gf": 1, "gc": 2, "pj": 2},
             {"team": "Uzbekistan", "pts": 0, "gf": 1, "gc": 8, "pj": 2},
         ],
         "L": [
