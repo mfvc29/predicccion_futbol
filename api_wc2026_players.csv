@@ -13,7 +13,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 758,Uruguay,URU,213277,José Giménez,Defence,,1995-01-20,31,Uruguay
 758,Uruguay,URU,96,Federico Valverde,Midfield,,1998-07-22,27,Uruguay
 758,Uruguay,URU,1244,Giorgian De Arrascaeta,Midfield,,1994-06-01,32,Uruguay
-758,Uruguay,URU,2041,Rodrigo Bentancur,Midfield,,1997-06-25,28,Uruguay
+758,Uruguay,URU,2041,Rodrigo Bentancur,Midfield,,1997-06-25,29,Uruguay
 758,Uruguay,URU,28549,Manuel Ugarte,Midfield,,2001-04-11,25,Uruguay
 758,Uruguay,URU,28618,Brian Rodríguez,Midfield,,2000-05-20,26,Uruguay
 758,Uruguay,URU,121007,Rodrigo Zalazar,Midfield,,1999-08-12,26,Uruguay
@@ -92,7 +92,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 761,Paraguay,PAR,57316,Kaku,Midfield,,1995-01-11,31,Paraguay
 761,Paraguay,PAR,76861,Miguel Almirón,Midfield,,1994-02-10,32,Paraguay
 761,Paraguay,PAR,119594,Mauricio,Midfield,,2001-06-22,25,Paraguay
-761,Paraguay,PAR,122397,Braian Ojeda,Midfield,,2000-06-27,25,Paraguay
+761,Paraguay,PAR,122397,Braian Ojeda,Midfield,,2000-06-27,26,Paraguay
 761,Paraguay,PAR,165622,Matías Galarza,Midfield,,2002-02-11,24,Paraguay
 761,Paraguay,PAR,168954,Damian Bobadilla,Midfield,,2001-07-11,24,Paraguay
 761,Paraguay,PAR,178951,Diego Gómez,Midfield,,2003-03-27,23,Paraguay
@@ -177,7 +177,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 764,Brazil,BRA,30842,Matheus Cunha,Offence,,1999-05-27,27,Brazil
 764,Brazil,BRA,37428,Raphinha,Offence,,1996-12-14,29,Brazil
 764,Brazil,BRA,61450,Martinelli,Offence,,2001-06-18,25,Brazil
-764,Brazil,BRA,138230,Thiago,Offence,,2001-06-26,24,Brazil
+764,Brazil,BRA,138230,Thiago,Offence,,2001-06-26,25,Brazil
 764,Brazil,BRA,145539,Luiz Henrique,Offence,,2001-01-02,25,Brazil
 764,Brazil,BRA,188487,Endrick,Offence,,2006-07-21,19,Brazil
 764,Brazil,BRA,203356,Rayan,Offence,,2006-08-03,19,Brazil
@@ -714,11 +714,11 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 805,Belgium,BEL,160926,Zeno Debast,Defence,,2003-10-24,22,Belgium
 805,Belgium,BEL,192677,Nathan Ngoy,Defence,,2003-06-10,23,Belgium
 805,Belgium,BEL,213534,Joaquin Seys,Defence,,2005-03-28,21,Belgium
-805,Belgium,BEL,3654,Kevin De Bruyne,Midfield,,1991-06-28,34,Belgium
+805,Belgium,BEL,3654,Kevin De Bruyne,Midfield,,1991-06-28,35,Belgium
 805,Belgium,BEL,3656,Axel Witsel,Midfield,,1989-01-12,37,Belgium
 805,Belgium,BEL,3658,Youri Tielemans,Midfield,,1997-05-07,29,Belgium
 805,Belgium,BEL,8128,Dodi Lukebakio,Midfield,,1997-09-24,28,Belgium
-805,Belgium,BEL,8858,Alexis Saelemaekers,Midfield,,1999-06-27,26,Belgium
+805,Belgium,BEL,8858,Alexis Saelemaekers,Midfield,,1999-06-27,27,Belgium
 805,Belgium,BEL,8888,Hans Vanaken,Midfield,,1992-08-24,33,Belgium
 805,Belgium,BEL,8915,Nicolas Raskin,Midfield,,2001-02-23,25,Belgium
 805,Belgium,BEL,99775,Jeremy Doku,Midfield,,2002-05-27,24,Belgium
@@ -750,14 +750,14 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 815,Morocco,MAR,221819,Ayyoub Bouaddi,Midfield,,2007-10-02,18,France
 815,Morocco,MAR,244929,Samir El Mourabet,Midfield,,2005-10-06,20,Morocco
 815,Morocco,MAR,130502,Soufiane Rahimi,Offence,,1996-06-02,30,Morocco
-815,Morocco,MAR,172417,Ayoub El Kaabi,Offence,,1993-06-25,32,Morocco
+815,Morocco,MAR,172417,Ayoub El Kaabi,Offence,,1993-06-25,33,Morocco
 815,Morocco,MAR,175941,Abdessamad Ezzalzouli,Offence,,2001-12-17,24,Morocco
 815,Morocco,MAR,245336,Gessime Yassine,Offence,,2005-11-22,20,France
 815,Morocco,MAR,261438,Ayoube Amaimouni-Echghouyab,Offence,,2004-11-30,21,Morocco
 816,Austria,AUT,10702,Alexander Schlager,Goalkeeper,,1996-02-01,30,Austria
 816,Austria,AUT,10837,Patrick Pentz,Goalkeeper,,1997-01-02,29,Austria
 816,Austria,AUT,217244,Florian Wiegele,Goalkeeper,,2001-03-21,25,Austria
-816,Austria,AUT,349,David Alaba,Defence,,1992-06-24,33,Austria
+816,Austria,AUT,349,David Alaba,Defence,,1992-06-24,34,Austria
 816,Austria,AUT,395,Stefan Posch,Defence,,1997-05-14,29,Austria
 816,Austria,AUT,6576,Philipp Mwene,Defence,,1994-01-29,32,Austria
 816,Austria,AUT,6655,Kevin Danso,Defence,,1998-09-19,27,Austria
@@ -789,7 +789,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 818,Colombia,COL,3733,Davinson Sánchez,Defence,,1996-06-12,30,Colombia
 818,Colombia,COL,8913,Deiver Machado,Defence,,1993-09-02,32,Colombia
 818,Colombia,COL,22010,Daniel Muñoz,Defence,,1996-05-26,30,Colombia
-818,Colombia,COL,22113,Jhon Lucumí,Defence,,1998-06-26,27,Colombia
+818,Colombia,COL,22113,Jhon Lucumí,Defence,,1998-06-26,28,Colombia
 818,Colombia,COL,82825,Willer Ditta,Defence,,1997-01-23,29,Colombia
 818,Colombia,COL,365,James Rodríguez,Midfield,,1991-07-12,34,Colombia
 818,Colombia,COL,3730,Juan Fernando Quintero,Midfield,,1993-01-18,33,Colombia
@@ -870,7 +870,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 836,Haiti,HAI,253661,Garven-Michee Metusala,Defence,,1999-12-31,26,Haiti
 836,Haiti,HAI,256398,Keeto Thermoncy,Defence,,2006-03-29,20,Haiti
 836,Haiti,HAI,291152,Wilguens Paugain,Defence,,2001-08-24,24,Haiti
-836,Haiti,HAI,788,Jean-Ricner Bellegarde,Midfield,,1998-06-27,27,Haiti
+836,Haiti,HAI,788,Jean-Ricner Bellegarde,Midfield,,1998-06-27,28,Haiti
 836,Haiti,HAI,77609,Derrick Etienne,Midfield,,1996-11-25,29,Haiti
 836,Haiti,HAI,177049,Danley Jean Jacques,Midfield,,2000-05-20,26,Haiti
 836,Haiti,HAI,182788,Dominique Simon,Midfield,,2000-07-29,25,Haiti
