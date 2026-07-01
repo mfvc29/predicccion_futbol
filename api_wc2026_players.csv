@@ -24,7 +24,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 758,Uruguay,URU,11206,Rodrigo Aguirre,Offence,,1994-10-01,31,Uruguay
 758,Uruguay,URU,28612,Darwin Núñez,Offence,,1999-06-24,27,Uruguay
 758,Uruguay,URU,28614,Agustín Canobbio,Offence,,1998-10-01,27,Uruguay
-758,Uruguay,URU,112678,Federico Viñas,Offence,,1998-06-30,27,Uruguay
+758,Uruguay,URU,112678,Federico Viñas,Offence,,1998-06-30,28,Uruguay
 759,Germany,GER,316,Oliver Baumann,Goalkeeper,,1990-06-02,36,Germany
 759,Germany,GER,341,Manuel Neuer,Goalkeeper,,1986-03-27,40,Germany
 759,Germany,GER,6491,Alexander Nübel,Goalkeeper,,1996-09-30,29,Germany
@@ -116,7 +116,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 762,Argentina,ARG,82020,Leonardo Balerdi,Defence,,1999-01-26,27,Argentina
 762,Argentina,ARG,170261,Valentin Barco,Defence,,2004-07-23,21,Argentina
 762,Argentina,ARG,2127,Rodrigo de Paul,Midfield,,1994-05-24,32,Argentina
-762,Argentina,ARG,3214,Leandro Paredes,Midfield,,1994-06-29,31,Argentina
+762,Argentina,ARG,3214,Leandro Paredes,Midfield,,1994-06-29,32,Argentina
 762,Argentina,ARG,3216,Giovani Lo Celso,Midfield,,1996-04-09,30,Argentina
 762,Argentina,ARG,11720,Exequiel Palacios,Midfield,,1998-10-05,27,Argentina
 762,Argentina,ARG,45681,Alexis Mac Allister,Midfield,,1998-12-24,27,Argentina
@@ -213,13 +213,12 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 766,Japan,JPN,3264,Yūto Nagatomo,Defence,,1986-09-12,39,Japan
 766,Japan,JPN,9034,Takehiro Tomiyasu,Defence,,1998-11-05,27,Japan
 766,Japan,JPN,48657,Hiroki Ito,Defence,,1999-05-12,27,Japan
-766,Japan,JPN,48670,Yukinari Sugawara,Defence,,2000-06-28,25,Japan
+766,Japan,JPN,48670,Yukinari Sugawara,Defence,,2000-06-28,26,Japan
 766,Japan,JPN,48902,Ko Itakura,Defence,,1997-01-27,29,Japan
 766,Japan,JPN,49097,Shogo Taniguchi,Defence,,1991-07-15,34,Japan
 766,Japan,JPN,113230,Ayumu Seko,Defence,,2000-06-07,26,Japan
 766,Japan,JPN,113595,Tsuyoshi Watanabe,Defence,,1997-02-05,29,Japan
 766,Japan,JPN,181210,Junnosuke Suzuki,Defence,,2003-07-12,22,Japan
-766,Japan,JPN,3269,Wataru Endō,Midfield,,1993-02-09,33,Japan
 766,Japan,JPN,6716,Daichi Kamada,Midfield,,1996-08-05,29,Japan
 766,Japan,JPN,48555,Takefusa Kubo,Midfield,,2001-06-04,25,Japan
 766,Japan,JPN,48595,Keito Nakamura,Midfield,,2000-07-28,25,Japan
@@ -229,6 +228,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 766,Japan,JPN,7531,Ritsu Doan,Offence,,1998-06-16,28,Japan
 766,Japan,JPN,44017,Daizen Maeda,Offence,,1997-10-20,28,Japan
 766,Japan,JPN,48659,Koki Ogawa,Offence,,1997-08-08,28,Japan
+766,Japan,JPN,48988,Shuto Machino,Offence,,1999-09-30,26,Japan
 766,Japan,JPN,49080,Junya Ito,Offence,,1993-03-09,33,Japan
 766,Japan,JPN,119460,Ayase Ueda,Offence,,1998-08-28,27,Japan
 766,Japan,JPN,247160,Kento Shiogai,Offence,,2005-03-26,21,Japan
@@ -272,12 +272,12 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 770,England,ENG,176718,Jarell Quansah,Defence,,2003-01-29,23,England
 770,England,ENG,206743,Nico O'Reilly,Defence,,2005-03-21,21,England
 770,England,ENG,3320,Jordan Henderson,Midfield,,1990-06-17,36,England
-770,England,ENG,4032,Eberechi Eze,Midfield,,1998-06-29,27,England
+770,England,ENG,4032,Eberechi Eze,Midfield,,1998-06-29,28,England
 770,England,ENG,7848,Anthony Gordon,Midfield,,2001-02-24,25,England
 770,England,ENG,8215,Declan Rice,Midfield,,1999-01-14,27,England
 770,England,ENG,82140,Morgan Rogers,Midfield,,2002-07-26,23,England
 770,England,ENG,107330,Elliot Anderson,Midfield,,2002-11-06,23,England
-770,England,ENG,125010,Jude Bellingham,Midfield,,2003-06-29,22,England
+770,England,ENG,125010,Jude Bellingham,Midfield,,2003-06-29,23,England
 770,England,ENG,190797,Kobbie Mainoo,Midfield,,2005-04-19,21,England
 770,England,ENG,3331,Marcus Rashford,Offence,,1997-10-31,28,England
 770,England,ENG,4444,Ollie Watkins,Offence,,1995-12-30,30,England
@@ -357,7 +357,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 773,France,FRA,175701,Maghnes Akliouche,Midfield,,2002-02-25,24,France
 773,France,FRA,177522,Desire Doue,Midfield,,2005-06-03,21,France
 773,France,FRA,186089,Warren Zaïre-Emery,Midfield,,2006-03-08,20,France
-773,France,FRA,641,Jean-Philippe Mateta,Offence,,1997-06-28,28,France
+773,France,FRA,641,Jean-Philippe Mateta,Offence,,1997-06-28,29,France
 773,France,FRA,3373,Ousmane Dembélé,Offence,,1997-05-15,29,France
 773,France,FRA,3374,Kylian Mbappé,Offence,,1998-12-20,27,France
 773,France,FRA,8685,Marcus Thuram-Ulien,Offence,,1997-08-06,28,France
@@ -402,7 +402,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 778,Algeria,ALG,245574,Amine Tougai,Defence,,2000-01-22,26,Algeria
 778,Algeria,ALG,295347,Achref Abada,Defence,,1999-06-15,27,Algeria
 778,Algeria,ALG,6503,Nabil Bentaleb,Midfield,,1994-11-24,31,Algeria
-778,Algeria,ALG,8466,Houssem Aouar,Midfield,,1998-06-30,27,Algeria
+778,Algeria,ALG,8466,Houssem Aouar,Midfield,,1998-06-30,28,Algeria
 778,Algeria,ALG,123508,Hicham Boudaoui,Midfield,,1999-09-23,26,Algeria
 778,Algeria,ALG,124715,Ramiz Zerrouki,Midfield,,1998-05-26,28,Algeria
 778,Algeria,ALG,178658,Fares Chaïbi,Midfield,,2002-11-28,23,Algeria
@@ -861,7 +861,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 836,Haiti,HAI,154781,Alexandre Pierre,Goalkeeper,,2001-02-25,25,Haiti
 836,Haiti,HAI,170624,Johny Placide,Goalkeeper,,1988-01-29,38,Haiti
 836,Haiti,HAI,295199,Josué Duverger,Goalkeeper,,2000-04-27,26,Haiti
-836,Haiti,HAI,532,Carlens Arcus,Defence,,1996-06-28,29,Haiti
+836,Haiti,HAI,532,Carlens Arcus,Defence,,1996-06-28,30,Haiti
 836,Haiti,HAI,776,Jean-Kevin Duverne,Defence,,1997-08-12,28,Haiti
 836,Haiti,HAI,8845,Hannes Delcroix,Defence,,1999-02-28,27,Haiti
 836,Haiti,HAI,158228,Martin Expérience,Defence,,1999-03-09,27,Haiti
@@ -1140,7 +1140,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8070,Uzbekistan,UZB,232740,Azizjon Ganiev,Midfield,,1998-02-22,28,Uzbekistan
 8070,Uzbekistan,UZB,232753,Odiljon Hamrobekov,Midfield,,1996-02-13,30,Uzbekistan
 8070,Uzbekistan,UZB,262464,Sherzod Esanov,Midfield,,2003-02-01,23,Uzbekistan
-8070,Uzbekistan,UZB,49307,Eldor Shomurodov,Offence,,1995-06-29,30,Uzbekistan
+8070,Uzbekistan,UZB,49307,Eldor Shomurodov,Offence,,1995-06-29,31,Uzbekistan
 8070,Uzbekistan,UZB,183140,Igor Sergeev,Offence,,1993-04-30,33,Uzbekistan
 8070,Uzbekistan,UZB,212675,Ruslanbek Jiyanov,Offence,,2001-06-05,25,Uzbekistan
 8070,Uzbekistan,UZB,249659,Azizbek Amonov,Offence,,1997-10-30,28,Uzbekistan
