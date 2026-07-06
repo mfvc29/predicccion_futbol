@@ -132,8 +132,8 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 763,Ghana,GHA,495,Lawrence Ati-Zigi,Goalkeeper,,1996-11-29,29,Ghana
 763,Ghana,GHA,137390,Joseph Anang,Goalkeeper,,2000-06-08,26,Ghana
 763,Ghana,GHA,277336,Benjamin Asare,Goalkeeper,,1992-07-13,33,Ghana
-763,Ghana,GHA,6499,Abdul Rahman Baba,Defence,,1994-07-02,31,Ghana
-763,Ghana,GHA,7442,Derrick Luckassen,Defence,,1995-07-03,30,Ghana
+763,Ghana,GHA,6499,Abdul Rahman Baba,Defence,,1994-07-02,32,Ghana
+763,Ghana,GHA,7442,Derrick Luckassen,Defence,,1995-07-03,31,Ghana
 763,Ghana,GHA,16340,Gideon Mensah,Defence,,1998-07-18,27,Ghana
 763,Ghana,GHA,25641,Abdul Mumin,Defence,,1998-06-06,28,Ghana
 763,Ghana,GHA,128235,Jerome Opoku,Defence,,1998-10-14,27,Ghana
@@ -265,7 +265,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 770,England,ENG,3313,John Stones,Defence,,1994-05-28,32,England
 770,England,ENG,4870,Dan Burn,Defence,,1992-05-09,34,England
 770,England,ENG,6317,Ezri Konsa,Defence,,1997-10-23,28,England
-770,England,ENG,7810,Trevoh Chalobah,Defence,,1999-07-05,26,England
+770,England,ENG,7810,Trevoh Chalobah,Defence,,1999-07-05,27,England
 770,England,ENG,56628,Reece James,Defence,,1999-12-08,26,England
 770,England,ENG,80775,Djed Spence,Defence,,2000-08-09,25,England
 770,England,ENG,118489,Marc Guéhi,Defence,,2000-07-13,25,England
@@ -309,7 +309,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 771,United States,USA,8492,Tim Weah,Offence,,2000-02-22,26,USA
 771,United States,USA,10076,Haji Wright,Offence,,1998-03-27,28,USA
 771,United States,USA,119731,Ricardo Pepi,Offence,,2003-01-09,23,USA
-771,United States,USA,131040,Folarin Balogun,Offence,,2001-07-03,24,USA
+771,United States,USA,131040,Folarin Balogun,Offence,,2001-07-03,25,USA
 771,United States,USA,192180,Max Arfsten,Offence,,2001-04-19,25,USA
 772,South Korea,KOR,166683,Seung-Gyu Kim,Goalkeeper,,1990-09-30,35,South Korea
 772,South Korea,KOR,189673,Bum-keun Song,Goalkeeper,,1997-10-15,28,South Korea
@@ -338,7 +338,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 772,South Korea,KOR,191295,Hyun-Gyu Oh,Offence,,2001-04-12,25,South Korea
 772,South Korea,KOR,261683,Ji-sung Eom,Offence,,2002-05-09,24,South Korea
 773,France,FRA,8316,Brice Samba,Goalkeeper,,1994-04-25,32,France
-773,France,FRA,8390,Mike Maignan,Goalkeeper,,1995-07-03,30,France
+773,France,FRA,8390,Mike Maignan,Goalkeeper,,1995-07-03,31,France
 773,France,FRA,188389,Robin Risser,Goalkeeper,,2004-12-02,21,France
 773,France,FRA,71,Theo Hernández,Defence,,1997-10-06,28,France
 773,France,FRA,3359,Lucas Digne,Defence,,1993-07-20,32,France
@@ -431,8 +431,8 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 779,Australia,AUS,3420,Mathew Leckie,Midfield,,1991-02-04,35,Australia
 779,Australia,AUS,3421,Jackson Irvine,Midfield,,1993-03-07,33,Australia
 779,Australia,AUS,4635,Connor Metcalfe,Midfield,,1999-11-05,26,Australia
-779,Australia,AUS,7528,Ajdin Hrustic,Midfield,,1996-07-05,29,Australia
-779,Australia,AUS,8053,Aiden O'Neill,Midfield,,1998-07-04,27,Australia
+779,Australia,AUS,7528,Ajdin Hrustic,Midfield,,1996-07-05,30,Australia
+779,Australia,AUS,8053,Aiden O'Neill,Midfield,,1998-07-04,28,Australia
 779,Australia,AUS,45143,Awer Mabil,Midfield,,1995-09-15,30,Australia
 779,Australia,AUS,76250,Cameron Devlin,Midfield,,1998-06-07,28,Australia
 779,Australia,AUS,263718,Paul Okon-Engstler,Midfield,,2005-01-24,21,Australia
@@ -443,7 +443,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 779,Australia,AUS,181753,Tete Yengi,Offence,,2000-11-28,25,Australia
 783,New Zealand,NZL,48418,Max Crocombe,Goalkeeper,,1993-08-12,32,New Zealand
 783,New Zealand,NZL,80167,Michael Woud,Goalkeeper,,1999-01-16,27,New Zealand
-783,New Zealand,NZL,176204,Alex Paulsen,Goalkeeper,,2002-07-04,23,New Zealand
+783,New Zealand,NZL,176204,Alex Paulsen,Goalkeeper,,2002-07-04,24,New Zealand
 783,New Zealand,NZL,4690,Liberato Cacace,Defence,,2000-09-27,25,New Zealand
 783,New Zealand,NZL,11392,Tommy Smith,Defence,,1990-03-31,36,New Zealand
 783,New Zealand,NZL,77036,Michael Boxall,Defence,,1988-08-18,37,New Zealand
@@ -469,7 +469,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 783,New Zealand,NZL,261259,Jesse Randall,Offence,,2002-08-19,23,New Zealand
 788,Switzerland,SUI,334,Gregor Kobel,Goalkeeper,,1997-12-06,28,Switzerland
 788,Switzerland,SUI,9534,Yvon Mvogo,Goalkeeper,,1994-06-06,32,Switzerland
-788,Switzerland,SUI,205190,Marvin Keller,Goalkeeper,,2002-07-03,23,Switzerland
+788,Switzerland,SUI,205190,Marvin Keller,Goalkeeper,,2002-07-03,24,Switzerland
 788,Switzerland,SUI,143,Manuel Akanji,Defence,,1995-07-19,30,Switzerland
 788,Switzerland,SUI,1745,Ricardo Rodriguez,Defence,,1992-08-25,33,Switzerland
 788,Switzerland,SUI,2114,Silvan Widmer,Defence,,1993-03-05,33,Switzerland
@@ -537,7 +537,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 792,Sweden,SWE,31065,Jesper Karlström,Midfield,,1995-06-21,31,Sweden
 792,Sweden,SWE,145613,Yasin Ayari,Midfield,,2003-10-06,22,Sweden
 792,Sweden,SWE,180627,Besfort Zeneli,Midfield,,2002-11-21,23,Sweden
-792,Sweden,SWE,180673,Taha Ali,Midfield,,1998-07-01,27,Sweden
+792,Sweden,SWE,180673,Taha Ali,Midfield,,1998-07-01,28,Sweden
 792,Sweden,SWE,193622,Lucas Bergvall,Midfield,,2006-02-02,20,Sweden
 792,Sweden,SWE,6486,Alexander Isak,Offence,,1999-09-21,26,Sweden
 792,Sweden,SWE,8279,Viktor Gyökeres,Offence,,1998-06-04,28,Sweden
@@ -629,7 +629,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 802,Tunisia,TUN,3595,Dylan Bronn,Defence,,1995-06-19,31,Tunisia
 802,Tunisia,TUN,99394,Ali El Abdi,Defence,,1993-12-20,32,Tunisia
 802,Tunisia,TUN,99799,Yan Valery,Defence,,1999-02-22,27,Tunisia
-802,Tunisia,TUN,130471,Mortadha Ben Ouanes,Defence,,1994-07-02,31,Tunisia
+802,Tunisia,TUN,130471,Mortadha Ben Ouanes,Defence,,1994-07-02,32,Tunisia
 802,Tunisia,TUN,144669,Omar Rekik,Defence,,2001-12-20,24,Tunisia
 802,Tunisia,TUN,173578,Yassine Chikhaoui,Defence,,2004-06-09,22,
 802,Tunisia,TUN,177695,Montassar Talbi,Defence,,1998-05-26,28,Tunisia
@@ -672,7 +672,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 803,Turkey,TUR,180964,İrfan Kahveci,Midfield,,1995-07-15,30,Turkey
 803,Turkey,TUR,79906,Yunus Akgün,Offence,,2000-07-07,25,Turkey
 803,Turkey,TUR,149737,Muhammed Kerem Aktürkoğlu,Offence,,1998-10-21,27,Turkey
-803,Turkey,TUR,188466,Deniz Gul,Offence,,2004-07-02,21,Turkey
+803,Turkey,TUR,188466,Deniz Gul,Offence,,2004-07-02,22,Turkey
 803,Turkey,TUR,191712,Kenan Yıldız,Offence,,2005-05-04,21,Turkey
 803,Turkey,TUR,193605,Can Uzun,Offence,,2005-11-11,20,Turkey
 804,Senegal,SEN,805,Edouard Mendy,Goalkeeper,,1992-03-01,34,Senegal
@@ -744,7 +744,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 815,Morocco,MAR,7887,Brahim Diaz,Midfield,,1999-08-03,26,Morocco
 815,Morocco,MAR,122511,Azzedine Ounahi,Midfield,,2000-04-19,26,Morocco
 815,Morocco,MAR,130173,Ismael Saibari,Midfield,,2001-01-28,25,Morocco
-815,Morocco,MAR,170647,Neil El Aynaoui,Midfield,,2001-07-02,24,Morocco
+815,Morocco,MAR,170647,Neil El Aynaoui,Midfield,,2001-07-02,25,Morocco
 815,Morocco,MAR,189873,Bilal El Khannouss,Midfield,,2005-05-09,21,Morocco
 815,Morocco,MAR,192313,Chemsdine Talbi,Midfield,,2005-05-09,21,Morocco
 815,Morocco,MAR,221819,Ayyoub Bouaddi,Midfield,,2007-10-02,18,France
@@ -857,7 +857,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 828,Canada,CAN,110807,Liam Millar,Offence,,1999-09-27,26,Canada
 828,Canada,CAN,111842,Jacob Shaffelburg,Offence,,1999-11-26,26,Canada
 828,Canada,CAN,177826,Tani Oluwaseyi,Offence,,2000-05-15,26,Canada
-828,Canada,CAN,260992,Promise Akinpelu,Offence,,2001-07-03,24,Canada
+828,Canada,CAN,260992,Promise Akinpelu,Offence,,2001-07-03,25,Canada
 836,Haiti,HAI,154781,Alexandre Pierre,Goalkeeper,,2001-02-25,25,Haiti
 836,Haiti,HAI,170624,Johny Placide,Goalkeeper,,1988-01-29,38,Haiti
 836,Haiti,HAI,295199,Josué Duverger,Goalkeeper,,2000-04-27,26,Haiti
@@ -884,7 +884,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 836,Haiti,HAI,125787,Louicius Don Deedson,Offence,,2001-02-11,25,Haiti
 836,Haiti,HAI,152737,Josué Casimir,Offence,,2001-09-24,24,Haiti
 836,Haiti,HAI,152801,Ruben Providence,Offence,,2001-07-07,24,Haiti
-840,Iran,IRN,3797,Hossein Hosseini,Goalkeeper,,1992-06-30,33,Iran
+840,Iran,IRN,3797,Hossein Hosseini,Goalkeeper,,1992-06-30,34,Iran
 840,Iran,IRN,103099,Payam Niazmand,Goalkeeper,,1995-04-06,31,Iran
 840,Iran,IRN,171319,Alireza Beiranvand,Goalkeeper,,1992-09-21,33,Iran
 840,Iran,IRN,3800,Ehsan Hajsafi,Defence,,1990-02-25,36,Iran
@@ -973,7 +973,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 1930,Cape Verde Islands,CPV,209178,Sidny Lopes Cabral,Defence,,2002-09-18,23,Cape Verde Islands
 1930,Cape Verde Islands,CPV,213136,Wagner Pina,Defence,,2002-11-03,23,Cape Verde Islands
 1930,Cape Verde Islands,CPV,246869,Kelvin Pires,Defence,,2000-06-05,26,Cape Verde Islands
-1930,Cape Verde Islands,CPV,7759,Deroy Duarte,Midfield,,1999-07-04,26,Cape Verde Islands
+1930,Cape Verde Islands,CPV,7759,Deroy Duarte,Midfield,,1999-07-04,27,Cape Verde Islands
 1930,Cape Verde Islands,CPV,30554,Garry Rodrigues,Midfield,,1990-11-27,35,Cape Verde Islands
 1930,Cape Verde Islands,CPV,40121,Kevin Pina,Midfield,,1997-01-27,29,Cape Verde Islands
 1930,Cape Verde Islands,CPV,67968,Laros Duarte,Midfield,,1997-02-28,29,Cape Verde Islands
@@ -1033,7 +1033,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 1935,Ivory Coast,CIV,144698,Parfait Guiagon,Midfield,,2001-02-22,25,Ivory Coast
 1935,Ivory Coast,CIV,269161,Christ Ravynel Inao Oulaï,Midfield,,2006-04-06,20,Ivory Coast
 1935,Ivory Coast,CIV,8412,Nicolas Pépé,Offence,,1995-05-29,31,Ivory Coast
-1935,Ivory Coast,CIV,128710,Evann Guessand,Offence,,2001-07-01,24,Ivory Coast
+1935,Ivory Coast,CIV,128710,Evann Guessand,Offence,,2001-07-01,25,Ivory Coast
 1935,Ivory Coast,CIV,152738,Ange-Yoan Bonny,Offence,,2003-10-25,22,Ivory Coast
 1935,Ivory Coast,CIV,156808,Sepe Elye Wahi,Offence,,2003-01-02,23,Ivory Coast
 1935,Ivory Coast,CIV,166249,Simon Adingra,Offence,,2002-01-01,24,Ivory Coast
@@ -1047,7 +1047,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8030,Qatar,QAT,189707,Jassem Gaber Abdulsallam,Defence,,2002-02-20,24,Qatar
 8030,Qatar,QAT,189725,Homam Ahmed,Defence,,1999-08-25,26,Qatar
 8030,Qatar,QAT,189969,Ró-Ró,Defence,,1990-08-06,35,Qatar
-8030,Qatar,QAT,194260,Lucas Mendes,Defence,,1990-07-03,35,Qatar
+8030,Qatar,QAT,194260,Lucas Mendes,Defence,,1990-07-03,36,Qatar
 8030,Qatar,QAT,249804,Sultan Al Brake,Defence,,1996-04-07,30,Qatar
 8030,Qatar,QAT,253305,Hashemi Al Hussain,Defence,,2003-08-15,22,Qatar
 8030,Qatar,QAT,295191,Issa Laye,Defence,,1997-12-22,28,Qatar
@@ -1083,7 +1083,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8049,Jordan,JOR,244241,Mohammad Abu Hasheesh,Midfield,,1995-05-09,31,Jordan
 8049,Jordan,JOR,249756,Ibrahim Saadeh,Midfield,,2000-04-27,26,Jordan
 8049,Jordan,JOR,295351,Mohammad Al-Dawoud,Midfield,,1992-12-04,33,Jordan
-8049,Jordan,JOR,295352,Amer Jamous,Midfield,,2002-07-03,23,Jordan
+8049,Jordan,JOR,295352,Amer Jamous,Midfield,,2002-07-03,24,Jordan
 8049,Jordan,JOR,98763,Musa Al Taamari,Offence,,1997-06-10,29,Jordan
 8049,Jordan,JOR,116928,Mahmoud Al Mardi,Offence,,1993-10-06,32,Jordan
 8049,Jordan,JOR,244174,Ali Olwan,Offence,,2000-03-26,26,Jordan
@@ -1099,7 +1099,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8062,Iraq,IRQ,152724,Merchas Doski,Defence,,1999-12-07,26,Iraq
 8062,Iraq,IRQ,210821,Rebin Sulaka,Defence,,1992-04-12,34,Iraq
 8062,Iraq,IRQ,236191,Mustafa Saadoun,Defence,,2001-05-25,25,Iraq
-8062,Iraq,IRQ,236195,Ahmed Yahya,Defence,,1995-07-01,30,Iraq
+8062,Iraq,IRQ,236195,Ahmed Yahya,Defence,,1995-07-01,31,Iraq
 8062,Iraq,IRQ,236201,Frans Putros,Defence,,1993-07-14,32,Iraq
 8062,Iraq,IRQ,249839,Zaid Tahseen,Defence,,2001-01-29,25,Iraq
 8062,Iraq,IRQ,249877,Manaf Younis,Defence,,1996-11-16,29,Iraq
@@ -1222,7 +1222,7 @@ team_id,team_name,tla,player_id,player_name,position,shirt_number,date_of_birth,
 8873,Scotland,SCO,35101,Ross Stewart,Offence,,1996-07-11,29,Scotland
 8873,Scotland,SCO,35126,Lyndon Dykes,Offence,,1995-10-07,30,Scotland
 8873,Scotland,SCO,52043,Lawrence Shankland,Offence,,1995-08-10,30,Scotland
-9460,Curaçao,CUW,7412,Trevor Doornbusch,Goalkeeper,,1999-07-06,26,Curaçao
+9460,Curaçao,CUW,7412,Trevor Doornbusch,Goalkeeper,,1999-07-06,27,Curaçao
 9460,Curaçao,CUW,7437,Eloy Room,Goalkeeper,,1989-02-06,37,Curaçao
 9460,Curaçao,CUW,171283,Tyrick Bodak,Goalkeeper,,2002-02-15,24,Curaçao
 9460,Curaçao,CUW,7229,Roshon van Eijma,Defence,,1998-06-09,28,Curaçao
