@@ -1480,6 +1480,21 @@ with tab5:
     st.markdown("### 🏆 Bracket — Árbol del Torneo (Proyectado)")
     st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · Se actualiza automáticamente con el actualizador · <b>✅</b> modelo acertó · <b>❌</b> modelo falló · <b>—</b> no jugado</div>", unsafe_allow_html=True)
 
+    # ── Lookup de resultados reales para badges y avance ────────────────────────
+    # Índice: (equipo_local_norm, equipo_visita_norm) → winner real
+    wc_results_index = {}
+    if wc_matches is not None:
+        fin_wc = wc_matches[wc_matches["status"] == "FINISHED"] if "status" in wc_matches.columns else wc_matches
+        for _, m in fin_wc.iterrows():
+            ht_n = str(m.get("home_team","")).strip().lower()
+            at_n = str(m.get("away_team","")).strip().lower()
+            wc_results_index[(ht_n, at_n)] = m.get("winner","")
+
+    def find_result(ht, at):
+        """Busca si hay resultado real para home_team vs away_team."""
+        ht_n, at_n = ht.strip().lower(), at.strip().lower()
+        return wc_results_index.get((ht_n, at_n), None)
+
     def fuerza_equipo(team_name, ts):
         if ts is None:
             return 50
@@ -1489,7 +1504,18 @@ with tab5:
         return 50
 
     def win(t1, t2, ts):
-        # Intentar predecir con el modelo ML primero
+        # 1. Comprobar resultado real
+        real_result = find_result(t1["team"], t2["team"])
+        if real_result is not None:
+            if real_result == "HOME_TEAM": return t1
+            elif real_result == "AWAY_TEAM": return t2
+        else:
+            real_result_rev = find_result(t2["team"], t1["team"])
+            if real_result_rev is not None:
+                if real_result_rev == "HOME_TEAM": return t2
+                elif real_result_rev == "AWAY_TEAM": return t1
+
+        # 2. Intentar predecir con el modelo ML primero
         try:
             _, _, _, pred_class = predecir(t1["team"], t2["team"])
             if pred_class == 1:
@@ -1546,20 +1572,6 @@ with tab5:
     final_r = sf_r[0] if sf_r else q["B"][0]
     campeon = win(final_l, final_r, team_stats)
 
-    # ── Lookup de resultados reales para badges ───────────────────────────────
-    # Índice: (equipo_local_norm, equipo_visita_norm) → winner real
-    wc_results_index = {}
-    if wc_matches is not None:
-        fin_wc = wc_matches[wc_matches["status"] == "FINISHED"] if "status" in wc_matches.columns else wc_matches
-        for _, m in fin_wc.iterrows():
-            ht_n = str(m.get("home_team","")).strip().lower()
-            at_n = str(m.get("away_team","")).strip().lower()
-            wc_results_index[(ht_n, at_n)] = m.get("winner","")
-
-    def find_result(ht, at):
-        """Busca si hay resultado real para home_team vs away_team."""
-        ht_n, at_n = ht.strip().lower(), at.strip().lower()
-        return wc_results_index.get((ht_n, at_n), None)
 
     def pred_badge(t1, t2):
         """Devuelve badge HTML ✅/❌/— comparando predicción del modelo con resultado real."""
