@@ -871,8 +871,6 @@ with tab1:
                     <div style="font-size:0.9rem; color:#64748b; margin-bottom:20px;">
                         Goles Esperados (xG): <b>{equipo_local}</b> {goles_pred['home_xg']:.2f} - {goles_pred['away_xg']:.2f} <b>{equipo_visit}</b>
                     </div>
-                    
-                    <!-- LOCAL -->
                     <div style="font-weight:600; margin-bottom:10px; color:#1e293b;">🏠 {equipo_local}</div>
                     <div class="result-score-row" style="background:transparent; border:none; box-shadow:none; justify-content:center; gap:15px; margin-bottom:20px;">
                         <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['0']:.1f}%</div><div class="result-prob-label">0 Goles</div></div>
@@ -880,8 +878,6 @@ with tab1:
                         <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['2']:.1f}%</div><div class="result-prob-label">2 Goles</div></div>
                         <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['3+']:.1f}%</div><div class="result-prob-label">3+ Goles</div></div>
                     </div>
-                    
-                    <!-- VISITANTE -->
                     <div style="font-weight:600; margin-bottom:10px; color:#1e293b;">✈️ {equipo_visit}</div>
                     <div class="result-score-row" style="background:transparent; border:none; box-shadow:none; justify-content:center; gap:15px;">
                         <div class="result-prob"><div class="result-prob-value" style="color:#ec4899; font-size:1.1rem;">{goles_pred['away']['0']:.1f}%</div><div class="result-prob-label">0 Goles</div></div>
