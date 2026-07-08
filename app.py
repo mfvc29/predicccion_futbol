@@ -13,7 +13,7 @@ import json
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
-
+import math
 # ─── PAGE CONFIG ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="⚽ Predictor Mundial 2026",
@@ -459,6 +459,47 @@ RANKINGS_FIFA = {
 def get_rank(team):
     return RANKINGS_FIFA.get(team, 80)
 
+def predecir_goles_poisson(home, away):
+    # Basado en ranking y un baseline
+    rank_h = get_rank(home)
+    rank_a = get_rank(away)
+    
+    # Baseline expected goals
+    base_xg = 1.3
+    home_adv = 0.2
+    
+    # Diferencia de calidad
+    diff = rank_a - rank_h # Positivo significa que home es mejor (menor ranking)
+    
+    # Ajuste por diferencia (cada 10 puestos = 0.15 xG)
+    adj = (diff / 10.0) * 0.15
+    
+    home_xg = max(0.2, base_xg + home_adv + adj)
+    away_xg = max(0.2, base_xg - adj)
+    
+    # Calcular Poisson
+    def poisson_prob(l, k):
+        return (math.exp(-l) * (l**k)) / math.factorial(k)
+    
+    # Probabilidades Local
+    h0 = poisson_prob(home_xg, 0)
+    h1 = poisson_prob(home_xg, 1)
+    h2 = poisson_prob(home_xg, 2)
+    h3_plus = 1 - (h0 + h1 + h2)
+    
+    # Probabilidades Visitante
+    a0 = poisson_prob(away_xg, 0)
+    a1 = poisson_prob(away_xg, 1)
+    a2 = poisson_prob(away_xg, 2)
+    a3_plus = 1 - (a0 + a1 + a2)
+    
+    return {
+        "home": {"0": h0*100, "1": h1*100, "2": h2*100, "3+": h3_plus*100},
+        "away": {"0": a0*100, "1": a1*100, "2": a2*100, "3+": a3_plus*100},
+        "home_xg": home_xg,
+        "away_xg": away_xg
+    }
+
 # ═════════════════════════════════════════════════════════════════════════════
 # FUNCIÓN DE PREDICCIÓN
 # ═════════════════════════════════════════════════════════════════════════════
@@ -819,6 +860,39 @@ with tab1:
                 margin=dict(l=10, r=70, t=10, b=10), height=180, showlegend=False,
             )
             st.plotly_chart(fig_b, use_container_width=True)
+
+            # --- SECCIÓN DE PREDICCIÓN DE GOLES (POISSON) ---
+            goles_pred = predecir_goles_poisson(equipo_local, equipo_visit)
+            
+            st.markdown(f"""
+            <div class="card" style="margin-top:20px;">
+                <div class="card-header"><span>⚽</span> Probabilidad de Goles por Equipo (Poisson)</div>
+                <div style="padding:15px; text-align:center;">
+                    <div style="font-size:0.9rem; color:#64748b; margin-bottom:20px;">
+                        Goles Esperados (xG): <b>{equipo_local}</b> {goles_pred['home_xg']:.2f} - {goles_pred['away_xg']:.2f} <b>{equipo_visit}</b>
+                    </div>
+                    
+                    <!-- LOCAL -->
+                    <div style="font-weight:600; margin-bottom:10px; color:#1e293b;">🏠 {equipo_local}</div>
+                    <div class="result-score-row" style="background:transparent; border:none; box-shadow:none; justify-content:center; gap:15px; margin-bottom:20px;">
+                        <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['0']:.1f}%</div><div class="result-prob-label">0 Goles</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['1']:.1f}%</div><div class="result-prob-label">1 Gol</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['2']:.1f}%</div><div class="result-prob-label">2 Goles</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#0ea5e9; font-size:1.1rem;">{goles_pred['home']['3+']:.1f}%</div><div class="result-prob-label">3+ Goles</div></div>
+                    </div>
+                    
+                    <!-- VISITANTE -->
+                    <div style="font-weight:600; margin-bottom:10px; color:#1e293b;">✈️ {equipo_visit}</div>
+                    <div class="result-score-row" style="background:transparent; border:none; box-shadow:none; justify-content:center; gap:15px;">
+                        <div class="result-prob"><div class="result-prob-value" style="color:#ec4899; font-size:1.1rem;">{goles_pred['away']['0']:.1f}%</div><div class="result-prob-label">0 Goles</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#ec4899; font-size:1.1rem;">{goles_pred['away']['1']:.1f}%</div><div class="result-prob-label">1 Gol</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#ec4899; font-size:1.1rem;">{goles_pred['away']['2']:.1f}%</div><div class="result-prob-label">2 Goles</div></div>
+                        <div class="result-prob"><div class="result-prob-value" style="color:#ec4899; font-size:1.1rem;">{goles_pred['away']['3+']:.1f}%</div><div class="result-prob-label">3+ Goles</div></div>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
 
         else:
             st.markdown("""
