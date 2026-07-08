@@ -10,10 +10,12 @@ import pandas as pd
 import numpy as np
 import joblib
 import json
+import os
+import math
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
-import math
+import streamlit.components.v1 as components
 # ─── PAGE CONFIG ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="⚽ Predictor Mundial 2026",
@@ -368,7 +370,6 @@ st.markdown("""
 @st.cache_data
 def cargar_datos():
     """Carga todos los recursos necesarios para la app."""
-    import os
 
     # Modelo
     model_data = joblib.load("modelo_futbol.pkl")
@@ -415,6 +416,11 @@ def cargar_datos():
         with open("predicciones_honestas.json", "r") as f:
             predicciones_honestas = json.load(f)
 
+    # Modelo de goles calibrado
+    modelo_goles = None
+    if os.path.exists("modelo_goles.pkl"):
+        modelo_goles = joblib.load("modelo_goles.pkl")
+
     return {
         "model": model_data,
         "is_ensemble": is_ensemble,
@@ -426,6 +432,7 @@ def cargar_datos():
         "team_stats": team_stats,
         "wc_matches": wc_matches,
         "predicciones_honestas": predicciones_honestas,
+        "modelo_goles": modelo_goles,
     }
 
 datos = cargar_datos()
@@ -442,7 +449,11 @@ predicciones_honestas = datos["predicciones_honestas"]
 
 equipos_list = sorted(equipos_df["Equipo"].dropna().unique().tolist())
 
-# Rankings FIFA aproximados (Top 50)
+# Índices pre-calculados (se crean una sola vez al arrancar, no en cada llamada)
+_equipos_idx = equipos_df.set_index("Equipo")
+_team_stats_idx = team_stats.set_index("team") if team_stats is not None else None
+
+# Rankings FIFA — constante global
 RANKINGS_FIFA = {
     "Argentina": 1, "France": 2, "Belgium": 3, "England": 4, "Brazil": 5,
     "Portugal": 6, "Netherlands": 7, "Spain": 8, "Croatia": 10, "United States": 11,
@@ -456,43 +467,64 @@ RANKINGS_FIFA = {
     "Uzbekistan": 64, "Norway": 47, "Scotland": 39, "Curaçao": 91, "Haiti": 90
 }
 
+# Logos de equipos — constante global (declarada una sola vez)
+TEAM_LOGOS = {
+    "Argentina": "🇦🇷", "France": "🇫🇷", "Brazil": "🇧🇷", "England": "🿴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "Spain": "🇪🇸", "Germany": "🇩🇪", "Portugal": "🇵🇹", "Netherlands": "🇳🇱",
+    "Italy": "🇮🇹", "Belgium": "🇧🇪", "Uruguay": "🇺🇾", "Croatia": "🇭🇷",
+    "Morocco": "🇲🇦", "Senegal": "🇸🇳", "Japan": "🇯🇵", "South Korea": "🇰🇷",
+    "Mexico": "🇲🇽", "United States": "🇺🇸", "Canada": "🇨🇦", "Australia": "🇦🇺",
+    "Colombia": "🇨🇴", "Chile": "🇨🇱", "Ecuador": "🇪🇨", "Peru": "🇵🇪",
+    "Nigeria": "🇳🇬", "Cameroon": "🇨🇲", "Ghana": "🇬🇭", "Algeria": "🇩🇿",
+    "Poland": "🇵🇱", "Switzerland": "🇨🇭", "Denmark": "🇩🇰", "Serbia": "🇷🇸",
+    "Austria": "🇦🇹", "Turkey": "🇹🇷", "Ukraine": "🇺🇦", "Hungary": "🇭🇺",
+    "Iran": "🇮🇷", "Saudi Arabia": "🇸🇦", "Qatar": "🇶🇦", "Costa Rica": "🇨🇷",
+    "Paraguay": "🇵🇾", "Bolivia": "🇧🇴", "Venezuela": "🇻🇪",
+}
+
 def get_rank(team):
     return RANKINGS_FIFA.get(team, 80)
 
+def get_team_logo(team_name):
+    return TEAM_LOGOS.get(team_name, "🏳️")
+
+# Función Poisson auxiliar en el módulo (no anidada, se compila una sola vez)
+def _poisson_prob(lam, k):
+    return (math.exp(-lam) * (lam**k)) / math.factorial(k)
+
 def predecir_goles_poisson(home, away):
-    # Basado en ranking y un baseline
-    rank_h = get_rank(home)
-    rank_a = get_rank(away)
-    
-    # Baseline expected goals
-    base_xg = 1.3
-    home_adv = 0.2
-    
-    # Diferencia de calidad
-    diff = rank_a - rank_h # Positivo significa que home es mejor (menor ranking)
-    
-    # Ajuste por diferencia (cada 10 puestos = 0.15 xG)
-    adj = (diff / 10.0) * 0.15
-    
-    home_xg = max(0.2, base_xg + home_adv + adj)
-    away_xg = max(0.2, base_xg - adj)
-    
-    # Calcular Poisson
-    def poisson_prob(l, k):
-        return (math.exp(-l) * (l**k)) / math.factorial(k)
-    
-    # Probabilidades Local
-    h0 = poisson_prob(home_xg, 0)
-    h1 = poisson_prob(home_xg, 1)
-    h2 = poisson_prob(home_xg, 2)
+    # Intentar usar xG calibrado desde modelo_goles.pkl
+    mg = datos.get("modelo_goles")
+    if mg and "xg_lookup" in mg:
+        xg = mg["xg_lookup"]
+        ha = mg.get("home_adv", 0.15)
+        g_avg = mg.get("global_avg_gf", 1.3)
+        c_avg = mg.get("global_avg_conc", 1.3)
+        # xG local = ataque_local * defensa_rival / media_global (Dixon-Coles simplificado)
+        home_att  = xg.get(home, {}).get("attack",  g_avg)
+        home_def  = xg.get(home, {}).get("defense", c_avg)
+        away_att  = xg.get(away, {}).get("attack",  g_avg)
+        away_def  = xg.get(away, {}).get("defense", c_avg)
+        home_xg = max(0.2, (home_att * away_def / c_avg) + ha)
+        away_xg = max(0.2, (away_att * home_def / c_avg))
+    else:
+        # Fallback: solo ranking FIFA
+        rank_h = get_rank(home)
+        rank_a = get_rank(away)
+        base_xg = 1.3
+        diff = rank_a - rank_h
+        adj = (diff / 10.0) * 0.15
+        home_xg = max(0.2, base_xg + 0.2 + adj)
+        away_xg = max(0.2, base_xg - adj)
+
+    h0 = _poisson_prob(home_xg, 0)
+    h1 = _poisson_prob(home_xg, 1)
+    h2 = _poisson_prob(home_xg, 2)
     h3_plus = 1 - (h0 + h1 + h2)
-    
-    # Probabilidades Visitante
-    a0 = poisson_prob(away_xg, 0)
-    a1 = poisson_prob(away_xg, 1)
-    a2 = poisson_prob(away_xg, 2)
+    a0 = _poisson_prob(away_xg, 0)
+    a1 = _poisson_prob(away_xg, 1)
+    a2 = _poisson_prob(away_xg, 2)
     a3_plus = 1 - (a0 + a1 + a2)
-    
     return {
         "home": {"0": h0*100, "1": h1*100, "2": h2*100, "3+": h3_plus*100},
         "away": {"0": a0*100, "1": a1*100, "2": a2*100, "3+": a3_plus*100},
@@ -500,12 +532,14 @@ def predecir_goles_poisson(home, away):
         "away_xg": away_xg
     }
 
+
 # ═════════════════════════════════════════════════════════════════════════════
 # FUNCIÓN DE PREDICCIÓN
 # ═════════════════════════════════════════════════════════════════════════════
 def predecir(home, away):
     """Hace la predicción usando el modelo (ensemble o simple)."""
-    eq_idx = equipos_df.set_index("Equipo")
+    # Usar índice pre-calculado en vez de re-construirlo cada vez
+    eq_idx = _equipos_idx
 
     def feat(team):
         if team in eq_idx.index:
@@ -602,21 +636,7 @@ def pos_label(pos):
     m = {"Goalkeeper":"PO","Defender":"DF","Midfielder":"MC","Forward":"DE"}
     return m.get(pos, pos[:2].upper())
 
-def get_team_logo(team_name):
-    logos = {
-        "Argentina": "🇦🇷", "France": "🇫🇷", "Brazil": "🇧🇷", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        "Spain": "🇪🇸", "Germany": "🇩🇪", "Portugal": "🇵🇹", "Netherlands": "🇳🇱",
-        "Italy": "🇮🇹", "Belgium": "🇧🇪", "Uruguay": "🇺🇾", "Croatia": "🇭🇷",
-        "Morocco": "🇲🇦", "Senegal": "🇸🇳", "Japan": "🇯🇵", "South Korea": "🇰🇷",
-        "Mexico": "🇲🇽", "United States": "🇺🇸", "Canada": "🇨🇦", "Australia": "🇦🇺",
-        "Colombia": "🇨🇴", "Chile": "🇨🇱", "Ecuador": "🇪🇨", "Peru": "🇵🇪",
-        "Nigeria": "🇳🇬", "Cameroon": "🇨🇲", "Ghana": "🇬🇭", "Algeria": "🇩🇿",
-        "Poland": "🇵🇱", "Switzerland": "🇨🇭", "Denmark": "🇩🇰", "Serbia": "🇷🇸",
-        "Austria": "🇦🇹", "Turkey": "🇹🇷", "Ukraine": "🇺🇦", "Hungary": "🇭🇺",
-        "Iran": "🇮🇷", "Saudi Arabia": "🇸🇦", "Qatar": "🇶🇦", "Costa Rica": "🇨🇷",
-        "Paraguay": "🇵🇾", "Bolivia": "🇧🇴", "Venezuela": "🇻🇪",
-    }
-    return logos.get(team_name, "🏳️")
+
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -693,7 +713,7 @@ with tab1:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-header"><span>📊</span> Comparación de Métricas Reales</div>', unsafe_allow_html=True)
         if team_stats is not None:
-            ts_idx = team_stats.set_index("team")
+            ts_idx = _team_stats_idx
             ht_row = ts_idx.loc[equipo_local] if equipo_local in ts_idx.index else None
             at_row = ts_idx.loc[equipo_visit] if equipo_visit in ts_idx.index else None
 
