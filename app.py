@@ -1533,28 +1533,35 @@ with tab5:
             f2 = fuerza_equipo(t2["team"], ts) + t2["pts"] * 3
             return t1 if f1 >= f2 else t2
 
-    # Cruces R32 — izquierda (8 partidos) y derecha (8 partidos)
-    q = qualifiers
+    def get_team(name):
+        for grp in GRUPOS.values():
+            for t in grp:
+                if t["team"] == name:
+                    return t
+        return {"team": name, "pts": 0, "gf": 0, "gc": 0, "pj": 0}
+
+    # ── BRACKET_R32_START ──
     r32_l = [
-        (q["A"][0], q["B"][1]),  # 1A vs 2B
-        (q["C"][0], q["D"][1]),  # 1C vs 2D
-        (q["E"][0], q["F"][1]),  # 1E vs 2F
-        (q["G"][0], q["H"][1]),  # 1G vs 2H
-        (q["I"][0], q["J"][1]),  # 1I vs 2J
-        (q["K"][0], q["L"][1]),  # 1K vs 2L
-        (q["B"][0], q["A"][1]),  # 1B vs 2A
-        (q["D"][0], q["C"][1]),  # 1D vs 2C
+        (get_team("Mexico"), get_team("Ecuador")),
+        (get_team("England"), get_team("Congo DR")),
+        (get_team("South Africa"), get_team("Canada")),
+        (get_team("Netherlands"), get_team("Morocco")),
+        (get_team("Germany"), get_team("Paraguay")),
+        (get_team("France"), get_team("Sweden")),
+        (get_team("Brazil"), get_team("Japan")),
+        (get_team("Ivory Coast"), get_team("Norway")),
     ]
     r32_r = [
-        (q["F"][0], q["E"][1]),  # 1F vs 2E
-        (q["H"][0], q["G"][1]),  # 1H vs 2G
-        (q["J"][0], q["I"][1]),  # 1J vs 2I
-        (q["L"][0], q["K"][1]),  # 1L vs 2K
-        (q["A"][0], q["C"][1]),
-        (q["E"][0], q["G"][1]),
-        (q["I"][0], q["K"][1]),
-        (q["C"][0], q["E"][1]),
+        (get_team("Portugal"), get_team("Croatia")),
+        (get_team("Spain"), get_team("Austria")),
+        (get_team("United States"), get_team("Bosnia-Herzegovina")),
+        (get_team("Belgium"), get_team("Senegal")),
+        (get_team("Argentina"), get_team("Cape Verde Islands")),
+        (get_team("Australia"), get_team("Egypt")),
+        (get_team("Switzerland"), get_team("Algeria")),
+        (get_team("Colombia"), get_team("Ghana")),
     ]
+    # ── BRACKET_R32_END ──
 
     def proj_round(pairs, ts):
         return [win(a, b, ts) for a, b in pairs]
