@@ -536,7 +536,7 @@ def predecir_goles_poisson(home, away):
 # ═════════════════════════════════════════════════════════════════════════════
 # FUNCIÓN DE PREDICCIÓN
 # ═════════════════════════════════════════════════════════════════════════════
-def predecir(home, away):
+def predecir(home, away, is_neutral=False):
     """Hace la predicción usando el modelo (ensemble o simple)."""
     # Usar índice pre-calculado en vez de re-construirlo cada vez
     eq_idx = _equipos_idx
@@ -576,6 +576,7 @@ def predecir(home, away):
     row["diff_pts"]      = h["pts_per_game"] - a["pts_per_game"]
     row["diff_clean"]    = h["clean_sheet_rate"] - a["clean_sheet_rate"]
     row["diff_rank"]     = h["rank"] - a["rank"]
+    row["neutral"]       = 1 if is_neutral else 0
 
     if is_ensemble:
         features = model_data["features"]
@@ -606,7 +607,7 @@ def predecir(home, away):
             "home_Total_Goals_Scored": h["goles_favor"],
             "away_Total_Goals_Scored": a["goles_favor"],
             "home_Total_Assists": 0, "away_Total_Assists": 0,
-            "score_diff": fuerza_h - fuerza_a, "neutral": 0
+            "score_diff": fuerza_h - fuerza_a, "neutral": 1 if is_neutral else 0
         }
         X = pd.DataFrame([legacy_row])
         proba = model_data.predict_proba(X)
@@ -809,7 +810,7 @@ with tab1:
 
         if st.button("⚡ PREDECIR RESULTADO", key="btn_predict"):
             with st.spinner("Analizando con IA..."):
-                ph, pd_p, pa, pred = predecir(equipo_local, equipo_visit)
+                ph, pd_p, pa, pred = predecir(equipo_local, equipo_visit, is_neutral=neutral)
 
             # Determinar ganador
             if pred == 1:
