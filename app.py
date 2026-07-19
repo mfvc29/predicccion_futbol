@@ -680,9 +680,8 @@ st.markdown("""
 # ═════════════════════════════════════════════════════════════════════════════
 # TABS PRINCIPALES
 # ═════════════════════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab3, tab4, tab5 = st.tabs([
     "⚡ Predictor",
-    "🏆 Resultados WC2026",
     "🌍 Selecciones",
     "👤 Jugadores",
     "🥇 Ganadores",
@@ -981,130 +980,6 @@ with tab1:
             st.markdown("<div style='font-size:0.75rem; color:#94a3b8; margin-top:12px;'><i>*Nota: La <b>Fuerza Score</b> es un índice inteligente de 0 a 100+ calculado desde datos reales de la API (tasa de victorias, goles, vallas invictas) de los últimos torneos (Euro, Mundial, Ligas).</i></div>", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# TAB 2: RESULTADOS WC 2026
-# ─────────────────────────────────────────────────────────────────────────────
-with tab2:
-    st.markdown('<div style="height:16px"></div>', unsafe_allow_html=True)
-
-    if wc_matches is not None and len(wc_matches) > 0:
-        finished = wc_matches[wc_matches["status"] == "FINISHED"] if "status" in wc_matches.columns else wc_matches
-        scheduled = wc_matches[wc_matches["status"].isin(["TIMED","SCHEDULED"])] if "status" in wc_matches.columns else pd.DataFrame()
-
-        # Métricas rápidas
-        mc1, mc2, mc3, mc4 = st.columns(4)
-        mc1.metric("⚽ Partidos Jugados", len(finished))
-        mc2.metric("📅 Programados", len(scheduled))
-        mc3.metric("🎯 Goles Totales", int(finished["total_goals"].sum()) if "total_goals" in finished.columns else "-")
-        mc4.metric("📊 Promedio Goles", f"{finished['total_goals'].mean():.2f}" if len(finished) > 0 and "total_goals" in finished.columns else "-")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
-        if True:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-header"><span>✅</span> Historial (Predicciones Honestas "Out-Of-Sample")</div>', unsafe_allow_html=True)
-            st.markdown('<p style="font-size:0.8rem;color:#64748b;margin-bottom:15px;line-height:1.3;">Para asegurar transparencia matemática, el modelo muestra qué habría predicho para estos partidos <b>sin conocer su resultado final</b>.</p>', unsafe_allow_html=True)
-
-            # Contador de aciertos
-            total_pred, aciertos_pred = 0, 0
-
-            if len(finished) > 0:
-                for _, m in finished.sort_values("date", ascending=False).iterrows():
-                    ht  = m.get("home_team", "?")
-                    at  = m.get("away_team", "?")
-                    hs  = m.get("home_score", "-")
-                    as_ = m.get("away_score", "-")
-                    w   = m.get("winner", "")
-                    st_date = str(m.get("date", ""))[:10]
-
-                    home_bold = "font-weight:900;" if w == "HOME_TEAM" else ""
-                    away_bold = "font-weight:900;" if w == "AWAY_TEAM" else ""
-                    home_col  = "color:#4f46e5;" if w == "HOME_TEAM" else "color:#64748b;"
-                    away_col  = "color:#ef4444;" if w == "AWAY_TEAM" else "color:#64748b;"
-                    ht_logo   = get_team_logo(ht)
-                    at_logo   = get_team_logo(at)
-
-                    # ── Predicción del modelo ──────────────────────────────
-                    # resultado real: "Local", "Empate", "Visita"
-                    real_str = "Local" if w == "HOME_TEAM" else ("Visita" if w == "AWAY_TEAM" else "Empate")
-                    
-                    key = f"{ht}_{at}"
-                    if key in predicciones_honestas:
-                        pred_str = predicciones_honestas[key]
-                        total_pred += 1
-                        if pred_str == real_str:
-                            aciertos_pred += 1
-                            pred_badge = "<span style='background:#d1fae5;color:#065f46;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>✅ Acertó</span>"
-                        else:
-                            pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_str}</span>"
-                    else:
-                        # Fallback por si no hay historial honesto para este partido
-                        try:
-                            _, _, _, pred_class = predecir(ht, at)
-                            total_pred += 1
-                            real_result = 1 if w == "HOME_TEAM" else (-1 if w == "AWAY_TEAM" else 0)
-                            if pred_class == real_result:
-                                aciertos_pred += 1
-                                pred_badge = "<span style='background:#d1fae5;color:#065f46;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>✅ Acertó</span>"
-                            else:
-                                pred_nombre = "Local" if pred_class == 1 else ("Empate" if pred_class == 0 else "Visita")
-                                pred_badge = f"<span style='background:#fee2e2;color:#991b1b;font-size:0.65rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;'>❌ Predijo: {pred_nombre}</span>"
-                        except Exception:
-                            pred_badge = "<span style='background:#f1f5f9;color:#94a3b8;font-size:0.65rem;padding:3px 8px;border-radius:999px;'>— sin datos</span>"
-
-                    st.markdown(f"""
-<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:6px;
-            background:#f8faff;border-radius:12px;border:1px solid #e0e7ff;">
-    <div style="flex:1;text-align:right;{home_bold}{home_col}font-size:0.88rem;">{ht_logo} {ht}</div>
-    <div style="text-align:center;min-width:70px;background:#fff;border-radius:8px;padding:6px 10px;border:1px solid #e0e7ff;">
-        <div style="font-size:1.1rem;font-weight:900;color:#1e1b4b;">{hs} – {as_}</div>
-        <div style="font-size:0.65rem;color:#94a3b8;">{st_date}</div>
-    </div>
-    <div style="flex:1;text-align:left;{away_bold}{away_col}font-size:0.88rem;">{at_logo} {at}</div>
-    <div style="min-width:110px;text-align:right;">{pred_badge}</div>
-</div>
-""", unsafe_allow_html=True)
-
-            # Resumen de aciertos
-            if total_pred > 0:
-                pct = aciertos_pred / total_pred * 100
-                color_bg = "#d1fae5" if pct >= 50 else "#fef3c7"
-                color_tx = "#065f46" if pct >= 50 else "#92400e"
-                st.markdown(f"""
-<div style="background:{color_bg};border-radius:10px;padding:10px 16px;margin-top:10px;display:flex;align-items:center;gap:10px;">
-    <span style="font-size:1.3rem;">🎯</span>
-    <div>
-        <div style="font-size:0.82rem;font-weight:800;color:{color_tx};">Precisión del modelo en WC2026: {aciertos_pred}/{total_pred} partidos acertados ({pct:.0f}%)</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-            st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-        # Gráfico goles por partido
-        if len(finished) > 0 and "total_goals" in finished.columns and "group" in finished.columns:
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-header"><span>📈</span> Goles por Partido — Distribución</div>', unsafe_allow_html=True)
-            fig_hist = px.histogram(
-                finished, x="total_goals", nbins=8,
-                color_discrete_sequence=["#4f46e5"],
-                labels={"total_goals": "Goles Totales en el Partido"},
-            )
-            fig_hist.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(248,250,255,1)",
-                yaxis=dict(gridcolor="#e0e7ff"),
-                xaxis=dict(gridcolor="#f1f5f9"),
-                margin=dict(l=20,r=20,t=20,b=20), height=250,
-                bargap=0.1,
-            )
-            fig_hist.update_traces(marker_line_color="#3730a3", marker_line_width=1.5)
-            st.plotly_chart(fig_hist, use_container_width=True)
-            st.markdown("</div>", unsafe_allow_html=True)
-    else:
-        st.info("📡 Ejecuta `python fetch_api_data.py` desde la carpeta BASE para descargar los partidos del Mundial 2026.")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1457,9 +1332,9 @@ with tab5:
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="bracket-title">🥇 Camino al Título — WC2026</div>', unsafe_allow_html=True)
-    st.markdown('<div class="bracket-sub">Resultados reales de fase de grupos · Se actualiza con cada ejecución del actualizador</div>', unsafe_allow_html=True)
+    st.markdown('<div class="bracket-sub">Resultados reales de fase de grupos</div>', unsafe_allow_html=True)
 
-    # ── Datos de grupos (se actualizan al correr el actualizador) ──────────────
+    # ── Datos de grupos ──────────────
     GRUPOS = {
         "A": [
             {"team": "Mexico", "pts": 9, "gf": 6, "gc": 0, "pj": 3},
@@ -1586,8 +1461,8 @@ with tab5:
     st.markdown("---")
 
     # ── SECCIÓN: Bracket árbol ────────────────────────────────────────────────
-    st.markdown("### 🏆 Bracket — Árbol del Torneo (Proyectado)")
-    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · Se actualiza automáticamente con el actualizador · <b>✅</b> modelo acertó · <b>❌</b> modelo falló · <b>—</b> no jugado</div>", unsafe_allow_html=True)
+    st.markdown("### 🏆 Bracket — Árbol del Torneo")
+    st.markdown("<div style='font-size:0.78rem;color:#94a3b8;margin-bottom:12px;'>Basado en clasificados actuales · <b>✅</b> modelo acertó · <b>❌</b> modelo falló · <b>—</b> no jugado</div>", unsafe_allow_html=True)
 
     # ── Lookup de resultados reales para badges y avance ────────────────────────
     # Índice: (equipo_local_norm, equipo_visita_norm) → winner real
@@ -1896,7 +1771,7 @@ with tab5:
 
     st.markdown(
         "<div style='font-size:0.72rem;color:#94a3b8;text-align:center;margin-top:8px;'>"
-        "⚠️ Proyección basada en resultados reales de fase de grupos + Fuerza Score del modelo ML. "
+        "⚠️ Cuadro basado en resultados reales de la fase de grupos + Fuerza Score del modelo ML. "
         "✅ = modelo acertó el ganador · ❌ = modelo falló · — = partido no jugado aún."
         "</div>",
         unsafe_allow_html=True
