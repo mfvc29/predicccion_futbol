@@ -1501,7 +1501,7 @@ with tab5:
 
         # 2. Intentar predecir con el modelo ML primero
         try:
-            _, _, _, pred_class = predecir(t1["team"], t2["team"])
+            _, _, _, pred_class = predecir(t1["team"], t2["team"], is_neutral=True)
             if pred_class == 1:
                 return t1
             elif pred_class == -1:
