@@ -320,6 +320,8 @@ st.markdown("""
         background: #ffffff !important;
         border: 1.5px solid #e2e8f0 !important;
         border-radius: 12px !important;
+    }
+    .stSelectbox > div > div * {
         color: #1e1b4b !important;
     }
     .stSelectbox > div > div:focus-within {
@@ -538,7 +540,7 @@ def predecir_goles_poisson(home, away):
 # ═════════════════════════════════════════════════════════════════════════════
 def predecir(home, away, is_neutral=False):
     """Hace la predicción usando el modelo (ensemble o simple)."""
-    # Usar índice pre-calculado en vez de re-construirlo cada vez
+def _predecir_base(home, away, is_neutral=False):
     eq_idx = _equipos_idx
 
     def feat(team):
@@ -559,7 +561,6 @@ def predecir(home, away, is_neutral=False):
         return {k: 0 for k in ["win_rate","pts_per_game","goles_favor","goles_contra",
                                  "clean_sheet_rate","score_rate","Fuerza_Score",
                                  "diferencia_goles_total","partidos_jugados", "rank"]}
-
 
     h = feat(home)
     a = feat(away)
@@ -583,7 +584,6 @@ def predecir(home, away, is_neutral=False):
         X = pd.DataFrame([{f: row.get(f, 0) for f in features}])
         X = X.apply(pd.to_numeric, errors="coerce").fillna(0)
 
-        # Soportar tanto hgb (nuevo) como gb (viejo)
         if "hgb" in model_data:
             p1 = model_data["hgb"].predict_proba(X)
         elif "gb" in model_data:
@@ -595,7 +595,6 @@ def predecir(home, away, is_neutral=False):
         proba = (p1 + p2) / 2
         classes = model_data["classes"]
     else:
-        # Modelo simple (legacy)
         fuerza_h = h["Fuerza_Score"]
         fuerza_a = a["Fuerza_Score"]
         legacy_row = {
@@ -613,14 +612,33 @@ def predecir(home, away, is_neutral=False):
         proba = model_data.predict_proba(X)
         classes = model_data.classes_
 
-    # Mapear probabilidades
     prob_map = dict(zip(classes.tolist(), proba[0].tolist()))
-    prob_home = round(prob_map.get(1, 0) * 100, 1)
-    prob_draw = round(prob_map.get(0, 0) * 100, 1)
-    prob_away = round(prob_map.get(-1, 0) * 100, 1)
-    pred_class = int(classes[np.argmax(proba[0])])
+    prob_home = prob_map.get(1, 0) * 100
+    prob_draw = prob_map.get(0, 0) * 100
+    prob_away = prob_map.get(-1, 0) * 100
+    return prob_home, prob_draw, prob_away
 
-    return prob_home, prob_draw, prob_away, pred_class
+def predecir(home, away, is_neutral=False):
+    """Hace la predicción asegurando simetría total en cancha neutral."""
+    if not is_neutral:
+        ph, pd_p, pa = _predecir_base(home, away, False)
+    else:
+        # En cancha neutral, promediamos A vs B y B vs A invertido para eliminar TODO sesgo
+        ph1, pd1, pa1 = _predecir_base(home, away, True)
+        pa2, pd2, ph2 = _predecir_base(away, home, True)  # Invertimos A y B
+        
+        ph = (ph1 + ph2) / 2
+        pa = (pa1 + pa2) / 2
+        pd_p = (pd1 + pd2) / 2
+
+    if ph > pa and ph > pd_p:
+        pred_class = 1
+    elif pa > ph and pa > pd_p:
+        pred_class = -1
+    else:
+        pred_class = 0
+
+    return round(ph, 1), round(pd_p, 1), round(pa, 1), pred_class
 
 
 def get_pos_class(pos):
