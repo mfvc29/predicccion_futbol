@@ -1526,24 +1526,24 @@ with tab5:
 
     # ── BRACKET_R32_START ──
     r32_l = [
-        (get_team("Mexico"), get_team("Congo DR")),
-        (get_team("England"), get_team("Sweden")),
         (get_team("South Africa"), get_team("Canada")),
         (get_team("Netherlands"), get_team("Morocco")),
-        (get_team("Germany"), get_team("Ecuador")),
-        (get_team("France"), get_team("Ghana")),
+        (get_team("Germany"), get_team("Paraguay")),
+        (get_team("France"), get_team("Sweden")),
         (get_team("Brazil"), get_team("Japan")),
         (get_team("Ivory Coast"), get_team("Norway")),
+        (get_team("Mexico"), get_team("Ecuador")),
+        (get_team("England"), get_team("Congo DR")),
     ]
     r32_r = [
         (get_team("Portugal"), get_team("Croatia")),
         (get_team("Spain"), get_team("Austria")),
         (get_team("United States"), get_team("Bosnia-Herzegovina")),
-        (get_team("Belgium"), get_team("Algeria")),
+        (get_team("Belgium"), get_team("Senegal")),
         (get_team("Argentina"), get_team("Cape Verde Islands")),
         (get_team("Australia"), get_team("Egypt")),
-        (get_team("Switzerland"), get_team("Paraguay")),
-        (get_team("Colombia"), get_team("Senegal")),
+        (get_team("Switzerland"), get_team("Algeria")),
+        (get_team("Colombia"), get_team("Ghana")),
     ]
     # ── BRACKET_R32_END ──
 
