@@ -24,7 +24,7 @@ import requests
 from datetime import datetime
 from collections import defaultdict
 
-API_KEY = os.environ.get("FOOTBALL_DATA_API_KEY", "8888a51b18884aebad14216052644c2b")
+API_KEY = os.environ.get("FOOTBALL_DATA_API_KEY", "")
 BASE_URL = "https://api.football-data.org/v4"
 HEADERS  = {"X-Auth-Token": API_KEY}
 DELAY    = 7  # segundos entre llamadas (plan free: ~10/min)
