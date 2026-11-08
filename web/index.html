@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predictor de Ligas</title>
+  <meta name="description" content="Probabilidades de local, empate y visita para las grandes ligas de Europa y Sudamérica.">
+  <meta name="theme-color" content="#0f1720">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="envoltura">
+      <div class="marca">
+        <h1>Predictor de Ligas</h1>
+        <p id="actualizado" class="sutil">Cargando…</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="ligas envoltura" id="ligas" aria-label="Ligas"></nav>
+  <nav class="pestanas envoltura" id="pestanas" role="tablist"></nav>
+
+  <main class="envoltura" id="contenido" aria-live="polite"></main>
+
+  <footer class="envoltura pie sutil">
+    Datos: football-data.org. Probabilidades estimadas por un modelo estadístico; no es consejo de apuestas.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

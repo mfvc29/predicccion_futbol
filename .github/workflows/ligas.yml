@@ -1,0 +1,46 @@
+name: Ligas — datos y predicciones
+
+on:
+  schedule:
+    - cron: "15 10,22 * * *"   # 5:15 y 17:15 hora de Lima
+  workflow_dispatch:
+  push:
+    branches: [ligas]
+    paths: ["ligas/**", ".github/workflows/ligas.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ligas
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ligas/requirements.txt
+
+      - run: pip install -r ligas/requirements.txt
+
+      - name: Descargar, entrenar y exportar
+        run: python ligas/pipeline.py
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+
+      - name: Guardar cambios
+        run: |
+          git config user.name "Martin Vargas"
+          git config user.email "29.mfvc@gmail.com"
+          git add ligas/data web/data
+          if git diff --cached --quiet; then echo "Sin cambios"; exit 0; fi
+          git commit -m "Ligas: datos y predicciones $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git pull --rebase
+          git push
