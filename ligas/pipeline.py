@@ -7,6 +7,7 @@ Uso:
 import json
 import sys
 
+from ajustar_elo import buscar
 from config import RAW
 from entrenar import entrenar
 from exportar import exportar
@@ -19,13 +20,18 @@ def main():
         print("① Descargando datos")
         descargar()
     info = json.loads((RAW / "ligas.json").read_text())
-    print("② Calculando variables")
+    temporadas = {c: v["temporada"] for c, v in info.items()}
     df = cargar_partidos()
     df = df[df["liga"].isin(info)].reset_index(drop=True)
-    X, estado = construir(df)
-    print("③ Entrenando")
-    res = entrenar(X, {c: v["temporada"] for c, v in info.items()})
-    print("④ Exportando")
+    print("② Ajustando parámetros del Elo")
+    elo = buscar(df, temporadas)
+    print(f"  Elegidos: {elo}")
+    print("③ Calculando variables")
+    X, estado = construir(df, elo)
+    print("④ Entrenando")
+    res = entrenar(X, temporadas, elo["calentamiento"])
+    res["elo"] = elo
+    print("⑤ Exportando")
     exportar(df, X, estado, res, info)
 
 

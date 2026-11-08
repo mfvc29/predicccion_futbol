@@ -12,7 +12,7 @@ import pandas as pd
 from config import LIGAS, RAW
 
 TERMINADO = {"FINISHED", "AWARDED"}
-K, HFA, REGRESION = 20.0, 60.0, 0.8
+ELO_DEFECTO = {"k": 20.0, "hfa": 60.0, "regresion": 0.8}
 VIGENCIA = pd.Timedelta(days=400)
 
 GENERALES = ["f5_pts", "f10_pts", "f10_gf", "f10_gc"]
@@ -53,7 +53,8 @@ def _factor_goles(dg):
 
 
 class Elo:
-    def __init__(self):
+    def __init__(self, k=20.0, hfa=60.0, regresion=0.8):
+        self.k, self.hfa, self.regresion = k, hfa, regresion
         self.r, self.temp, self.liga, self.ultima = {}, {}, {}, {}
 
     def _activos(self, liga, fecha):
@@ -75,15 +76,15 @@ class Elo:
             return self._nuevo(liga, fecha)
         if self.temp[eq] != temporada:
             media = self._media(liga, fecha)
-            return media + REGRESION * (self.r[eq] - media)
+            return media + self.regresion * (self.r[eq] - media)
         return self.r[eq]
 
     def jugar(self, p):
         rl = self.rating(p.local_id, p.liga, p.temporada, p.fecha)
         rv = self.rating(p.visita_id, p.liga, p.temporada, p.fecha)
-        esperado = 1 / (1 + 10 ** ((rv - rl - HFA) / 400))
+        esperado = 1 / (1 + 10 ** ((rv - rl - self.hfa) / 400))
         real = 1.0 if p.gl > p.gv else 0.5 if p.gl == p.gv else 0.0
-        delta = K * _factor_goles(p.gl - p.gv) * (real - esperado)
+        delta = self.k * _factor_goles(p.gl - p.gv) * (real - esperado)
         for eq, valor in ((p.local_id, rl + delta), (p.visita_id, rv - delta)):
             self.r[eq], self.temp[eq], self.liga[eq], self.ultima[eq] = valor, p.temporada, p.liga, p.fecha
         return rl, rv
@@ -136,8 +137,8 @@ def _antes(lg):
     return pre
 
 
-def derivadas(X):
-    X["elo_dif"] = X["elo_l"] + HFA - X["elo_v"]
+def derivadas(X, hfa):
+    X["elo_dif"] = X["elo_l"] + hfa - X["elo_v"]
     X["elo_p"] = 1 / (1 + 10 ** (-X["elo_dif"] / 400))
     X["dif_f10_pts"] = X["f10_pts_l"] - X["f10_pts_v"]
     X["dif_f10_dg"] = (X["f10_gf_l"] - X["f10_gc_l"]) - (X["f10_gf_v"] - X["f10_gc_v"])
@@ -193,13 +194,22 @@ class Estado:
                 for c, v in self._lado(eq, es_local, temp, fecha, f.get("descanso")).items():
                     row[f"{c}_{sufijo}"] = v
             out.append(row)
-        return derivadas(pd.DataFrame(out))
+        return derivadas(pd.DataFrame(out), self.elo.hfa)
 
 
-def construir(df):
+def tasas_liga(X):
+    """Qué tan seguido gana el local / se empata en la liga, en los 380 partidos previos."""
+    for nombre, clase in (("liga_local", 0), ("liga_empate", 1)):
+        serie = (X["y"] == clase).astype(float)
+        X[nombre] = serie.groupby(X["liga"]).transform(lambda s: s.shift(1).rolling(380, min_periods=50).mean())
+    return X
+
+
+def construir(df, params=None):
     """Devuelve (X, estado): una fila con variables por partido terminado, y el estado actual."""
+    params = {**ELO_DEFECTO, **(params or {})}
     fin = df[df["terminado"]].reset_index(drop=True).copy()
-    elo = Elo()
+    elo = Elo(params["k"], params["hfa"], params["regresion"])
     fin[["elo_l", "elo_v"]] = np.array([elo.jugar(p) for p in fin.itertuples(index=False)])
 
     lg = _despues(_larga(fin))
@@ -208,9 +218,5 @@ def construir(df):
     pv = pre[pre["es_local"] == 0].drop(columns="es_local").set_index("pid").add_suffix("_v")
     X = fin.join(pl, on="id").join(pv, on="id")
 
-    for nombre, clase in (("liga_local", 0), ("liga_empate", 1)):
-        serie = (X["y"] == clase).astype(float)
-        X[nombre] = serie.groupby(X["liga"]).transform(lambda s: s.shift(1).rolling(380, min_periods=50).mean())
-
-    X = derivadas(X)
+    X = derivadas(tasas_liga(X), elo.hfa)
     return X, Estado(elo, lg, X)

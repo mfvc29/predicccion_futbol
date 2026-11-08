@@ -173,6 +173,7 @@ def exportar(df, X, estado, res, info_ligas):
     _guardar("meta.json", {
         "actualizado": ahora.isoformat(),
         "modelo": res["elegido"],
+        "elo": res.get("elo"),
         "partidos": res["n"],
         "ligas": ligas,
         "validacion": {"modelos": res["validacion"], "total": res["validacion_total"]},

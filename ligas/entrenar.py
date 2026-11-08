@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler
 
 from features import FEATURES, FEATURES_ELO
 
-CALENTAMIENTO = 120  # días iniciales de cada liga que solo sirven para que el Elo arranque
+CALENTAMIENTO = 120  # días iniciales de cada liga que solo sirven para que el Elo arranque (valor por defecto)
 
 
 def _base(nombre):
@@ -96,11 +96,11 @@ def _con_bases(X, mask, P, train_mask):
     return total, por_liga
 
 
-def entrenar(X, temporada_actual):
+def entrenar(X, temporada_actual, calentamiento=CALENTAMIENTO):
     X = X[X["liga"].isin(temporada_actual)].reset_index(drop=True)
     actual = X["liga"].map(temporada_actual)
     inicio = X.groupby("liga")["fecha"].transform("min")
-    util = (X["fecha"] >= inicio + pd.Timedelta(days=CALENTAMIENTO)).to_numpy()
+    util = (X["fecha"] >= inicio + pd.Timedelta(days=calentamiento)).to_numpy()
     tr = util & (X["temporada"] <= actual - 2).to_numpy()
     va = util & (X["temporada"] == actual - 1).to_numpy()
     te = (X["temporada"] == actual).to_numpy()

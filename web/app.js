@@ -233,12 +233,21 @@ function vistaModelo(d) {
       <td class="ocultar-movil">${r.brier != null ? r.brier.toFixed(3) : "—"}</td></tr>`).join("")}</tbody>
   </table></div>
 
+  ${m.elo ? `<h2>Parámetros del Elo</h2>
+  <p class="texto">Elegidos automáticamente entre ${m.elo.probadas} combinaciones, según cuál predijo mejor la temporada anterior.</p>
+  <div class="kpis">
+    <div class="tarjeta kpi"><div class="v">${m.elo.k}</div><div class="t">K: cuánto se mueve el Elo por partido</div></div>
+    <div class="tarjeta kpi"><div class="v">${m.elo.hfa}</div><div class="t">Ventaja de local (puntos Elo)</div></div>
+    <div class="tarjeta kpi"><div class="v">${Math.round(m.elo.regresion * 100)}%</div><div class="t">Fuerza que se conserva al cambiar de temporada</div></div>
+    <div class="tarjeta kpi"><div class="v">${m.elo.logloss_defecto != null ? m.elo.logloss_defecto.toFixed(3) + " → " + m.elo.logloss.toFixed(3) : m.elo.logloss.toFixed(3)}</div><div class="t">Log-loss con los valores iniciales → ajustados</div></div>
+  </div>` : ""}
+
   <h2>Cómo funciona</h2>
   <ul class="texto">
     <li><b>Elo por liga:</b> cada resultado sube o baja la fuerza del equipo según lo esperado, con ventaja de local y más peso a goleadas.</li>
     <li><b>Forma:</b> puntos y goles de los últimos 5 y 10 partidos, y rendimiento reciente como local o visita.</li>
     <li><b>Temporada:</b> puntos y diferencia de gol por partido en la temporada actual, y días de descanso.</li>
-    <li>Todo se calcula solo con partidos <em>anteriores</em> a cada predicción. Se reentrena dos veces al día.</li>
+    <li>Todo se calcula solo con partidos <em>anteriores</em> a cada predicción. Se reentrena dos veces al día con los partidos recién jugados.</li>
     <li>Partidos usados: ${m.partidos.final.toLocaleString("es-PE")} (temporada actual y las 3 anteriores).</li>
   </ul>`;
   return html;

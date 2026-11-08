@@ -8,6 +8,7 @@ ligas/
   config.py     ligas incluidas (agregar una liga = una línea aquí)
   fetch.py      descarga de football-data.org → ligas/data (temporadas pasadas quedan en caché)
   features.py   Elo + forma, calculados solo con partidos previos
+  ajustar_elo.py  elige K, ventaja de local y regresión del Elo por validación
   entrenar.py   validación temporal, elección de modelo por log-loss
   exportar.py   JSON para la web → web/data
   pipeline.py   corre todo
