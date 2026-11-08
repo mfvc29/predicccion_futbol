@@ -1,0 +1,44 @@
+{
+ "PL": {
+  "temporada": 2026,
+  "inicio": "2026-08-21",
+  "fin": "2027-05-30",
+  "jornada": 10,
+  "emblema": "https://crests.football-data.org/PL.png"
+ },
+ "PD": {
+  "temporada": 2026,
+  "inicio": "2026-08-16",
+  "fin": "2027-05-30",
+  "jornada": 12,
+  "emblema": "https://crests.football-data.org/laliga.png"
+ },
+ "SA": {
+  "temporada": 2026,
+  "inicio": "2026-08-23",
+  "fin": "2027-05-30",
+  "jornada": 11,
+  "emblema": "https://crests.football-data.org/c111.png"
+ },
+ "BL1": {
+  "temporada": 2026,
+  "inicio": "2026-08-28",
+  "fin": "2027-05-22",
+  "jornada": 9,
+  "emblema": "https://crests.football-data.org/BL1.png"
+ },
+ "FL1": {
+  "temporada": 2026,
+  "inicio": "2026-08-22",
+  "fin": "2027-05-29",
+  "jornada": 10,
+  "emblema": "https://crests.football-data.org/FL1.png"
+ },
+ "BSA": {
+  "temporada": 2026,
+  "inicio": "2026-01-28",
+  "fin": "2026-12-02",
+  "jornada": 34,
+  "emblema": "https://crests.football-data.org/bsa.png"
+ }
+}
